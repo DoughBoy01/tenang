@@ -23,12 +23,32 @@ self.addEventListener('push', e => {
   e.waitUntil(self.registration.showNotification(d.title || 'Tenang', {
     body: d.body || 'A calm moment is waiting.',
     icon: '/icon-192.png', badge: '/icon-192.png',
-    tag: d.k || 'tenang', data: { url: /^\/#[a-z0-9-]{0,20}$/.test(d.url || '') ? d.url : '/#home' }
+    tag: d.k || 'tenang',
+    actions: d.k ? [{ action: 'done', title: 'Done' }, { action: 'snooze', title: 'In 1 hour' }] : [], // shown on Android/desktop; iOS ignores them
+    data: { k: d.k || '', url: /^\/#[a-z0-9-]{0,20}$/.test(d.url || '') ? d.url : '/#home' }
   }));
 });
 
+const dayStr = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+
+// Notification buttons. "Done" tells the server to skip it for today and leaves a note for the app (which owns the data);
+// "In 1 hour" asks the server for a one-off repeat.
+async function reminderAction(act, k) {
+  const sub = await self.registration.pushManager.getSubscription();
+  const end = new Date(); end.setHours(24, 0, 0, 0);
+  if (act === 'done') {
+    await (await caches.open('tenang-pending')).put('/__pending/done/' + k + '/' + Date.now(), new Response(JSON.stringify({ k, day: dayStr() })));
+    for (const c of await self.clients.matchAll({ type: 'window', includeUncontrolled: true })) c.postMessage({ type: 'rem-done' });
+  }
+  if (!sub) return;
+  const body = act === 'done' ? { endpoint: sub.endpoint, k, until: end.getTime() } : { endpoint: sub.endpoint, k, minutes: 60 };
+  try { await fetch('/api/push/' + act, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); } catch (err) {}
+}
+
 self.addEventListener('notificationclick', e => {
   e.notification.close();
+  const k = e.notification.data && e.notification.data.k;
+  if ((e.action === 'done' || e.action === 'snooze') && k && /^[a-zA-Z0-9]{1,12}$/.test(k)) { e.waitUntil(reminderAction(e.action, k)); return; }
   const url = (e.notification.data && e.notification.data.url) || '/#home';
   e.waitUntil((async () => {
     const all = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });

@@ -83,17 +83,20 @@ async function dropSub(env, endpoint) {
   await env.DB.batch([env.DB.prepare('DELETE FROM rems WHERE endpoint=?').bind(endpoint), env.DB.prepare('DELETE FROM subs WHERE endpoint=?').bind(endpoint)]);
 }
 async function saveSub(env, s) {
+  const ks = s.rems.map(r => r.k);
   const st = [
     env.DB.prepare('INSERT INTO subs(endpoint,p256dh,auth,updated) VALUES(?,?,?,?) ON CONFLICT(endpoint) DO UPDATE SET p256dh=excluded.p256dh,auth=excluded.auth,updated=excluded.updated').bind(s.endpoint, s.p256dh, s.auth, Date.now()),
-    env.DB.prepare('DELETE FROM rems WHERE endpoint=?').bind(s.endpoint)
+    // Drop reminders the user switched off (snooze rows, once=1, are left alone).
+    ks.length ? env.DB.prepare(`DELETE FROM rems WHERE endpoint=? AND once=0 AND k NOT IN (${ks.map(() => '?').join(',')})`).bind(s.endpoint, ...ks) : env.DB.prepare('DELETE FROM rems WHERE endpoint=? AND once=0').bind(s.endpoint)
   ];
-  for (const r of s.rems) st.push(env.DB.prepare('INSERT INTO rems(endpoint,k,utc_min,payload) VALUES(?,?,?,?)').bind(s.endpoint, r.k, r.utc, r.payload));
+  // Upsert (not delete + insert) so a "done today" mark (skip_until) survives every re-sync.
+  for (const r of s.rems) st.push(env.DB.prepare('INSERT INTO rems(endpoint,k,utc_min,payload) VALUES(?,?,?,?) ON CONFLICT(endpoint,k) DO UPDATE SET utc_min=excluded.utc_min,payload=excluded.payload').bind(s.endpoint, r.k, r.utc, r.payload));
   await env.DB.batch(st);
 }
 
 /* ---------- HTTP API: /api/push/* ---------- */
 const pJson = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
-export async function pushRoutes(req, env, path) {
+export async function pushRoutes(req, env, path, now = Date.now()) {
   if (!path.startsWith('/api/push/')) return null;
   if (!env.DB || !env.VAPID_PUBLIC || !env.VAPID_PRIVATE_JWK) return pJson({ error: 'push not configured' }, 503);
   if (path === '/api/push/key' && req.method === 'GET') return pJson({ key: env.VAPID_PUBLIC });
@@ -112,28 +115,54 @@ export async function pushRoutes(req, env, path) {
     await dropSub(env, b.endpoint);
     return pJson({ ok: true });
   }
+  const kOk = k => typeof k === 'string' && /^[a-zA-Z0-9]{1,12}$/.test(k);
+  if (path === '/api/push/done') {
+    // "I did this one": no push for it before `until` (end of the user's local day); also cancels a pending snooze.
+    const until = Number(b && b.until);
+    if (!b || !validEndpoint(b.endpoint) || !kOk(b.k) || !Number.isInteger(until) || until < now - 36e5 || until > now + 36 * 36e5) return pJson({ error: 'invalid' }, 400);
+    await env.DB.batch([
+      env.DB.prepare('UPDATE rems SET skip_until=? WHERE endpoint=? AND k=? AND once=0').bind(until, b.endpoint, b.k),
+      env.DB.prepare('DELETE FROM rems WHERE endpoint=? AND k=? AND once=1').bind(b.endpoint, '~' + b.k)
+    ]);
+    return pJson({ ok: true });
+  }
+  if (path === '/api/push/snooze') {
+    const mins = Number(b && b.minutes);
+    if (!b || !validEndpoint(b.endpoint) || !kOk(b.k) || !Number.isInteger(mins) || mins < 5 || mins > 180) return pJson({ error: 'invalid' }, 400);
+    const row = await env.DB.prepare('SELECT payload FROM rems WHERE endpoint=? AND k=? AND once=0').bind(b.endpoint, b.k).first();
+    if (!row) return pJson({ error: 'unknown reminder' }, 404);
+    const at = now + mins * 60000, d = new Date(at);
+    await env.DB.prepare('INSERT INTO rems(endpoint,k,utc_min,payload,once,skip_until) VALUES(?,?,?,?,1,?) ON CONFLICT(endpoint,k) DO UPDATE SET payload=excluded.payload,skip_until=excluded.skip_until,once=1').bind(b.endpoint, '~' + b.k, d.getUTCHours() * 60 + d.getUTCMinutes(), row.payload, at).run();
+    return pJson({ ok: true, at });
+  }
   return pJson({ error: 'not found' }, 404);
 }
 
 /* ---------- cron: runs every minute ---------- */
 export async function runReminders(env, now = new Date()) {
   if (!env.DB || !env.VAPID_PRIVATE_JWK) return { sent: 0 };
-  const min = now.getUTCHours() * 60 + now.getUTCMinutes();
-  const { results } = await env.DB.prepare('SELECT r.endpoint AS endpoint, r.payload AS payload, s.p256dh AS p256dh, s.auth AS auth FROM rems r JOIN subs s ON s.endpoint = r.endpoint WHERE r.utc_min = ?').bind(min).all();
+  const ms = now.getTime(), min = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const COLS = 'r.endpoint AS endpoint, r.k AS k, r.once AS once, r.payload AS payload, s.p256dh AS p256dh, s.auth AS auth';
+  // Daily reminders due this UTC minute (skipping ones already done today), plus snoozes that came due in the last 10 minutes.
+  const daily = await env.DB.prepare(`SELECT ${COLS} FROM rems r JOIN subs s ON s.endpoint = r.endpoint WHERE r.once = 0 AND r.utc_min = ? AND r.skip_until <= ?`).bind(min, ms).all();
+  const snoozed = await env.DB.prepare(`SELECT ${COLS} FROM rems r JOIN subs s ON s.endpoint = r.endpoint WHERE r.once = 1 AND r.skip_until <= ? AND r.skip_until > ?`).bind(ms, ms - 600000).all();
+  const due = [...daily.results, ...snoozed.results];
   let sent = 0;
-  for (let i = 0; i < results.length; i += 10) {
-    await Promise.all(results.slice(i, i + 10).map(async row => {
+  for (let i = 0; i < due.length; i += 10) {
+    await Promise.all(due.slice(i, i + 10).map(async row => {
       try {
         const res = await sendPush(env, row, row.payload);
         if (res.status === 404 || res.status === 410) await dropSub(env, row.endpoint);
         else if (res.ok) sent++;
       } catch (e) { /* network error: try again tomorrow */ }
+      if (row.once) await env.DB.prepare('DELETE FROM rems WHERE endpoint=? AND k=?').bind(row.endpoint, row.k).run().catch(() => {});
     }));
   }
+  await env.DB.prepare('DELETE FROM rems WHERE once = 1 AND skip_until <= ?').bind(ms - 600000).run(); // missed snoozes
   // Once a day, forget phones that haven't opened the app for 90 days.
   if (min === 190) {
     const old = Date.now() - 90 * 864e5;
     await env.DB.batch([env.DB.prepare('DELETE FROM rems WHERE endpoint IN (SELECT endpoint FROM subs WHERE updated < ?)').bind(old), env.DB.prepare('DELETE FROM subs WHERE updated < ?').bind(old)]);
   }
-  return { sent, due: results.length };
+  return { sent, due: due.length };
 }

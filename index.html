@@ -266,6 +266,44 @@ button{font:inherit;color:inherit}
 
 /* hero actions */
 .hero-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.today{padding-bottom:16px}
+.today .hero-actions{margin-top:14px}
+.td-foot{display:flex;gap:12px;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid rgba(245,243,236,.16)}
+.td-ring{flex:0 0 auto;position:relative;width:48px;height:48px}
+.td-ring svg{width:48px;height:48px;transform:rotate(-90deg)}
+.td-ring .trk{fill:none;stroke:rgba(245,243,236,.2);stroke-width:4}
+.td-ring .prg{fill:none;stroke:#E2C38E;stroke-width:4;stroke-linecap:round;stroke-dasharray:119.4;transition:stroke-dashoffset .9s var(--ease)}
+.td-ring b{position:absolute;inset:0;display:grid;place-items:center;font:500 12px var(--font-mono);color:#F5F3EC}
+.td-steps{display:flex;flex-wrap:wrap;gap:6px;min-width:0;flex:1}
+.td-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(245,243,236,.28);background:transparent;color:#E4E9EE;border-radius:999px;padding:5px 11px;font:inherit;font-size:12px;cursor:pointer;min-height:34px}
+.td-chip em{font-style:normal;font-family:var(--font-mono);font-size:11px;opacity:.7}
+.td-chip svg{width:12px;height:12px;flex:0 0 auto}
+.td-chip.s-done{background:rgba(226,195,142,.16);border-color:rgba(226,195,142,.4);color:#F1DDB8;cursor:default}
+.td-chip.s-due{border-color:#E2C38E;color:#F5F3EC}
+.td-chip.s-missed{opacity:.6}
+.td-rhythm{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;column-gap:10px;margin-top:10px;font-size:12px;color:#C9D3DF}.td-rhythm>span{white-space:nowrap}
+.td-dots{display:inline-flex;gap:5px;margin-right:8px;vertical-align:middle}
+.td-dots i{width:8px;height:8px;border-radius:50%;border:1px solid rgba(245,243,236,.4)}
+.td-dots i.on{background:#E2C38E;border-color:#E2C38E}
+.td-dots i.now{outline:1px solid rgba(245,243,236,.55);outline-offset:2px}
+.td-rhythm .lnk{background:none;border:0;color:#C9D3DF;text-decoration:underline;text-underline-offset:3px;font:inherit;cursor:pointer;padding:8px 0}
+/* quick log */
+.ql-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px}
+.ql-grid .ql-p{grid-column:1/-1}
+.ql-f{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ql-lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.stp{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;gap:4px;align-items:center}
+.stp-b{height:48px;border-radius:14px;border:1px solid var(--line);background:var(--sunk);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.stp-b:active{background:var(--moss-soft)}
+.stp input{width:100%;min-width:0;text-align:center;font:500 30px var(--font-mono);border:0;background:transparent;color:var(--ink);padding:6px 0;outline-offset:2px}
+.stp input::placeholder{color:var(--line)}
+.ql-f select{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);min-height:44px}
+.ql-res{display:flex;flex-direction:column;gap:12px}
+.ql-big{font:500 44px/1.1 var(--font-mono);letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ql-big small{font-size:13px;color:var(--ink-2);letter-spacing:0}
+.ql-spark{width:100%;height:46px}
+.ql-spark path{fill:none;stroke:var(--indigo);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ql-spark circle{fill:var(--indigo)}
 .hero .hero-actions .btn{margin-top:0}
 .hero .btn.btn-calm{background:transparent;color:#F5F3EC;border:1px solid rgba(245,243,236,.45)}
 
@@ -567,27 +605,30 @@ a.btn{text-decoration:none;color:var(--ink)}
 
   <!-- HOME -->
   <section class="view" id="v-home" data-view="home">
-    <div class="hero">
+    <div class="hero today" id="today">
       <div style="min-width:0">
         <div class="eyebrow" style="color:#C9D3DF"><span class="kanji" style="color:#E2C38E">呼吸</span><span id="greet">Good afternoon</span></div>
-        <h1 style="margin-top:8px">Slow your breath. Your pressure follows.</h1>
-        <p>Five minutes at about six breaths a minute is the single best place to start.</p>
+        <h1 style="margin-top:8px" id="tdTitle">Slow your breath. Your pressure follows.</h1>
+        <p id="tdSub">Five minutes at about six breaths a minute is the single best place to start.</p>
         <div class="hero-actions">
-          <button class="btn" data-go="breathe" data-pattern="resonance">Begin breathing</button>
+          <button class="btn" id="tdGo" data-go="breathe" data-pattern="resonance">Begin breathing</button>
           <button class="btn btn-calm" id="panicBtn">Calm me now</button>
         </div>
       </div>
       <svg class="mini" viewBox="0 0 100 100" aria-hidden="true">
         <g id="miniRings"><circle cx="50" cy="50" r="12" stroke-width="1.5"/><circle cx="50" cy="50" r="22" stroke-width="1" opacity=".7"/><circle cx="50" cy="50" r="32" stroke-width="1" opacity=".45"/><circle cx="50" cy="50" r="42" stroke-width="1" opacity=".25"/></g>
       </svg>
+      <div class="td-foot">
+        <div class="td-ring" id="tdRing" role="img" aria-label="Today's progress"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="trk" cx="24" cy="24" r="19"/><circle class="prg" id="tdPrg" cx="24" cy="24" r="19" style="stroke-dashoffset:119.4"/></svg><b id="tdCount">0/0</b></div>
+        <div class="td-steps" id="tdSteps" role="group" aria-label="Today's steps"></div>
+      </div>
+      <div class="td-rhythm"><span id="tdRhythm"></span><button class="lnk" data-open-set>Reminders</button></div>
     </div>
 
     <div class="season" id="seasonCard">
       <div class="sk-kanji" id="skKanji">霜降</div>
       <div><div class="eyebrow" id="skRange">Season</div><h3 class="h-m" id="skName"></h3><p class="hint" id="skTip"></p></div>
     </div>
-
-    <div class="panel next" id="nextRem"></div>
 
     <div class="panel inst" id="instCard" hidden>
       <div class="inst-txt"><b>Keep Tenang on your home screen</b><span class="hint" id="instHint">Opens like an app, works offline, one tap to breathe.</span></div>
@@ -981,6 +1022,24 @@ a.btn{text-decoration:none;color:var(--ink)}
     <a href="#log" data-nav="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 7-8"/><path d="M3 21h18"/></svg>Log</a>
   </div>
 </nav>
+<div class="sheet-bg" id="qlog" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="qlTitle">
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-h"><h2 class="h-m" id="qlTitle">Log a reading</h2><button class="go" id="qlX">Close</button></div>
+    <div class="stack" id="qlForm">
+      <p class="hint">Sit quietly for five minutes first. Nudge the numbers to match your monitor, or type them.</p>
+      <div class="ql-grid">
+        <div class="ql-f"><span class="ql-lbl">Top · sys</span><div class="stp"><button type="button" class="stp-b" data-st="qlS" data-d="-1" aria-label="Top number down">−</button><input id="qlS" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="120" aria-label="Top number, systolic"><button type="button" class="stp-b" data-st="qlS" data-d="1" aria-label="Top number up">+</button></div></div>
+        <div class="ql-f"><span class="ql-lbl">Bottom · dia</span><div class="stp"><button type="button" class="stp-b" data-st="qlD" data-d="-1" aria-label="Bottom number down">−</button><input id="qlD" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="80" aria-label="Bottom number, diastolic"><button type="button" class="stp-b" data-st="qlD" data-d="1" aria-label="Bottom number up">+</button></div></div>
+        <div class="ql-f ql-p"><span class="ql-lbl">Pulse · optional</span><div class="stp"><button type="button" class="stp-b" data-st="qlP" data-d="-1" aria-label="Pulse down">−</button><input id="qlP" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="70" aria-label="Pulse, beats per minute"><button type="button" class="stp-b" data-st="qlP" data-d="1" aria-label="Pulse up">+</button></div></div>
+      </div>
+      <div class="ql-f"><label class="ql-lbl" for="qlCtx">Context</label><select id="qlCtx"><option>Morning, before meds</option><option>Evening</option><option>After breathing practice</option><option>After exercise</option><option>Feeling stressed</option></select></div>
+      <button class="btn btn-primary wide" id="qlSave" type="button">Save reading</button>
+      <p class="hint" id="qlMsg" role="status"></p>
+    </div>
+    <div class="ql-res" id="qlResult" hidden></div>
+  </div>
+</div>
 <div class="sheet-bg" id="sheet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
     <div class="grab" aria-hidden="true"></div>
@@ -1222,7 +1281,7 @@ function finish(){B.running=false;B.done=true;draw(0);$('#phase').textContent='C
   if(B.pre)showPP('after');
   markRem(B.p.id==='478'?'bed':(new Date().getHours()<14?'amBr':'pmBr'),true);
   toast('Session complete · '+Math.round(B.dur/60)+' minutes');}
-function logMinutes(sec){if(sec<5)return;const m=store.get('mins',{});const k=dayKey();m[k]=(m[k]||0)+sec/60;store.set('mins',m);renderMinutes()}
+function logMinutes(sec){if(sec<5)return;const m=store.get('mins',{});const k=dayKey();m[k]=(m[k]||0)+sec/60;store.set('mins',m);renderMinutes();renderToday()}
 function renderMinutes(){const m=store.get('mins',{});let w=0;for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);w+=m[dayKey(d)]||0}
   countUp($('#minToday'),[Math.round(m[dayKey()]||0)],v=>v[0]+' min');countUp($('#minWeek'),[Math.round(w)],v=>v[0]+' min')}
 $('#stage').addEventListener('click',()=>{pebble();$('#startBtn').click()});
@@ -1519,22 +1578,72 @@ const REM=[{k:'amBP',l:'Morning reading',t:'07:00',on:true,go:'log'},{k:'amBr',l
 let remCfgs=store.get('rem',{});
 const remList=()=>REM.map(r=>{const c=remCfgs[r.k]||{};const t=c.t||r.t;return{...r,on:c.on===undefined?r.on:c.on,t,m:+t.slice(0,2)*60+ +t.slice(3,5)}}).sort((a,b)=>a.m-b.m);
 const remDone=()=>store.get('remdone:'+dayKey(),{});
-function markRem(k,quiet){const d=remDone();if(d[k])return;d[k]=true;store.set('remdone:'+dayKey(),d);renderNext();if(!quiet)toast('Marked done')}
+function markRem(k,quiet){const d=remDone();if(d[k])return;d[k]=true;store.set('remdone:'+dayKey(),d);window.pushDone&&pushDone(k);renderNext();if(!quiet)toast('Marked done')}
 let lastDue=null;
+/* ---------- Today: the daily companion loop ---------- */
+const STEP={
+  amBP:{s:'AM reading',h:'Start with your morning reading.',p:'Sit quietly for five minutes first: feet flat, arm resting at heart height.',b:'Log reading'},
+  amBr:{s:'AM breath',h:'A few slow breaths to set the day.',p:'Five minutes at about six breaths a minute is the single best place to start.',b:'Begin breathing'},
+  move:{s:'Move',h:'A little movement today.',p:'A gentle walk, or an isometric hold. Easy does it.',b:'Open'},
+  pmBr:{s:'PM breath',h:'Wind down with slow breaths.',p:'Let the day settle. Five minutes is plenty.',b:'Begin breathing'},
+  pmBP:{s:'PM reading',h:'Time for your evening reading.',p:'Same arm and the same seat as the morning, so the numbers compare fairly.',b:'Log reading'},
+  bed:{s:'Bedtime',h:'Ease into sleep.',p:'A slow 4-7-8 breath in bed, eyes closed.',b:'Begin breathing'}
+};
+const GRACE=240; // a step more than 4 hours late becomes "skipped": still tappable, never nagging
+function todaySteps(){
+  const n=new Date(),mins=n.getHours()*60+n.getMinutes(),d=remDone();
+  let L=remList().filter(r=>r.on);
+  if(!L.length)L=remList().filter(r=>['amBP','amBr','pmBr','pmBP'].includes(r.k)); // a gentle default loop even if reminders are off
+  return L.map(r=>({...r,st:d[r.k]?'done':r.m>mins?'next':mins-r.m<=GRACE?'due':'missed'}));
+}
+function activitySet(){
+  const S=new Set();
+  try{const m=store.get('mins',{});for(const k in m)if(m[k]>0)S.add(k)}catch(e){}
+  readings.forEach(r=>{if(!r.ex)S.add(dayKey(new Date(r.t)))});
+  for(let i=0;i<60;i++){const x=new Date();x.setDate(x.getDate()-i);const k=dayKey(x),rd=store.get('remdone:'+k,null);if(rd&&Object.values(rd).some(Boolean))S.add(k)}
+  return S;
+}
+// Rhythm, not streaks: one missed day is forgiven, two in a row end the run, and today never counts against you.
+function rhythm(){
+  const S=activitySet(),days=[];
+  for(let i=6;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);days.push(S.has(dayKey(x)))}
+  let run=0,gap=0,since=null;
+  for(let i=0;i<60;i++){const x=new Date();x.setDate(x.getDate()-i);if(S.has(dayKey(x))){if(since===null)since=i;run++;gap=0}else{if(i===0)continue;if(++gap>=2)break}}
+  if(since===null)for(let i=0;i<60;i++){const x=new Date();x.setDate(x.getDate()-i);if(S.has(dayKey(x))){since=i;break}}
+  return{days,count:days.filter(Boolean).length,run,since};
+}
+const CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const DOT=(f)=>`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2"/></svg>`;
+function renderToday(){
+  const el=$('#today');if(!el)return;
+  const steps=todaySteps(),counted=steps.filter(x=>x.st!=='missed'),done=counted.filter(x=>x.st==='done').length,total=counted.length;
+  const due=steps.find(x=>x.st==='due'),nxt=steps.find(x=>x.st==='next'),R=rhythm(),allDone=total>0&&done===total;
+  let title='Slow your breath. Your pressure follows.',sub='Five minutes at about six breaths a minute is the single best place to start.',go={l:'Begin breathing',a:{'data-go':'breathe','data-pattern':'resonance'}};
+  if(due){const c=STEP[due.k];title=c.h;sub=c.p;go={l:c.b,a:{'data-rem-start':due.k}}}
+  else if(allDone){
+    const m=Math.round(store.get('mins',{})[dayKey()]||0),t0=new Date().setHours(0,0,0,0),lr=[...readings].filter(r=>!r.ex&&r.t>=t0).sort((a,b)=>b.t-a.t)[0],bits=[];
+    if(m>=1)bits.push(m+' min of breathing');if(lr)bits.push('last reading '+lr.s+'/'+lr.d);
+    title='That’s today done. Well done.';const j=bits.join(' · ');sub=bits.length?j[0].toUpperCase()+j.slice(1)+'. Rest easy.':'Rest easy. Tomorrow starts gently.';go={l:'One more slow breath',a:{'data-go':'breathe','data-pattern':'resonance'}};
+  }else if(nxt){sub='Next up: '+nxt.l.toLowerCase()+' at '+nxt.t+'. Until then, a minute of slow breathing is always welcome.'}
+  if(R.since!==null&&R.since>=3&&!allDone){title='Welcome back.';sub='No catching up needed. One slow breath is a fine place to begin.'}
+  $('#tdTitle').textContent=title;$('#tdSub').textContent=sub;
+  const b=$('#tdGo');['data-go','data-pattern','data-rem-start'].forEach(k=>b.removeAttribute(k));Object.entries(go.a).forEach(([k,v])=>b.setAttribute(k,v));b.textContent=go.l;
+  $('#tdPrg').style.strokeDashoffset=(119.4*(1-(total?done/total:0))).toFixed(1);$('#tdCount').textContent=done+'/'+total;
+  $('#tdRing').setAttribute('aria-label',`Today: ${done} of ${total} steps done`);
+  const W={done:'done',due:'due now',next:'coming up',missed:'skipped, tap to do it now'};
+  $('#tdSteps').innerHTML=steps.map(x=>{const c=STEP[x.k];return`<button type="button" class="td-chip s-${x.st}"${x.st==='done'?' disabled':` data-rem-start="${x.k}"`} title="${x.t}" aria-label="${x.l}, ${x.t}, ${W[x.st]}">${x.st==='done'?CHK:DOT(x.st==='due')}<span>${c.s}</span></button>`}).join('');
+  $('#tdRhythm').innerHTML=R.since===null?'':`<span class="td-dots" aria-hidden="true">${R.days.map((d,i)=>`<i class="${d?'on':''}${i===6?' now':''}"></i>`).join('')}</span>${R.count} of 7 days${R.run>=3?' · '+R.run+'-day rhythm':''}`;
+}
 function renderNext(){
-  const now=new Date(),mins=now.getHours()*60+now.getMinutes(),d=remDone(),L=remList().filter(r=>r.on),el=$('#nextRem');
-  if(!L.length){el.innerHTML='<span class="nr-time">—</span><div class="nr-txt"><b>No reminders set</b><span class="hint">Choose times for readings and breathing.</span></div><span></span><button class="go" data-open-set>Set up</button>';return}
-  const due=L.filter(r=>r.m<=mins&&!d[r.k]).pop(),up=L.find(r=>r.m>mins&&!d[r.k]),r=due||up;
+  const n=new Date(),mins=n.getHours()*60+n.getMinutes(),d=remDone(),due=remList().filter(r=>r.on&&r.m<=mins&&!d[r.k]).pop();
   if(due&&lastDue!==due.k&&lastDue!==null)toast('Reminder: '+due.l);lastDue=due?due.k:'';
-  if(!r){el.innerHTML=`<span class="nr-time" style="color:var(--moss)">✓</span><div class="nr-txt"><b>Today's reminders are done</b><span class="hint">Tomorrow starts with ${L[0].l.toLowerCase()} at ${L[0].t}.</span></div><span></span><button class="go" data-open-set>Edit</button>`;return}
-  const more=L.filter(x=>x.m<=mins&&!d[x.k]).length-1;
-  el.innerHTML=`<span class="nr-time">${r.t}</span><div class="nr-txt"><span class="nr-state${due?' due':''}">${due?'Due now':'Up next'}${more>0?` · +${more}`:''}</span><b>${r.l}</b></div><button class="btn btn-primary btn-sm" data-rem-start="${r.k}">Start</button><button class="chk-btn" data-rem-done="${r.k}" aria-label="Mark ${r.l} done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>`;
+  renderToday();
 }
 function renderRemList(){$('#remList').innerHTML=remList().map(r=>`<div class="rem-row"><input type="checkbox" class="sw" id="rem-${r.k}" data-k="${r.k}"${r.on?' checked':''}><label for="rem-${r.k}">${r.l}</label><input type="time" id="remt-${r.k}" data-k="${r.k}" value="${r.t}" aria-label="${r.l} time"></div>`).join('')}
 $('#remList').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;remCfgs[k]=remCfgs[k]||{};if(e.target.type==='checkbox')remCfgs[k].on=e.target.checked;else if(e.target.value)remCfgs[k].t=e.target.value;store.set('rem',remCfgs);renderNext();if(e.target.type==='time')renderRemList();window.pushSync&&pushSync()});
 $('#copyRem').addEventListener('click',()=>copyText('Tenang daily reminders\n'+remList().filter(r=>r.on).map(r=>`${r.t}  ${r.l}`).join('\n'),'#remFallback'));
 document.addEventListener('click',e=>{
-  const s=e.target.closest('[data-rem-start]');if(s){const r=REM.find(x=>x.k===s.dataset.remStart);markRem(r.k,true);if(r.p)selectPattern(r.p);location.hash=r.go;return}
+  const s=e.target.closest('[data-rem-start]');if(s){const r=REM.find(x=>x.k===s.dataset.remStart);if(r.go==='log'){openQLog({k:r.k});return}markRem(r.k,true);if(r.p)selectPattern(r.p);location.hash=r.go;return}
   const d=e.target.closest('[data-rem-done]');if(d){markRem(d.dataset.remDone);return}
   if(e.target.closest('[data-open-set]'))openSheet();
 });
@@ -1687,7 +1796,7 @@ $('#tmrPause').addEventListener('click',()=>{if(T.done){closeTimer();return}if(!
 $('#tmrSkip').addEventListener('click',()=>{if(T.started&&!T.done)nextSeg()});
 $('#tmrX').addEventListener('click',closeTimer);
 $('#tmrSnd').addEventListener('click',()=>{T.snd=!T.snd;store.set('tsound',T.snd);sndLbl();if(T.snd)ac()});
-$('#tmrDone').addEventListener('click',()=>{closeTimer();location.hash='log';setTimeout(()=>$('#sys').focus(),350)});
+$('#tmrDone').addEventListener('click',()=>{closeTimer();openQLog({ctx:'After breathing practice'})});
 $('#tmrMins').addEventListener('click',e=>{const b=e.target.closest('[data-tm]');if(!b||T.started)return;T.mins=+b.dataset.tm;T.segs=TIMERS[T.id].seg(T.mins);$$('#tmrMins .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));renderTimer()});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-timer]');if(b)openTimer(b.dataset.timer)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#tmr').hidden)closeTimer()});
@@ -1865,6 +1974,58 @@ window.addEventListener('scroll',()=>$('.top').classList.toggle('scrolled',scrol
 /* init */
 applySeason();
 const savedP=store.get('pattern','resonance'); selectPattern(savedP);
+/* ---------- quick log: a reading in ten seconds, with plain-language feedback ---------- */
+const QL={k:null,hold:0,rep:0,base:{qlS:120,qlD:80,qlP:70},lim:{qlS:[60,260],qlD:[30,160],qlP:[30,220]}};
+function openQLog(o={}){
+  const last=[...readings].filter(r=>!r.ex).sort((a,b)=>b.t-a.t)[0];
+  QL.k=o.k||null;
+  $('#qlS').value=last?last.s:'';$('#qlD').value=last?last.d:'';$('#qlP').value=last&&last.p?last.p:'';
+  $('#qlCtx').value=o.ctx||(new Date().getHours()<12?'Morning, before meds':'Evening');
+  $('#qlForm').hidden=false;$('#qlResult').hidden=true;$('#qlMsg').textContent='';$('#qlTitle').textContent='Log a reading';
+  $('#qlog').hidden=false;document.body.style.overflow='hidden';$('#qlX').focus({preventScroll:true});
+}
+function closeQLog(){$('#qlog').hidden=true;document.body.style.overflow='';clearTimeout(QL.hold);clearInterval(QL.rep)}
+function stepIt(b){
+  const i=$('#'+b.dataset.st),[lo,hi]=QL.lim[b.dataset.st];let v=parseInt(i.value,10);
+  v=isNaN(v)?QL.base[b.dataset.st]:Math.min(hi,Math.max(lo,v+ +b.dataset.d));i.value=v;
+}
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.stp-b');if(!b)return;e.preventDefault();stepIt(b);QL.hold=setTimeout(()=>{QL.rep=setInterval(()=>stepIt(b),80)},420)});
+['pointerup','pointercancel'].forEach(t=>document.addEventListener(t,()=>{clearTimeout(QL.hold);clearInterval(QL.rep)}));
+document.addEventListener('click',e=>{const b=e.target.closest('.stp-b');if(b&&e.detail===0)stepIt(b)});
+function spark(v){
+  const W=220,H=46,mn=Math.min(...v)-4,mx=Math.max(...v)+4,x=i=>v.length===1?W/2:6+i*((W-12)/(v.length-1)),y=a=>H-6-(a-mn)/(mx-mn||1)*(H-12);
+  return`<svg class="ql-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path d="${v.map((a,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(a).toFixed(1)).join(' ')}"/><circle cx="${x(v.length-1).toFixed(1)}" cy="${y(v[v.length-1]).toFixed(1)}" r="3.5"/></svg>`;
+}
+function qlSave(){
+  const s=+$('#qlS').value,d=+$('#qlD').value,p=+$('#qlP').value||null;
+  if(!s||!d){$('#qlMsg').textContent='Set both the top and the bottom number.';return}
+  if(s<60||s>260||d<30||d>160){$('#qlMsg').textContent='Those numbers look unusual. Check your monitor and try again.';return}
+  if(d>=s){$('#qlMsg').textContent='The top number should be higher than the bottom one. Check the order.';return}
+  const prior=[...readings].filter(r=>!r.ex).sort((a,b)=>b.t-a.t).slice(0,7);
+  readings=readings.filter(r=>!r.ex);readings.push({s,d,p,t:Date.now(),c:$('#qlCtx').value});save();renderLog();
+  const k=QL.k&&REM.some(r=>r.k===QL.k&&r.go==='log')?QL.k:(new Date().getHours()<14?'amBP':'pmBP');
+  markRem(k,true);renderToday();
+  const[c,cl]=cat(s,d),mean=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length);
+  let line;
+  if(!prior.length)line='First reading saved. Measure at the same times each day so the trend means something.';
+  else{const as=mean(prior.map(r=>r.s)),ad=mean(prior.map(r=>r.d)),df=s-as;
+    line=df<=-3?`${-df} lower on top than your recent average of ${as}/${ad}. A good sign.`:df>=3?`${df} higher on top than your recent average of ${as}/${ad}. One reading is a moment; the trend is the story.`:`Right in line with your recent average of ${as}/${ad}.`}
+  let tip='',btns='<button class="btn btn-primary wide" data-ql-close type="button">Done</button>';
+  if(s>180||d>120)tip='<div class="banner crisis"><b>This reading is in the severe range.</b><span>Rest quietly for 5 minutes and measure again. If it is still above 180/120, contact your doctor today.</span><span><b>Call emergency services now</b> if you also have chest pain, shortness of breath, back pain, numbness or weakness, vision changes, or difficulty speaking.</span></div>';
+  else if(c==='Stage 2')tip='<p class="hint">This is in the higher range. Rest quietly for five minutes and measure once more. If readings stay this high across days, bring your log to your doctor.</p>';
+  else if(c==='Normal')tip='<p class="hint">Looks calm. See you at your next check-in.</p>';
+  else{tip='<p class="hint">A few slow breaths can help settle things. A short session now is a good way to wind down.</p>';btns='<button class="btn btn-primary wide" data-go="breathe" data-pattern="resonance" data-ql-close type="button">Breathe for a few minutes</button><button class="btn btn-ghost wide" data-ql-close type="button">Not now</button>'}
+  const vals=[...prior.map(r=>r.s)].reverse().concat(s);
+  $('#qlTitle').textContent='Saved';$('#qlForm').hidden=true;
+  $('#qlResult').innerHTML=`<div class="ql-big">${s}/${d}<small>mmHg${p?' · '+p+' bpm':''}</small></div><span class="pill ${cl}">${c}</span><p style="font-size:14.5px">${line}</p>${vals.length>1?spark(vals):''}${tip}<div class="stack" style="gap:8px">${btns}</div>`;
+  $('#qlResult').hidden=false;
+}
+$('#qlSave').addEventListener('click',qlSave);
+$('#qlX').addEventListener('click',closeQLog);
+$('#qlog').addEventListener('click',e=>{if(e.target.id==='qlog'||e.target.closest('[data-ql-close]'))closeQLog()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#qlog').hidden)closeQLog();if(e.key==='Enter'&&!$('#qlog').hidden&&!$('#qlForm').hidden&&e.target.matches('#qlog input'))qlSave()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderNext()});
+
 /* ---------- PWA: offline, install, backup ---------- */
 (function(){
   const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -1962,6 +2123,19 @@ const savedP=store.get('pattern','resonance'); selectPattern(savedP);
     }catch(e){}
   }
   window.pushSync=sync;
+  // Tell the server a reminder is done so it doesn't nudge you about something you've already finished.
+  window.pushDone=async k=>{
+    if(!supported||Notification.permission!=='granted')return;
+    try{const sub=await current();if(!sub)return;const e=new Date();e.setHours(24,0,0,0);await post('/api/push/done',{endpoint:sub.endpoint,k,until:e.getTime()})}catch(err){}
+  };
+  // "Done" tapped on a notification while the app was closed: the service worker left a note; apply it here.
+  async function drainPending(){
+    try{
+      const c=await caches.open('tenang-pending');
+      for(const req of await c.keys()){const r=await c.match(req);await c.delete(req);const j=await r.json();if(j&&j.day===dayKey()&&REM.some(x=>x.k===j.k))markRem(j.k,true)}
+    }catch(e){}
+  }
+  if(supported){navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.type==='rem-done')drainPending()});document.addEventListener('visibilitychange',()=>{if(!document.hidden)drainPending()});setTimeout(drainPending,800)}
   async function render(){
     const btn=$('#pushBtn'),hint=$('#pushHint');
     btn.hidden=false;btn.disabled=false;

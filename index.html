@@ -96,6 +96,7 @@ button{font:inherit;color:inherit}
 .btn-primary{background:var(--moss);color:var(--surface)}
 .btn-ghost{background:transparent;border:1px solid var(--line)}
 .btn-quiet{background:var(--sunk)}
+.inst{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.inst-txt{flex:1 1 180px;min-width:0;display:flex;flex-direction:column;gap:2px}.inst-txt b{font-weight:500}
 .link{background:none;border:0;padding:0;color:var(--indigo);font-weight:500;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 
 /* Home hero */
@@ -588,6 +589,12 @@ a.btn{text-decoration:none;color:var(--ink)}
 
     <div class="panel next" id="nextRem"></div>
 
+    <div class="panel inst" id="instCard" hidden>
+      <div class="inst-txt"><b>Keep Tenang on your home screen</b><span class="hint" id="instHint">Opens like an app, works offline, one tap to breathe.</span></div>
+      <button class="btn btn-primary btn-sm" id="instBtn" hidden>Install</button>
+      <button class="go" id="instX">Not now</button>
+    </div>
+
     <div class="panel stack">
       <div class="eyebrow"><span class="kanji">心</span>How do you feel right now?</div>
       <div class="moods" id="moods" role="group" aria-label="Current feeling"></div>
@@ -977,7 +984,7 @@ a.btn{text-decoration:none;color:var(--ink)}
 <div class="sheet-bg" id="sheet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
     <div class="grab" aria-hidden="true"></div>
-    <div class="sheet-h"><h2 class="h-m" id="sheetTitle">Season &amp; reminders</h2><button class="go" id="sheetX">Done</button></div>
+    <div class="sheet-h"><h2 class="h-m" id="sheetTitle">Settings</h2><button class="go" id="sheetX">Done</button></div>
     <div class="stack">
       <div class="eyebrow"><span class="kanji">季</span>Seasonal theme</div>
       <div class="moods" id="seasonChips" role="group" aria-label="Seasonal theme"></div>
@@ -989,6 +996,18 @@ a.btn{text-decoration:none;color:var(--ink)}
       <p class="hint" style="margin-top:8px">Reminders appear on the home screen while Tenang is open, and tick themselves off when you log a reading or finish a session. For alerts when the app is closed, copy the schedule into your phone's reminders or calendar.</p>
       <div style="margin-top:8px"><button class="btn btn-quiet btn-sm" id="copyRem">Copy schedule</button></div>
       <textarea class="fallback" id="remFallback" readonly hidden aria-label="Schedule text to copy" style="min-height:120px;margin-top:8px"></textarea>
+    </div>
+    <div class="stack" style="gap:6px">
+      <div class="eyebrow"><span class="kanji">守</span>Your data</div>
+      <p class="hint">Everything you log stays on this phone. Save a backup file before changing phones or clearing your browser data.</p>
+      <div class="controls"><button class="btn btn-quiet btn-sm" id="bkExport">Save backup</button><button class="btn btn-quiet btn-sm" id="bkImport">Restore backup</button></div>
+      <input type="file" id="bkFile" accept="application/json,.json" hidden>
+      <p class="hint" id="bkHint"></p>
+    </div>
+    <div class="stack" style="gap:6px" id="instSet" hidden>
+      <div class="eyebrow"><span class="kanji">家</span>Home screen</div>
+      <p class="hint" id="instSetHint"></p>
+      <div><button class="btn btn-quiet btn-sm" id="instSetBtn" hidden>Install Tenang</button></div>
     </div>
   </div>
 </div>
@@ -1706,7 +1725,7 @@ const BP3={ok:false,loading:false};
 function bp3Load(){if(BP3.ok||BP3.loading)return;BP3.loading=true;
   const go=()=>{try{bp3Init()}catch(e){BP3.ok=false}};
   if(window.THREE){go();return}
-  const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';s.onload=go;s.onerror=()=>{BP3.loading=false};document.head.appendChild(s)}
+  const s=document.createElement('script');s.src='/vendor/three.min.js';s.onload=go;s.onerror=()=>{BP3.loading=false};document.head.appendChild(s)}
 function bp3Init(){const T=window.THREE,cv=$('#bp3d'),g=BP3;
   g.r=new T.WebGLRenderer({canvas:cv,antialias:true,alpha:true});g.r.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
   g.scene=new T.Scene();g.cam=new T.PerspectiveCamera(30,1.25,.1,60);g.cam.position.set(0,2.2,13.6);g.cam.lookAt(0,-.15,0);
@@ -1841,6 +1860,75 @@ window.addEventListener('scroll',()=>$('.top').classList.toggle('scrolled',scrol
 /* init */
 applySeason();
 const savedP=store.get('pattern','resonance'); selectPattern(savedP);
+/* ---------- PWA: offline, install, backup ---------- */
+(function(){
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  let deferred=null;
+  if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
+    window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
+  }
+  // Ask the browser not to evict our data when storage is tight (quietly; no prompt is shown).
+  try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+
+  /* install */
+  const visits=store.get('visits',0)+1;store.set('visits',visits);
+  function installHint(){return isIOS?'In Safari tap Share, then Add to Home Screen.':'Opens like an app, works offline, one tap to breathe.'}
+  function renderInstall(){
+    const can=!standalone()&&(deferred||isIOS);
+    const card=$('#instCard'),set=$('#instSet');
+    card.hidden=!(can&&visits>=2&&!store.get('instDismiss',false));
+    set.hidden=!can;
+    $('#instHint').textContent=installHint();$('#instSetHint').textContent=deferred?'Opens like an app, works offline, one tap to breathe.':installHint();
+    $('#instBtn').hidden=$('#instSetBtn').hidden=!deferred;
+  }
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;renderInstall()});
+  window.addEventListener('appinstalled',()=>{deferred=null;renderInstall();toast('Tenang is on your home screen')});
+  async function doInstall(){if(!deferred)return;deferred.prompt();try{await deferred.userChoice}catch(e){}deferred=null;renderInstall()}
+  $('#instBtn').addEventListener('click',doInstall);$('#instSetBtn').addEventListener('click',doInstall);
+  $('#instX').addEventListener('click',()=>{store.set('instDismiss',true);renderInstall()});
+
+  /* backup */
+  const PFX='tenang:';
+  function bkHint(){
+    const t=store.get('lastExport',0);
+    let s=t?'Last backup: '+new Date(t).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})+'.':'No backup saved yet.';
+    $('#bkHint').textContent=s;
+    try{if(navigator.storage&&navigator.storage.persisted)navigator.storage.persisted().then(p=>{if(!p&&!standalone())$('#bkHint').textContent=s+' Your browser may clear this data if it runs low on space, so installing the app and keeping a backup is wise.'})}catch(e){}
+  }
+  async function exportData(){
+    const data={};
+    try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(PFX))data[k]=localStorage.getItem(k)}}catch(e){}
+    const name='tenang-backup-'+new Date().toISOString().slice(0,10)+'.json';
+    const blob=new Blob([JSON.stringify({app:'tenang',format:1,exported:new Date().toISOString(),data},null,1)],{type:'application/json'});
+    try{
+      const f=new File([blob],name,{type:'application/json'});
+      if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Tenang backup'});store.set('lastExport',Date.now());bkHint();return}
+    }catch(e){if(e&&e.name==='AbortError')return}
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+    store.set('lastExport',Date.now());bkHint();toast('Backup saved');
+  }
+  async function importData(file){
+    try{
+      const j=JSON.parse(await file.text());
+      if(!j||j.app!=='tenang'||!j.data||typeof j.data!=='object')throw 0;
+      const keys=Object.keys(j.data);
+      if(!keys.length||keys.some(k=>!k.startsWith(PFX)||typeof j.data[k]!=='string'))throw 0;
+      if(!confirm('Replace the data on this phone with this backup? Your current readings and progress will be overwritten.'))return;
+      keys.forEach(k=>{JSON.parse(j.data[k])});
+      const old=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(PFX))old.push(k)}
+      old.forEach(k=>localStorage.removeItem(k));
+      keys.forEach(k=>localStorage.setItem(k,j.data[k]));
+      toast('Backup restored');setTimeout(()=>location.reload(),600);
+    }catch(e){toast("That file isn't a Tenang backup")}
+  }
+  $('#bkExport').addEventListener('click',exportData);
+  $('#bkImport').addEventListener('click',()=>$('#bkFile').click());
+  $('#bkFile').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)importData(f)});
+  $('#setBtn').addEventListener('click',()=>{bkHint();renderInstall()});
+  renderInstall();bkHint();
+})();
 renderMinutes(); renderRituals(); renderLog(); renderPath(); renderNext(); route();
 })();
 </script>

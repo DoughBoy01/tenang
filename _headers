@@ -4,3 +4,7 @@
   Permissions-Policy: screen-wake-lock=(self)
 /index.html
   Cache-Control: no-cache
+/sw.js
+  Cache-Control: no-cache
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable

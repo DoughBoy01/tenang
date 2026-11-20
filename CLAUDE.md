@@ -20,7 +20,9 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 |---|---|
 | `index.html` | The app. **Source of truth.** Edit this. |
 | `manifest.webmanifest`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png`, `_headers` | PWA assets (and Cloudflare Pages headers) |
-| `worker.js` | **Generated.** Single-file Cloudflare Worker with the HTML, manifest and icons embedded. Do not hand-edit. |
+| `sw.js` | Service worker source (offline app shell, font cache). Build swaps its `__VERSION__` placeholder for a content hash; keep that token only on the `VERSION` line. |
+| `vendor/three.min.js` | Three.js r128 (MIT), served locally so the 3D guide works offline |
+| `worker.js` | **Generated.** Single-file Cloudflare Worker with the HTML, manifest, icons, `sw.js` and Three.js embedded. Do not hand-edit. |
 | `scripts/build-worker.mjs` | Regenerates `worker.js` from the files above |
 | `scripts/smoke.mjs` | Playwright mobile smoke test (all views, light and dark, page errors, horizontal overflow). Needs `npm i -D playwright` |
 
@@ -51,13 +53,14 @@ Inspired by Japanese, Korean and Balinese Buddhist aesthetics: quiet, spacious, 
 - **Breathing engine:** `PATTERNS` (phases `[label, secs, kind]`), `levels()`, `ease()`, `lungPoint()`, a `requestAnimationFrame` loop, WebAudio tones plus SpeechSynthesis for "Eyes closed" mode, Wake Lock to keep the screen on. Techniques: Resonance, Long exhale, Physiological sigh, Bee breath, Box breathing and 4-7-8, each with animated diagrams and timers.
 - **Features:** 30-day path, before/after readings, mood check-in leading to a "calm now" sequence, rituals, reminders with auto-complete (`markRem`), doctor-ready summary (`renderSummary`, `buildSumText`, `copyText`), Medicines guide, shareable card/sheet with a "who could this help" reason, timers sheet (`#tmr`), settings sheet (`#sheet`).
 - **Top and bottom numbers guide (`#v-numbers`):** animated 3D explanation (Three.js r128 loaded on demand from cdnjs, `bp3Load/bp3Init/bpRender`): a pumping heart, a cut-open artery with blood cells, and a vertical gauge with "top 120 / bottom 80" marks. Modes Watch/Squeeze/Rest, speeds Slow/Real, presets (including a high 160/100 reading), number cards carousel, quick quiz. If WebGL or the script fails, a 2D SVG fallback (`#bp2d`) with the same gauge shows. The owner found an earlier 2D wave graph "confusing", so keep it simple: one caption, one gauge.
-- CSP-style constraint carried over from the artifact host: external scripts only from cdnjs, CSS only from Google Fonts. Keep everything else inline.
+- CSP-style constraint carried over from the artifact host: external scripts only from cdnjs, CSS only from Google Fonts. Keep everything else inline. Three.js now comes from `/vendor/three.min.js`.
+- **PWA layer** (end of `index.html`): service worker registration, install card on Home (shown from the second visit, `beforeinstallprompt` on Android, Add-to-Home-Screen hint on iOS), `navigator.storage.persist()`, and Save/Restore backup in Settings (JSON of all `tenang:` keys, validated before restore). Navigations are network-first with a 4s fallback to the cached app, so updates arrive on the next open.
 
 ## Testing notes
 
 - `node scripts/smoke.mjs` covers layout and errors only. For visual work, also take screenshots (Playwright, 390x844, deviceScaleFactor 2, light and dark) and look at them; earlier rounds caught clipped labels, wrapped buttons and cut-off text this way.
 - Numbers guide checks used before: gauge reads 120 at squeeze, 80 at rest, 160 for the high preset; pause toggles; 2D fallback appears when three.js is blocked.
-- Test on localhost via a tiny static server (service workers and manifest are not used, so `file://` mostly works but hash routing is easier over http).
+- Test on localhost via a tiny static server (a service worker is registered, so use http (`file://` skips it)).
 
 ## Feedback history (what the owner asked for, in order)
 
@@ -77,8 +80,8 @@ Inspired by Japanese, Korean and Balinese Buddhist aesthetics: quiet, spacious, 
 ## Known gaps and ideas
 
 - Live Cloudflare deployment is manual (wrangler). A GitHub Action or Cloudflare Git integration would remove that step.
-- Data is local to each device (`localStorage`); there is no account or sync. Export/backup of readings would be a sensible addition.
-- Not yet installable-tested as a PWA on a real phone (manifest and icons exist; no service worker, so no offline mode).
-- Three.js is fetched from cdnjs at runtime; vendoring it would make the 3D guide work offline.
+- Data is local to each device (`localStorage`); there is no account or sync. Manual backup/restore exists in Settings.
+- Not yet install-tested on a real phone (Android Chrome and iOS Safari). Offline use and backup were verified in headless Chromium only.
+- Reminders still only show while the app is open; background alerts need Web Push (Worker + Cron + KV) or a Capacitor wrapper with local notifications.
 - Medicines content and BP category thresholds should get a clinician review before any public launch.
 - No translations yet; English only.

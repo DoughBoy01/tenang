@@ -98,14 +98,14 @@ await Promise.all([page.waitForNavigation({ timeout: 8000 }).catch(() => {}), pa
 assert.equal(await page.title(), 'Tenang C'); d = await ls();
 assert.equal(d['tenang:schema'], '2'); assert.equal(d['tenang:readings'], beforeC['tenang:readings']); assert.equal(d['tenang:half-done'], undefined);
 assert.equal(JSON.stringify(tenangOnly(d)), JSON.stringify(tenangOnly(beforeC)));
-assert.ok(await page.isVisible('#today')); assert.match(await page.textContent('#toast'), /left exactly as it was/);
+assert.ok(await page.isVisible('#todayCard')); assert.match(await page.textContent('#toast'), /left exactly as it was/);
 ok('build C (migration crashes): rolled back, every key identical, half-written key gone, app still runs and tells the user their data is safe');
 
 // 6. An OLDER build meets newer data: leaves it alone
 cur = 'A'; await page.evaluate(async () => { for (const r of await navigator.serviceWorker.getRegistrations()) await r.update(); });
 const beforeOld = await ls(); await reload(); await page.waitForTimeout(500);
 d = await ls(); assert.equal(await page.title(), 'Tenang A'); assert.equal(d['tenang:schema'], '2'); assert.equal(JSON.stringify(tenangOnly(d)), JSON.stringify(tenangOnly(beforeOld)));
-assert.ok(await page.isVisible('#today'));
+assert.ok(await page.isVisible('#todayCard'));
 ok('older build A on schema-2 data: data untouched, version not lowered, app still renders');
 assert.deepEqual(errs, []); ok('no page errors anywhere in the journey');
 await b.close(); srv.close(); console.log('update tests passed');

@@ -309,6 +309,11 @@ button{font:inherit;color:inherit}
 .wk-stat{background:var(--paper);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
 .wk-stat b{font:500 22px var(--font-mono);font-variant-numeric:tabular-nums}
 .wk-stat span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.habits>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
+.habits>summary::-webkit-details-marker{display:none}
+.habits>summary .chev{width:18px;height:18px;flex:0 0 auto;transition:transform .3s var(--ease)}
+.habits[open]>summary .chev{transform:rotate(180deg)}
+#focusList .task{margin:0}
 .ql-res{display:flex;flex-direction:column;gap:12px}
 .ql-big{font:500 44px/1.1 var(--font-mono);letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .ql-big small{font-size:13px;color:var(--ink-2);letter-spacing:0}
@@ -616,7 +621,7 @@ a.btn{text-decoration:none;color:var(--ink)}
 
   <!-- HOME -->
   <section class="view" id="v-home" data-view="home">
-    <div class="hero today" id="today">
+    <div class="hero today" id="todayCard">
       <div style="min-width:0">
         <div class="eyebrow" style="color:#C9D3DF"><span class="kanji" style="color:#E2C38E">呼吸</span><span id="greet">Good afternoon</span></div>
         <h1 style="margin-top:8px" id="tdTitle">Slow your breath. Your pressure follows.</h1>
@@ -642,11 +647,31 @@ a.btn{text-decoration:none;color:var(--ink)}
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
     </button>
 
+    <div class="panel stack" id="focusPanel" hidden>
+      <div class="path-head"><div class="eyebrow"><span class="kanji">道</span>Today’s focus</div><button class="link" id="focusDay" data-go="learn" style="font-size:12.5px"></button></div>
+      <div id="focusList"></div>
+    </div>
+
+    <div class="panel stack">
+      <div class="eyebrow"><span class="kanji">心</span>How do you feel right now?</div>
+      <div class="moods" id="moods" role="group" aria-label="Current feeling"></div>
+      <div class="suggest" id="suggest" hidden></div>
+    </div>
+
     <div class="panel stack ins" id="insHome" hidden>
       <div class="eyebrow"><span class="kanji">気</span>What I’m noticing</div>
       <p class="ins-txt" id="insHomeTxt"></p>
       <div><button class="link" data-go="log" style="font-size:12.5px">See your patterns</button></div>
     </div>
+
+    <details class="panel habits" id="habits">
+      <summary><span class="eyebrow" style="display:flex;align-items:center;gap:8px"><span class="kanji">供</span>Daily habits</span><span class="tag" id="habSum">0 of 8</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <p class="lede" style="font-size:13.5px;margin:8px 0 4px">Small offerings, made every day. The list resets at midnight.</p>
+    <div>
+      <div class="rit-head"><svg class="rit-ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" class="rr-t"/><circle cx="24" cy="24" r="20" class="rr-p" id="ritRing" transform="rotate(-90 24 24)"/></svg><div><b class="mono" id="ritCount">0 of 8</b><span class="hint" id="ritMsg">Start with the easiest one.</span></div><i id="ritBar" hidden></i></div>
+      <div id="ritualList"></div>
+    </div>
+    </details>
 
     <div class="season" id="seasonCard">
       <div class="sk-kanji" id="skKanji">霜降</div>
@@ -659,12 +684,15 @@ a.btn{text-decoration:none;color:var(--ink)}
       <button class="go" id="instX">Not now</button>
     </div>
 
-    <div class="panel stack">
-      <div class="eyebrow"><span class="kanji">心</span>How do you feel right now?</div>
-      <div class="moods" id="moods" role="group" aria-label="Current feeling"></div>
-      <div class="suggest" id="suggest" hidden></div>
-    </div>
+    <p class="foot">Tenang supports, and never replaces, care from your doctor. Keep taking prescribed medication unless your doctor changes it.</p>
+  </section>
 
+  <!-- LEARN -->
+  <section class="view" id="v-learn" data-view="learn" hidden>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji">学</span>Learn</div>
+      <h2 class="h-l">Understand your numbers, at your own pace.</h2>
+    </div>
     <div class="panel stack" id="pathPanel">
       <div class="path-head"><div class="eyebrow"><span class="kanji">道</span>30-day path</div><span class="example" id="pathDay">Day 1 of 30</span></div>
       <h3 class="h-m" id="pathWeek"></h3>
@@ -672,30 +700,6 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div class="dots" id="pathDots" aria-label="Progress across 30 days"></div>
       <div id="pathTasks"></div>
       <div><button class="link" id="pathRestart" style="font-size:12.5px">Restart the path</button></div>
-    </div>
-
-    <div class="tiles">
-      <button class="tile" data-go="log">
-        <span class="k">Last reading</span>
-        <span class="v" id="homeBP">—</span>
-        <span id="homeCat"></span>
-      </button>
-      <button class="tile" data-go="rituals">
-        <span class="k">Today's rituals</span>
-        <span class="v" id="homeRit">0<small> / 8</small></span>
-        <div class="bar" style="width:100%"><i id="homeRitBar" style="width:0"></i></div>
-      </button>
-    </div>
-
-    <div class="stack">
-      <div class="row-h"><div class="eyebrow"><span class="kanji">숨</span>Quick resets · swipe</div><div class="dotsnav" data-for="qr"></div></div>
-      <div class="snap" id="qr">
-        <button class="rcard" data-go="breathe" data-pattern="sigh"><span class="glyph g-moss">息</span><span class="h-m">Physiological sigh</span><span class="hint">The fastest way to settle a racing heart.</span><span class="tag">1 min · 2 in · 1 top-up · 6 out</span></button>
-        <button class="rcard" data-go="breathe" data-pattern="hum"><span class="glyph g-indigo">蜂</span><span class="h-m">Bee breath</span><span class="hint">A humming out-breath that soothes the vagus nerve.</span><span class="tag">3 min · 4 in · 8 hum</span></button>
-        <button class="rcard" data-go="breathe" data-pattern="exhale"><span class="glyph g-saffron">長</span><span class="h-m">Long exhale</span><span class="hint">A gentle brake for a wired system.</span><span class="tag">3 min · 4 in · 6 out</span></button>
-        <button class="rcard" data-go="breathe" data-pattern="box"><span class="glyph g-moss">方</span><span class="h-m">Box breathing</span><span class="hint">Steady focus before a stressful moment.</span><span class="tag">3 min · 4 · 4 · 4 · 4</span></button>
-        <button class="rcard" data-go="reset"><span class="glyph g-indigo">静</span><span class="h-m">Reset library</span><span class="hint">Practices for body, mind and the outdoors.</span><span class="tag">8 practices</span></button>
-      </div>
     </div>
 
     <button class="panel med-link" data-go="numbers">
@@ -710,12 +714,30 @@ a.btn{text-decoration:none;color:var(--ink)}
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
     </button>
 
+    <button class="panel med-link" data-go="summary">
+      <span class="glyph g-moss">医</span>
+      <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">Doctor summary</span><span class="hint">Your readings and notes in one page you can show or send.</span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
     <div class="stack">
       <div class="row-h"><div class="eyebrow">Why it works</div><div class="dotsnav" data-for="why"></div></div>
       <div class="snap" id="why">
       <div class="icard"><span class="num">6</span><p>Breathing near six times a minute lines your heart rate up with your breath. This strengthens the <b>baroreflex</b>, the sensor loop in your neck and chest that keeps pressure steady.</p></div>
       <div class="icard"><span class="num">↓</span><p>A long, slow exhale stimulates the <b>vagus nerve</b> and shifts you from fight-or-flight toward rest-and-digest. Heart rate slows and blood vessels relax.</p></div>
       <div class="icard"><span class="num">∞</span><p>Single sessions give a short dip. Daily practice over weeks is what studies link to lower resting readings, usually a few mmHg systolic, on top of diet and movement.</p></div></div>
+    </div>
+    <div class="panel stack">
+      <div class="eyebrow">What moves the needle</div>
+      <h3 class="h-m">Typical drop in systolic pressure for people with hypertension</h3>
+      <div class="stack" id="effects" style="gap:9px"></div>
+      <div class="axis"><span></span><div><span>0</span><span>4</span><span>8</span><span>12</span></div><span style="min-width:4.2em;text-align:right">mmHg</span></div>
+      <p class="foot" style="padding:0">Approximate averages from the ACC/AHA blood pressure guideline. Effects tend to add up when combined.</p>
+    </div>
+    <div class="panel stack">
+      <div class="eyebrow">Potassium-rich foods</div>
+      <div class="foods"><span>Spinach</span><span>Sweet potato</span><span>White beans</span><span>Avocado</span><span>Banana</span><span>Edamame</span><span>Seaweed</span><span>Yogurt</span><span>Lentils</span><span>Tomato</span></div>
+      <p class="note">If you have kidney disease or take ACE inhibitors, ARBs or potassium-sparing diuretics, ask your doctor before adding potassium.</p>
     </div>
     <div class="share-card">
       <span class="stat">46%</span>
@@ -794,6 +816,11 @@ a.btn{text-decoration:none;color:var(--ink)}
       </div>
       <p class="foot" style="padding:0">Aim for 10 minutes a day, split however you like. Finishing a 5-minute session ticks off today's breathing ritual.</p>
     </div>
+    <button class="panel med-link" data-go="reset">
+      <span class="glyph g-indigo">静</span>
+      <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">More resets</span><span class="hint">Grounding, legs up the wall, walking, isometric holds and timers.</span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
   </section>
 
   <!-- RESET -->
@@ -811,31 +838,6 @@ a.btn{text-decoration:none;color:var(--ink)}
     <div class="stack" id="practices"></div>
   </section>
 
-  <!-- RITUALS -->
-  <section class="view" id="v-rituals" data-view="rituals" hidden>
-    <div class="stack">
-      <div class="eyebrow"><span class="kanji">Tri Hita Karana</span>Daily rituals</div>
-      <h2 class="h-l">Small offerings, made every day.</h2>
-      <p class="lede">Like the Balinese canang left each morning, these work through repetition. Tick them off as you go. The list resets at midnight.</p>
-    </div>
-    <div class="panel">
-      <div class="rit-head"><svg class="rit-ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" class="rr-t"/><circle cx="24" cy="24" r="20" class="rr-p" id="ritRing" transform="rotate(-90 24 24)"/></svg><div><b class="mono" id="ritCount">0 of 8</b><span class="hint" id="ritMsg">Start with the easiest one.</span></div><i id="ritBar" hidden></i></div>
-      <div id="ritualList"></div>
-    </div>
-    <div class="panel stack">
-      <div class="eyebrow">What moves the needle</div>
-      <h3 class="h-m">Typical drop in systolic pressure for people with hypertension</h3>
-      <div class="stack" id="effects" style="gap:9px"></div>
-      <div class="axis"><span></span><div><span>0</span><span>4</span><span>8</span><span>12</span></div><span style="min-width:4.2em;text-align:right">mmHg</span></div>
-      <p class="foot" style="padding:0">Approximate averages from the ACC/AHA blood pressure guideline. Effects tend to add up when combined.</p>
-    </div>
-    <div class="panel stack">
-      <div class="eyebrow">Potassium-rich foods</div>
-      <div class="foods"><span>Spinach</span><span>Sweet potato</span><span>White beans</span><span>Avocado</span><span>Banana</span><span>Edamame</span><span>Seaweed</span><span>Yogurt</span><span>Lentils</span><span>Tomato</span></div>
-      <p class="note">If you have kidney disease or take ACE inhibitors, ARBs or potassium-sparing diuretics, ask your doctor before adding potassium.</p>
-    </div>
-  </section>
-
   <!-- LOG -->
   <section class="view" id="v-log" data-view="log" hidden>
     <div class="stack">
@@ -843,27 +845,15 @@ a.btn{text-decoration:none;color:var(--ink)}
       <h2 class="h-l">Watch the trend, not the single number.</h2>
       <div class="chips"><button class="btn btn-quiet btn-sm" data-go="summary">Doctor summary</button><button class="btn btn-ghost btn-sm" data-go="numbers">What the numbers mean</button><button class="btn btn-ghost btn-sm" data-timer="rest">5-min rest timer</button><button class="btn btn-ghost btn-sm" data-go="meds">Medicines 101</button></div>
     </div>
-    <div id="crisis"></div>
-    <form class="panel form" id="bpForm" autocomplete="off">
-      <div class="field"><label for="sys">Top · SYS</label><input id="sys" type="number" inputmode="numeric" min="60" max="260" placeholder="128" required></div>
-      <div class="field"><label for="dia">Bottom · DIA</label><input id="dia" type="number" inputmode="numeric" min="30" max="160" placeholder="82" required></div>
-      <div class="field"><label for="pulse">Pulse</label><input id="pulse" type="number" inputmode="numeric" min="30" max="200" placeholder="68"></div>
-      <div class="field wide"><label for="ctx">Context</label>
-        <select id="ctx"><option>Morning, before meds</option><option>Evening</option><option>After breathing practice</option><option>After exercise</option><option>Feeling stressed</option></select></div>
-      <button class="btn btn-primary wide" type="submit">Save reading</button>
-      <p class="foot wide" id="formMsg" style="padding:0">Enter both numbers from your monitor.</p>
-      <p class="foot wide" style="padding:0"><button type="button" class="link" data-go="numbers">What do the top and bottom numbers mean?</button></p>
-    </form>
+    <div class="panel stack" id="logHero">
+      <div class="eyebrow">Last reading</div>
+      <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="ql-big" id="logBP">—</span><span id="logCat"></span></div>
+      <p class="hint" id="logWhen"></p>
+      <button class="btn btn-primary wide" type="button" data-ql>Log a reading</button>
+    </div>
     <div class="panel stack" id="insLog">
       <div class="eyebrow"><span class="kanji">気</span>Your patterns</div>
       <div id="insList"></div>
-    </div>
-    <div class="panel stack">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-        <div class="eyebrow">Before &amp; after sessions</div><span class="tag" id="fxAvg"></span>
-      </div>
-      <div id="fxList"></div>
-      <p class="hint">Turn on “Measure before and after” in the breath studio to add pairs.</p>
     </div>
     <div class="panel stack">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
@@ -880,6 +870,13 @@ a.btn{text-decoration:none;color:var(--ink)}
       </div>
       <div id="readings"></div>
       <div id="moreWrap" class="row-h" style="padding-top:10px;flex-wrap:wrap"></div>
+    </div>
+    <div class="panel stack">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="eyebrow">Before &amp; after sessions</div><span class="tag" id="fxAvg"></span>
+      </div>
+      <div id="fxList"></div>
+      <p class="hint">Turn on “Measure before and after” in the breath studio to add pairs.</p>
     </div>
     <div class="panel stack">
       <div class="eyebrow">Categories (ACC/AHA)</div>
@@ -1042,13 +1039,31 @@ a.btn{text-decoration:none;color:var(--ink)}
 
 <nav class="nav" aria-label="Sections">
   <div class="nav-in">
-    <a href="#home" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>Home</a>
+    <a href="#home" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>Today</a>
     <a href="#breathe" data-nav="breathe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.5" opacity=".7"/><path d="M20.5 9A9 9 0 1 0 17 19.5"/></svg>Breathe</a>
-    <a href="#reset" data-nav="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-3-7-6.5-7-10a7 7 0 0 1 14 0c0 3.5-3 7-7 10z"/><path d="M12 7v7M9 11c1.5 0 3 1 3 3M15 10c-1.5 0-3 1-3 3"/></svg>Reset</a>
-    <a href="#rituals" data-nav="rituals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15h16l-2 5H6z"/><path d="M12 15c0-4 2-7 5-8-1 3-2 6-5 8zM12 15c0-4-2-7-5-8 1 3 2 6 5 8z"/></svg>Rituals</a>
     <a href="#log" data-nav="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 7-8"/><path d="M3 21h18"/></svg>Log</a>
+    <a href="#learn" data-nav="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2z"/><path d="M12 6v14"/></svg>Learn</a>
   </div>
 </nav>
+<div class="sheet-bg" id="setup" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="suTitle">
+    <div class="sheet-h"><h2 class="h-m" id="suTitle">Welcome to Tenang</h2><button class="go" id="suSkip" type="button">Skip</button></div>
+    <p class="lede" style="font-size:14px">A calm daily check-in for your blood pressure. Two quick choices and you’re set.</p>
+    <div class="stack" style="gap:2px">
+      <div class="eyebrow">When do you like to check in?</div>
+      <div class="rem-row" style="grid-template-columns:1fr auto"><label for="suAm">Morning</label><input type="time" id="suAm" value="07:00"></div>
+      <div class="rem-row" style="grid-template-columns:1fr auto"><label for="suPm">Evening</label><input type="time" id="suPm" value="20:30"></div>
+      <p class="hint" style="margin-top:6px">Morning is for your reading and a few slow breaths. Evening is to wind down. Change this any time with the bell.</p>
+    </div>
+    <div class="stack" style="gap:6px">
+      <div class="eyebrow">Reminders</div>
+      <p class="hint" id="suNote"></p>
+      <div><button class="btn btn-quiet btn-sm" id="suBell" type="button" hidden>Turn on reminders</button></div>
+    </div>
+    <button class="btn btn-primary wide" id="suGo" type="button">Start</button>
+    <p class="hint">Your readings stay on this phone. Tenang gives general information and does not replace your doctor.</p>
+  </div>
+</div>
 <div class="sheet-bg" id="weekly" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="wkTitle">
     <div class="grab" aria-hidden="true"></div>
@@ -1204,24 +1219,37 @@ function runMigrations(ls,migs=MIGRATIONS,now=Date.now()){
 }
 /* @data-safety:end */
 let DS_RES={};try{const q=dsQuarantine(localStorage);DS_RES=runMigrations(localStorage);DS_RES.quarantined=q;dsExpire(localStorage)}catch(e){}
-const store={get(k,d){try{const v=localStorage.getItem('tenang:'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tenang:'+k,JSON.stringify(v))}catch(e){}}};
+const store={get(k,d){try{const v=localStorage.getItem('tenang:'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tenang:'+k,JSON.stringify(v));return true}catch(e){if(typeof toast==='function'&&Date.now()-(store._w||0)>60000){store._w=Date.now();toast("Couldn\u2019t save that. Your phone\u2019s storage may be full or blocked.")}return false}}};
 const dayKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('on'),2200)};
 
-/* header */
-const now=new Date();
-$('#today').innerHTML=now.toLocaleDateString('en-US',{weekday:'short'})+'<br>'+now.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-const h=now.getHours(); $('#greet').textContent=h<5?'Still night':h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+/* header: date and greeting, refreshed whenever the day or the hour changes */
+function renderHeader(){
+  const n=new Date(),h=n.getHours();
+  $('#today').innerHTML=n.toLocaleDateString('en-US',{weekday:'short'})+'<br>'+n.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  $('#greet').textContent=h<5?'Still night':h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+}
+renderHeader();
+// A phone can keep the app open (or frozen) across midnight. Everything that is "today's" must follow the day,
+// or checks appear ticked that are not saved, and new ticks land on the wrong day.
+let curDay=dayKey();
+function checkDay(){
+  const k=dayKey();if(k===curDay)return false;
+  curDay=k;renderHeader();renderRituals();renderPath();renderMinutes();applySeason();renderNext();renderInsights();return true;
+}
+window.addEventListener('pageshow',()=>checkDay());window.addEventListener('focus',()=>checkDay());
 
 /* ---------- routing ---------- */
-const views=['home','breathe','reset','rituals','log','summary','meds','numbers'];
+const views=['home','breathe','reset','log','learn','summary','meds','numbers'];
 function route(){
   if(location.hash==='#qlog'||location.hash==='#calmnow'){const h=location.hash;history.replaceState(null,'',location.pathname+location.search+'#home');setTimeout(()=>{if(h==='#qlog')openQLog({});else $('#panicBtn').click()},60)} // home-screen shortcuts
-  let v=(location.hash||'#home').slice(1); if(!views.includes(v)) v='home';
+  let v=(location.hash||'#home').slice(1);
+  if(v==='rituals'){history.replaceState(null,'',location.pathname+location.search+'#home');v='home';setTimeout(()=>{const h=$('#habits');h.open=true;h.scrollIntoView({behavior:'smooth',block:'start'})},120)} // old link: habits now live on Today
+  if(!views.includes(v)) v='home';
   $$('.view').forEach(s=>s.hidden=s.dataset.view!==v);
   const cv=$('#v-'+v);if(cv){[...cv.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,8)));cv.dataset.dir=window._swipeDir||'';window._swipeDir='';replay(cv,'enter')}
   requestAnimationFrame(()=>$$('.snap').forEach(s=>s._upd&&s._upd()));
-  const nv=v==='summary'||v==='numbers'?'log':v==='meds'?'home':v;
+  const nv=v==='summary'?'log':v==='numbers'||v==='meds'?'learn':v==='reset'?'breathe':v;
   if(v==='numbers')bpEnter();
   $$('[data-nav]').forEach(a=>a.dataset.nav===nv?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   if(v==='summary'&&typeof renderSummary==='function')renderSummary();
@@ -1369,12 +1397,12 @@ async function start(){
   B.running=true;B.last=performance.now();$('#startBtn').textContent='Pause';requestAnimationFrame(tick);
   try{if('wakeLock' in navigator)B.lock=await navigator.wakeLock.request('screen')}catch(e){}
 }
-function pause(){B.running=false;$('#startBtn').textContent=B.elapsed>0?'Resume':'Begin';$('#phase').textContent=B.elapsed>0?'Paused':'Ready';$('#count').textContent=B.elapsed>0?'tap to resume':'tap to begin';try{B.lock&&B.lock.release()}catch(e){}logMinutes(B.elapsed-(B.logged||0));B.logged=B.elapsed}
+function pause(){B.running=false;$('#startBtn').textContent=B.elapsed>0?'Resume':'Begin';$('#phase').textContent=B.elapsed>0?'Paused':'Ready';$('#count').textContent=B.elapsed>0?'tap to resume':'tap to begin';try{B.lock&&B.lock.release()}catch(e){}logMinutes(B.elapsed-(B.logged||0));B.logged=B.elapsed;if(B.elapsed>=180)markBreathDone()}
 function finish(){B.running=false;B.done=true;draw(0);$('#phase').textContent='Complete';$('#count').textContent='tap to go again';$('#startBtn').textContent='Again';enso.style.strokeDashoffset=0;try{B.lock&&B.lock.release()}catch(e){}
   logMinutes(B.elapsed-(B.logged||0));B.logged=0;
   if(B.dur>=300){const r=store.get('rit:'+dayKey(),{});r.breath=true;store.set('rit:'+dayKey(),r);renderRituals();autoBreath();}
   if(B.pre)showPP('after');
-  markRem(B.p.id==='478'?'bed':(new Date().getHours()<14?'amBr':'pmBr'),true);
+  markBreathDone();
   toast('Session complete · '+Math.round(B.dur/60)+' minutes');}
 function logMinutes(sec){if(sec<5)return;const m=store.get('mins',{});const k=dayKey();m[k]=(m[k]||0)+sec/60;store.set('mins',m);renderMinutes();renderToday()}
 function renderMinutes(){const m=store.get('mins',{});let w=0;for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);w+=m[dayKey(d)]||0}
@@ -1453,9 +1481,9 @@ function renderRituals(){
   $('#ritCount').textContent=n+' of '+RITUALS.length;$('#ritBar').style.width=pct;
   $('#ritRing').style.strokeDashoffset=(125.7*(1-n/RITUALS.length)).toFixed(1);
   $('#ritMsg').textContent=n===0?'Start with the easiest one.':n<RITUALS.length/2?'A good start. Keep going.':n<RITUALS.length?'More than halfway there.':'Every offering made today.';
-  countUp($('#homeRit'),[n],v=>v[0]+'<small> / '+RITUALS.length+'</small>');$('#homeRitBar').style.width=pct;
+  $('#habSum').textContent=n+' of '+RITUALS.length;
 }
-$('#ritualList').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;const r=store.get('rit:'+dayKey(),{});r[k]=e.target.checked;store.set('rit:'+dayKey(),r);renderRituals();justTick('#r-'+k);if(e.target.checked&&RITUALS.every(x=>r[x[0]]))toast('All eight done today')});
+$('#ritualList').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;if(checkDay()){toast('A new day has started. Today\u2019s checks are showing.');return}const r=store.get('rit:'+dayKey(),{});r[k]=e.target.checked;store.set('rit:'+dayKey(),r);renderRituals();justTick('#r-'+k);if(e.target.checked&&RITUALS.every(x=>r[x[0]]))toast('All eight done today')});
 const EFFECTS=[['DASH-style eating',11],['Aerobic exercise',6],['Less sodium',5.5],['Isometric exercise',5],['More potassium',4.5],['Less alcohol',4],['Losing 5 kg',5]];
 EFFECTS.sort((a,b)=>b[1]-a[1]);
 $('#effects').innerHTML=EFFECTS.map(([n,v])=>`<div class="effect"><span>${n}</span><div class="track"><i style="width:${v/12*100}%"></i></div><span class="val">−${v}</span></div>`).join('');
@@ -1476,7 +1504,7 @@ function renderLog(){
   $('#moreWrap').innerHTML=list.length?`<span class="hint">Swipe a reading left to delete it.</span>${list.length>6?`<button class="link" id="logMore" style="font-size:13px">${logAll?'Show fewer':'Show all '+list.length}</button>`:''}`:'';
   $('#readings').innerHTML=list.length?list.slice(0,logAll?list.length:6).map(r=>{const[c,cl]=cat(r.s,r.d);const dt=new Date(r.t);return`<div class="reading" data-t="${r.t}"><div><span class="bp">${r.s}/${r.d}<small> mmHg${r.p?' · '+r.p+' bpm':''}</small></span></div><button class="del" data-t="${r.t}" aria-label="Delete reading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill ${cl}">${c}</span><span class="when">${dt.toLocaleDateString('en-US',{month:'short',day:'numeric'})} · ${dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · ${r.c}${Array.isArray(r.g)&&r.g.some(k=>INS_TAGS[k])?' · '+r.g.filter(k=>INS_TAGS[k]).map(k=>INS_TAGS[k]).join(', '):''}</span></div></div>`}).join(''):'<p class="foot">No readings yet. Add your first one above.</p>';
   const last=list[0];
-  if(last){const[c,cl]=cat(last.s,last.d);countUp($('#homeBP'),[last.s,last.d],v=>`${v[0]}/${v[1]}`);$('#homeCat').innerHTML=`<span class="pill ${cl}">${c}${last.ex?' · example':''}</span>`}else{$('#homeBP').textContent='—';$('#homeCat').innerHTML='<span class="tag">Add a reading</span>'}
+  if(last){const[c,cl]=cat(last.s,last.d);countUp($('#logBP'),[last.s,last.d],v=>`${v[0]}/${v[1]}`);$('#logCat').innerHTML=`<span class="pill ${cl}">${c}${last.ex?' \u00b7 example':''}</span>`;const dt=new Date(last.t);$('#logWhen').textContent=last.ex?'Example data. Your first reading replaces it.':dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+' \u00b7 '+dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}else{$('#logBP').textContent='\u2014';$('#logCat').innerHTML='<span class="tag">Nothing yet</span>';$('#logWhen').textContent='Take your first reading and it will appear here.'}
   const recent=list.slice(0,7);if(recent.length){const as=Math.round(recent.reduce((a,r)=>a+r.s,0)/recent.length),ad=Math.round(recent.reduce((a,r)=>a+r.d,0)/recent.length);$('#avg').textContent=`Avg of last ${recent.length}: ${as}/${ad}`}else $('#avg').textContent='';
   drawChart([...readings].sort((a,b)=>a.t-b.t).slice(-14));
   const pairs={};readings.forEach(r=>{if(r.pair){const o=pairs[r.pair]=pairs[r.pair]||{};o[r.c==='Before session'?'a':'b']=r}});
@@ -1501,18 +1529,6 @@ document.addEventListener('click',e=>{
   if(e.target.id==='clearEx'){readings=readings.filter(r=>!r.ex);save();renderLog();toast('Examples cleared')}
   const d=e.target.closest('.del');if(d)deleteReading(+d.dataset.t);
 });
-$('#bpForm').addEventListener('submit',e=>{
-  e.preventDefault();const s=+$('#sys').value,d=+$('#dia').value,p=+$('#pulse').value||null;
-  if(!s||!d){$('#formMsg').textContent='Enter both the top (systolic) and bottom (diastolic) numbers.';return}
-  if(d>=s){$('#formMsg').textContent='Diastolic should be lower than systolic. Check the order of the two numbers.';return}
-  readings=readings.filter(r=>!r.ex);readings.push({s,d,p,t:Date.now(),c:$('#ctx').value});save();
-  $('#sys').value='';$('#dia').value='';$('#pulse').value='';
-  const[c]=cat(s,d);$('#formMsg').textContent=`Saved ${s}/${d}, ${c}.`;renderLog();markRem(new Date().getHours()<14?'amBP':'pmBP',true);
-  const box=$('#crisis');
-  if(s>180||d>120){box.innerHTML=`<div class="banner crisis"><b>This reading is in the severe range.</b><span>Rest quietly for 5 minutes and measure again. If it is still above 180/120, contact your doctor today.</span><span><b>Call emergency services now</b> if you also have chest pain, shortness of breath, back pain, numbness or weakness, vision changes, or difficulty speaking.</span></div>`;box.scrollIntoView({behavior:'smooth'})}
-  else{box.innerHTML='';toast('Reading saved')}
-});
-
 /* ---------- 30-day path ---------- */
 const WEEKS=[{t:'Learn to breathe slowly',d:'Two short resonance sessions a day. Nothing else yet. This week is about the habit.'},{t:'Calm the nervous system',d:'Keep the breathing and add one reset practice each evening.'},{t:'Build gentle strength',d:'Isometric holds three days a week, brisk walks on the others.'},{t:'Feed your vessels',d:'Bring salt down and potassium up, one change a day.'}];
 const RESETS=[['Physiological sigh, 3 rounds','breathe','sigh'],['Bee breath, 3 minutes','breathe','hum'],['Legs up the wall, 5 minutes','reset'],['Progressive relaxation before bed','reset'],['5-4-3-2-1 grounding','reset'],['A 20-minute walk among trees','reset'],['4-7-8 breathing in bed','breathe','478']];
@@ -1530,14 +1546,25 @@ function dayTasks(n){const w=Math.min(3,Math.floor((n-1)/7)),di=(n-1)%7,t=[];
 let path=store.get('path',null);if(!path||!path.start){path={start:dayKey(),done:{}};store.set('path',path)}
 function pathDay(){const[y,m,d]=path.start.split('-').map(Number),s=new Date(y,m-1,d),t=new Date();t.setHours(0,0,0,0);return Math.round((t-s)/864e5)+1}
 function renderPath(){const n=pathDay(),cur=Math.min(30,Math.max(1,n)),w=Math.min(3,Math.floor((cur-1)/7));
+  if(n===1){const rd=remDone();if(rd.amBP&&rd.pmBP&&!(path.done[1]&&path.done[1].base)){path.done[1]=path.done[1]||{};path.done[1].base=true;store.set('path',path)}}
   $('#pathDay').textContent=n>30?'Complete':'Day '+cur+' of 30';
   $('#pathWeek').textContent='Week '+(w+1)+' · '+WEEKS[w].t;$('#pathWeekD').textContent=WEEKS[w].d;
   let dots='';for(let i=1;i<=30;i++){const tk=dayTasks(i),dn=path.done[i]||{},c=tk.filter(x=>dn[x.k]).length;dots+=`<span class="${c===tk.length?'full':c?'part':''}${i===cur&&n<=30?' today':''}" title="Day ${i}"></span>`}
   $('#pathDots').innerHTML=dots;
   const tk=dayTasks(cur),dn=path.done[cur]||{};
+  renderFocus();
   $('#pathTasks').innerHTML=n>30?'<p style="font-size:14px">You finished the 30-day path. Compare your log with day 1, then keep the habits that helped most.</p>':tk.map(x=>`<div class="task"><input type="checkbox" id="pt-${x.k}" data-k="${x.k}"${dn[x.k]?' checked':''}><label for="pt-${x.k}">${x.l}</label>${x.tm?`<button class="go" data-timer="${x.tm}">Timer</button>`:x.go?`<button class="go" data-go="${x.go}"${x.p?` data-pattern="${x.p}"`:''}>Open</button>`:'<span></span>'}</div>`).join('');
 }
-$('#pathTasks').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;const n=Math.min(30,pathDay());path.done[n]=path.done[n]||{};path.done[n][k]=e.target.checked;store.set('path',path);renderPath();justTick('#pt-'+k);if(dayTasks(n).every(x=>path.done[n][x.k]))toast('Day '+n+' complete')});
+function togglePath(e,pre){const k=e.target.dataset.k;if(!k)return;if(checkDay()){toast('A new day has started. Today\u2019s tasks are showing.');return}const n=Math.min(30,pathDay());path.done[n]=path.done[n]||{};path.done[n][k]=e.target.checked;store.set('path',path);renderPath();justTick('#'+pre+k);if(dayTasks(n).every(x=>path.done[n][x.k]))toast('Day '+n+' complete')}
+$('#pathTasks').addEventListener('change',e=>togglePath(e,'pt-'));
+$('#focusList').addEventListener('change',e=>togglePath(e,'fc-'));
+// Today shows only what the steps above do not already cover: breathing is a step, and the day-1 baseline is the two readings.
+function renderFocus(){
+  const n=pathDay(),cur=Math.min(30,Math.max(1,n)),dn=path.done[cur]||{},tk=n>30?[]:dayTasks(cur).filter(x=>!x.auto&&x.k!=='base'),el=$('#focusPanel');
+  el.hidden=!tk.length;if(!tk.length)return;
+  $('#focusDay').textContent='Day '+cur+' of 30';
+  $('#focusList').innerHTML=tk.map(x=>`<div class="task"><input type="checkbox" id="fc-${x.k}" data-k="${x.k}"${dn[x.k]?' checked':''}><label for="fc-${x.k}">${x.l}</label>${x.tm?`<button class="go" data-timer="${x.tm}">Timer</button>`:x.go?`<button class="go" data-go="${x.go}"${x.p?` data-pattern="${x.p}"`:''}>Open</button>`:'<span></span>'}</div>`).join('');
+}
 function autoBreath(){const n=pathDay();if(n>30)return;path.done[n]=path.done[n]||{};const t=dayTasks(n).find(x=>x.auto&&!path.done[n][x.k]);if(t){path.done[n][t.k]=true;store.set('path',path);renderPath()}}
 let armed=false;$('#pathRestart').addEventListener('click',e=>{const b=e.currentTarget;if(!armed){armed=true;b.textContent='Tap again to restart from day 1';setTimeout(()=>{armed=false;b.textContent='Restart the path'},4000);return}
   armed=false;b.textContent='Restart the path';path={start:dayKey(),done:{}};store.set('path',path);renderPath();toast('Path restarted at day 1')});
@@ -1674,7 +1701,14 @@ const REM=[{k:'amBP',l:'Morning reading',t:'07:00',on:true,go:'log'},{k:'amBr',l
 let remCfgs=store.get('rem',{});
 const remList=()=>REM.map(r=>{const c=remCfgs[r.k]||{};const t=c.t||r.t;return{...r,on:c.on===undefined?r.on:c.on,t,m:+t.slice(0,2)*60+ +t.slice(3,5)}}).sort((a,b)=>a.m-b.m);
 const remDone=()=>store.get('remdone:'+dayKey(),{});
-function markRem(k,quiet){const d=remDone();if(d[k])return;d[k]=true;store.set('remdone:'+dayKey(),d);window.pushDone&&pushDone(k);renderNext();if(!quiet)toast('Marked done')}
+// "I just did this": credit the latest scheduled step that is already due and not done; if none is due yet, the next one.
+// (Replaces a fixed 2pm cut-off, which ticked "Evening breathing" for a 2:30pm session.)
+function pickStep(keys){
+  const st=todaySteps().filter(x=>keys.includes(x.k)&&x.st!=='done'),past=st.filter(x=>x.st!=='next');
+  return (past.length?past[past.length-1]:st[0])||null;
+}
+function markBreathDone(){const k=B.p&&B.p.id==='478'?'bed':(pickStep(['amBr','pmBr'])||{}).k;if(k)markRem(k,true)}
+function markRem(k,quiet){const d=remDone();if(d[k])return;d[k]=true;store.set('remdone:'+dayKey(),d);window.pushDone&&pushDone(k);renderNext();if(typeof renderPath==='function')renderPath();if(!quiet)toast('Marked done')}
 let lastDue=null;
 /* @insights:start  (pure functions; scripts/test-insights.mjs runs this exact block) */
 // Plain statements about the user's own numbers. Never advice, never causal claims, never a verdict:
@@ -1770,7 +1804,7 @@ function rhythm(){
 const CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const DOT=(f)=>`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2"/></svg>`;
 function renderToday(){
-  const el=$('#today');if(!el)return;
+  const el=$('#todayCard');if(!el)return;
   const steps=todaySteps(),counted=steps.filter(x=>x.st!=='missed'),done=counted.filter(x=>x.st==='done').length,total=counted.length;
   const due=steps.find(x=>x.st==='due'),nxt=steps.find(x=>x.st==='next'),R=rhythm(),allDone=total>0&&done===total;
   let title='Slow your breath. Your pressure follows.',sub='Five minutes at about six breaths a minute is the single best place to start.',go={l:'Begin breathing',a:{'data-go':'breathe','data-pattern':'resonance'}};
@@ -1801,7 +1835,7 @@ function renderRemList(){$('#remList').innerHTML=remList().map(r=>`<div class="r
 $('#remList').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;remCfgs[k]=remCfgs[k]||{};if(e.target.type==='checkbox')remCfgs[k].on=e.target.checked;else if(e.target.value)remCfgs[k].t=e.target.value;store.set('rem',remCfgs);renderNext();if(e.target.type==='time')renderRemList();window.pushSync&&pushSync()});
 $('#copyRem').addEventListener('click',()=>copyText('Tenang daily reminders\n'+remList().filter(r=>r.on).map(r=>`${r.t}  ${r.l}`).join('\n'),'#remFallback'));
 document.addEventListener('click',e=>{
-  const s=e.target.closest('[data-rem-start]');if(s){const r=REM.find(x=>x.k===s.dataset.remStart);if(r.go==='log'){openQLog({k:r.k});return}markRem(r.k,true);if(r.p)selectPattern(r.p);location.hash=r.go;return}
+  const s=e.target.closest('[data-rem-start]');if(s){const r=REM.find(x=>x.k===s.dataset.remStart);if(r.go==='log'){openQLog({k:r.k});return}if(r.go!=='breathe')markRem(r.k,true);if(r.p)selectPattern(r.p);location.hash=r.go;return}
   const d=e.target.closest('[data-rem-done]');if(d){markRem(d.dataset.remDone);return}
   if(e.target.closest('[data-open-set]'))openSheet();
 });
@@ -1810,7 +1844,7 @@ function closeSheet(){$('#sheet').hidden=true;document.body.style.overflow='';$(
 $('#setBtn').addEventListener('click',openSheet);$('#sheetX').addEventListener('click',closeSheet);
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden)closeSheet()});
-setInterval(()=>{renderNext();if(new Date().getHours()===0&&new Date().getMinutes()===0)applySeason()},30000);
+setInterval(()=>{if(!checkDay())renderHeader();renderNext()},30000);
 
 /* ---------- doctor summary ---------- */
 let sumDays=28,sumText='';
@@ -2112,7 +2146,7 @@ const swEnd=()=>{if(!sw)return;const{row,dx,on}=sw;sw=null;if(!on)return;row.sty
 window.addEventListener('pointerup',swEnd);window.addEventListener('pointercancel',swEnd);
 
 /* ---------- swipe between tabs ---------- */
-const TABS=['home','breathe','reset','rituals','log'];let tg=null;
+const TABS=['home','breathe','log','learn'];let tg=null;
 $('.app').addEventListener('touchstart',e=>{if(e.touches.length!==1||CALM.on)return;if(e.target.closest('.snap,.chips,.stage,.diagram,input,textarea,select,.reading,.seg,.tbl,.dots,.catbar'))return;tg={x:e.touches[0].clientX,y:e.touches[0].clientY,t:Date.now()}},{passive:true});
 $('.app').addEventListener('touchend',e=>{if(!tg)return;const c=e.changedTouches[0],dx=c.clientX-tg.x,dy=c.clientY-tg.y,dt=Date.now()-tg.t;tg=null;
   if(Math.abs(dx)<70||Math.abs(dy)>45||dt>650)return;const cur=(location.hash||'#home').slice(1),i=TABS.indexOf(cur);if(i<0)return;const n=i+(dx<0?1:-1);if(n<0||n>=TABS.length)return;
@@ -2197,8 +2231,8 @@ function qlSave(){
   const prior=[...readings].filter(r=>!r.ex).sort((a,b)=>b.t-a.t).slice(0,7);
   readings=readings.filter(r=>!r.ex);const g=$$('#qlTags .chip[aria-pressed="true"]').map(c=>c.dataset.tag);
   readings.push({s,d,p,t:Date.now(),c:$('#qlCtx').value,...(g.length?{g}:{})});save();renderLog();
-  const k=QL.k&&REM.some(r=>r.k===QL.k&&r.go==='log')?QL.k:(new Date().getHours()<14?'amBP':'pmBP');
-  markRem(k,true);renderToday();
+  const k=QL.k&&REM.some(r=>r.k===QL.k&&r.go==='log')?QL.k:(pickStep(['amBP','pmBP'])||{}).k;
+  if(k)markRem(k,true);renderToday();
   const[c,cl]=cat(s,d),mean=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length);
   let line;
   if(!prior.length)line='First reading saved. Measure at the same times each day so the trend means something.';
@@ -2217,10 +2251,11 @@ function qlSave(){
 $('#qlTags').innerHTML=Object.entries(INS_TAGS).map(([k,l])=>`<button type="button" class="chip" data-tag="${k}" aria-pressed="false">${l}</button>`).join('');
 $('#qlTags').addEventListener('click',e=>{const b=e.target.closest('[data-tag]');if(b)b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
 $('#qlSave').addEventListener('click',qlSave);
+document.addEventListener('click',e=>{if(e.target.closest('[data-ql]'))openQLog({})});
 $('#qlX').addEventListener('click',closeQLog);
 $('#qlog').addEventListener('click',e=>{if(e.target.id==='qlog'||e.target.closest('[data-ql-close]'))closeQLog()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#qlog').hidden)closeQLog();if(e.key==='Enter'&&!$('#qlog').hidden&&!$('#qlForm').hidden&&e.target.matches('#qlog input'))qlSave()});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderNext()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkDay();renderNext()}});
 
 /* ---------- PWA: offline, install, backup ---------- */
 (function(){
@@ -2361,6 +2396,8 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderNext
     }catch(e){}
   }
   window.pushSync=sync;
+  window.pushState=async()=>{const needsInstall=isIOS&&!standalone(),denied=supported&&Notification.permission==='denied';return{needsInstall,denied,can:supported&&!needsInstall&&!denied,on:supported&&Notification.permission==='granted'&&!!(await current())}};
+  window.pushEnable=async()=>{if(supported&&Notification.permission==='granted'&&await current())return true;await toggle();return supported&&Notification.permission==='granted'&&!!(await current())};
   // Tell the server a reminder is done so it doesn't nudge you about something you've already finished.
   window.pushDone=async k=>{
     if(!supported||Notification.permission!=='granted')return;
@@ -2405,6 +2442,38 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderNext
   $('#setBtn').addEventListener('click',render);
   render();
   window.addEventListener('load',()=>setTimeout(sync,1500));
+})();
+/* ---------- first run: two choices, then done ---------- */
+(function(){
+  const sh=$('#setup');
+  const addM=(t,m)=>{const x=((+t.slice(0,2)*60+ +t.slice(3,5)+m)%1440+1440)%1440;return String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0')};
+  // Only for someone who has never used the app. Anyone with readings or activity is an existing user: never interrupt them.
+  function isNew(){
+    if(store.get('setup',null))return false;
+    if(readings.some(r=>!r.ex)||activitySet().size){store.set('setup',{at:Date.now(),existing:true});return false}
+    return true;
+  }
+  async function note(){
+    const st=window.pushState?await pushState():{can:false},b=$('#suBell'),n=$('#suNote');
+    b.hidden=!st.can||st.on;b.disabled=false;
+    n.textContent=st.on?'Reminders are on. Tenang will nudge you at these times, even when the app is closed.':st.needsInstall?'On iPhone, add Tenang to your Home Screen first (Share, then Add to Home Screen) and you can turn on reminders from Settings.':st.denied?'Notifications are blocked for Tenang. You can allow them in your phone settings later.':st.can?'Get a gentle nudge at these times, even when the app is closed.':'Reminders will appear on the home screen while Tenang is open.';
+  }
+  function open(){sh.hidden=false;document.body.style.overflow='hidden';note();$('#suGo').focus({preventScroll:true})}
+  function close(){sh.hidden=true;document.body.style.overflow=''}
+  function done(apply){
+    if(apply){
+      const am=$('#suAm').value||'07:00',pm=$('#suPm').value||'20:30';
+      remCfgs.amBP={...remCfgs.amBP,on:true,t:am};remCfgs.amBr={...remCfgs.amBr,on:true,t:addM(am,15)};
+      remCfgs.pmBr={...remCfgs.pmBr,on:true,t:pm};remCfgs.pmBP={...remCfgs.pmBP,on:true,t:addM(pm,30)};
+      store.set('rem',remCfgs);window.pushSync&&pushSync();
+    }
+    store.set('setup',{at:Date.now(),skipped:!apply});close();renderNext();
+  }
+  $('#suGo').addEventListener('click',()=>done(true));
+  $('#suSkip').addEventListener('click',()=>done(false));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden)done(false)});
+  $('#suBell').addEventListener('click',async()=>{const b=$('#suBell');b.disabled=true;try{await pushEnable()}catch(e){}note()});
+  if(location.hash!=='#qlog'&&location.hash!=='#calmnow')setTimeout(()=>{if(isNew())open()},700);
 })();
 renderMinutes(); renderRituals(); renderLog(); renderPath(); renderNext(); route();
 })();

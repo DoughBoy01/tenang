@@ -15,7 +15,7 @@ const day = (off = 0, at = '12:00') => { const d = new Date(Date.UTC(2026, 10, 2
 // Always test in Kuala Lumpur time; "now" is Fri 20 Nov 2026 at the given HH:MM local time.
 async function open(hhmm, seed = {}, scheme = 'light') {
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, timezoneId: 'Asia/Kuala_Lumpur', colorScheme: scheme });
-  await ctx.addInitScript(([s]) => { for (const [k, v] of Object.entries(s)) localStorage.setItem('tenang:' + k, JSON.stringify(v)); }, [seed]);
+  await ctx.addInitScript(([s]) => { localStorage.setItem('tenang:setup', '{"done":true}'); for (const [k, v] of Object.entries(s)) localStorage.setItem('tenang:' + k, JSON.stringify(v)); }, [seed]);
   const page = await ctx.newPage(); const errs = []; page.on('pageerror', e => errs.push(String(e)));
   await page.clock.setFixedTime(new Date(`2026-11-20T${hhmm}:00+08:00`));
   await page.goto(base + '/#home'); await page.waitForTimeout(500);

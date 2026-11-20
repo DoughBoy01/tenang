@@ -18,6 +18,7 @@ let bad = 0;
 mkdirSync('shots', { recursive: true });
 for (const scheme of ['light', 'dark']) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: scheme });
+  await ctx.addInitScript(() => localStorage.setItem('tenang:setup', '{"done":true}'));
   const page = await ctx.newPage();
   const errs = [];
   page.on('pageerror', e => errs.push(String(e)));

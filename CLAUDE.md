@@ -26,6 +26,9 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 | `migrations/` | D1 schema (`0001_push.sql` subscriptions, `0002_actions.sql` snooze + done-today); always apply remotely BEFORE deploying code that needs it (apply with `npx wrangler d1 migrations apply tenang-push --remote`) |
 | `wrangler.jsonc` | Worker config: D1 binding `DB`, cron `* * * * *`, `VAPID_PUBLIC` var |
 | `scripts/test-push.mjs` | Tests push crypto (independent decrypt), VAPID signature, validation, API, snooze/done and cron against real SQLite running `migrations/*.sql` |
+| `scripts/test-journey.mjs` | The simplified journey: four tabs and highlights, Today length budget (<=1.7 screens, <=8 blocks), nothing educational on Today, Today's focus, one way to log, Learn contents, 360px + dark overflow |
+| `scripts/test-firstrun.mjs` | First-run sheet: new users only, times -> reminders, Skip/Escape, never shown to existing users, shortcuts bypass it, iPhone wording |
+| `scripts/test-daychecks.mjs` | Regression tests for daily checks: rituals/path/Today steps persist, follow midnight while the app is open, credit the right scheduled step, and a failed save is never silent |
 | `scripts/test-insights.mjs` | Runs the `@insights` block (pure insight + weekly-review engine) on synthetic data: thresholds, honest wording both ways, sample sizes, review window, and a sweep proving no sentence gives advice or medical claims |
 | `scripts/test-phase2.mjs` | Playwright: context tags, patterns panels, weekly review (Fri/Sun/Mon/Tue), shortcuts, icon badge; `shots/phase2-*.png` |
 | `scripts/test-data-safety.mjs` | Runs the `@data-safety` block of `index.html` against a fake localStorage: snapshot, rollback, full disk, newer data, quarantine, expiry |
@@ -36,7 +39,7 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 | `scripts/build-worker.mjs` | Regenerates `worker.js` from the files above |
 | `scripts/smoke.mjs` | Playwright mobile smoke test (all views, light and dark, page errors, horizontal overflow). Needs `npm i -D playwright` |
 
-Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, `test-companion`, `test-phase2`, `test-insights`, `test-push`, `test-sw`, `test-data-safety` and `test-update` (all in `scripts/`), commit the source files and `worker.js`, then deploy.
+Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, `test-companion`, `test-phase2`, `test-daychecks`, `test-journey`, `test-firstrun`, `test-insights`, `test-push`, `test-sw`, `test-data-safety` and `test-update` (all in `scripts/`), commit the source files and `worker.js`, then deploy.
 
 ## Deploy
 
@@ -58,6 +61,16 @@ Users' data lives only in their `localStorage` (`tenang:*`) and survives every d
 5. **Staying current:** the build stamps a release id into the page (`const BUILD='__BUILD__'`, replaced only by `scripts/build-worker.mjs`; never write that token anywhere else in `index.html`) and serves `/version`. The page checks on foreground/every 15 min and shows a "new version is ready" banner (never while a session, timer or reading entry is open; never auto-reloads). Refresh activates the waiting service worker, then reloads.
 6. **Data belongs to the exact origin.** Moving from `tenang.pm2120600.workers.dev` to another domain (or a Capacitor app) looks like total data loss to users: choose the permanent domain before launch, and move people with Save/Restore backup.
 
+## Keep the daily journey simple (read before adding anything to Today)
+
+The product is a daily companion: **open, do the one next thing, close.** Rules that `test-journey.mjs` enforces or that reviewers should:
+
+1. **Today stays short** (about one and a half screens): the Today card (steps, ring, rhythm), Today's focus (only path tasks the steps do not already cover), the mood check-in, one insight, a collapsed Daily habits list, the season line. Anything educational, promotional or "browse and explore" belongs in **Learn**, never on Today.
+2. **One checklist per idea, no duplicates:** breathing and readings are the Today steps; the path's breathing tasks and the day-1 baseline tick themselves from them; habits are the optional collapsed list.
+3. **One way to log a reading:** the quick-log sheet (`openQLog`), reached from Today, the Log tab button, the timer, and the `#qlog` shortcut. Do not reintroduce a second form.
+4. **First run is two choices** (morning/evening time, reminders) and only for people with no data; skipping is always possible. Do not add steps to it.
+5. New features need a home in this structure first; if a new thing wants a fifth tab or a new block on Today, that is a design discussion, not a code change.
+
 ## Design language
 
 Inspired by Japanese, Korean and Balinese Buddhist aesthetics: quiet, spacious, paper-and-ink, moss green, indigo and saffron accents, generous whitespace, soft shapes, gentle motion.
@@ -66,11 +79,11 @@ Inspired by Japanese, Korean and Balinese Buddhist aesthetics: quiet, spacious, 
 - CSS tokens on `:root`: `--paper --surface --sunk --ink --moss --indigo --saffron`, semantic `--ok --warn --high --crisis`, `--hero`. Dark theme via `@media (prefers-color-scheme: dark)` guarded by `:root:not([data-theme="light"])` and `:root[data-theme="dark"]`. Always use tokens, never hard-coded colours.
 - Seasonal themes: 24 Japanese sekki (solar terms) set `data-season` on the root, each with light and dark palettes; the user can follow the date or pick one.
 - Motion: spring/ease CSS variables, `replay()`, `countUp()`, ripple on pointerdown, `pebble()` micro-interactions.
-- Mobile patterns used throughout: scroll-snap carousels (`.snap` + `.dotsnav` + `initSnap`), swipe between the 5 main tabs, swipe-to-delete with Undo toast, drag-down sheets, filter chips.
+- Mobile patterns used throughout: scroll-snap carousels (`.snap` + `.dotsnav` + `initSnap`), swipe between the 4 main tabs, swipe-to-delete with Undo toast, drag-down sheets, filter chips.
 
 ## Architecture (in `index.html`)
 
-- Hash router over views `home, breathe, reset, rituals, log, summary, meds, numbers` (`route()`). Bottom nav highlights: summary and numbers map to Log, meds maps to Home.
+- Hash router over views `home, breathe, reset, log, learn, summary, meds, numbers` (`route()`). **Four tabs: Today (`#home`), Breathe, Log, Learn.** Nav highlight: reset -> Breathe, summary -> Log, numbers/meds -> Learn. `#rituals` is a retired route that redirects to Today with the habits list opened; `#qlog` / `#calmnow` are shortcut routes.
 - State in `localStorage` via `store.get/set` (keys prefixed `tenang:`, always try/catch): readings, rituals, 30-day path, reminders, sound, season, notes, minutes.
 - **Breathing engine:** `PATTERNS` (phases `[label, secs, kind]`), `levels()`, `ease()`, `lungPoint()`, a `requestAnimationFrame` loop, WebAudio tones plus SpeechSynthesis for "Eyes closed" mode, Wake Lock to keep the screen on. Techniques: Resonance, Long exhale, Physiological sigh, Bee breath, Box breathing and 4-7-8, each with animated diagrams and timers.
 - **Features:** 30-day path, before/after readings, mood check-in leading to a "calm now" sequence, rituals, reminders with auto-complete (`markRem`), doctor-ready summary (`renderSummary`, `buildSumText`, `copyText`), Medicines guide, shareable card/sheet with a "who could this help" reason, timers sheet (`#tmr`), settings sheet (`#sheet`).
@@ -81,6 +94,9 @@ Inspired by Japanese, Korean and Balinese Buddhist aesthetics: quiet, spacious, 
 - **Patterns (phase 2):** the `@insights` block (`computeInsights`) turns the user's own readings into at most 3 plain statements: week vs week trend, lowest recent reading, days with vs without breathing (>=3 min), notable tags (>=5 difference, 3 vs 3 readings), mornings vs evenings, logging consistency. Minimum sample sizes everywhere; both directions are reported honestly; wording is observational only (never "should", never medicines or doses: `test-insights` fails the build if it is). Shown as "What I'm noticing" on Home (top one) and "Your patterns" on Log (up to 3, with a not-medical-advice note). **Context tags** (`g` on a reading: sleep, salt, stress, move, coffee; ids in `INS_TAGS`) are optional chips in the quick-log sheet only (not yet on the Log page form); `g` is an additive field so no migration was needed.
 - **Weekly review:** `weekTarget`/`computeWeek` (pure). Sunday offers the week ending that day (Mon-Sun), Monday the week that just ended, other days nothing. Card on Home -> sheet (day dots, days, minutes, readings, average, change vs previous week, lowest, 30-day-path note). Headlines never scold ("A quiet week. Starting again is easy."). Seen state: `tenang:wk:<Monday date>`. No push notification for it yet (the push schema is per-day reminders).
 - **Shortcuts and badge:** manifest `shortcuts` (Log a reading `/#qlog`, Breathe now `/#breathe`, Calm me now `/#calmnow`); `route()` handles `#qlog` and `#calmnow`, then rewrites the hash to `#home`. App icon badge = number of steps due now (`renderToday`), set to 1 by the service worker on a push, cleared when nothing is due. Badging needs an installed app (iOS also needs notification permission).
+- **"Today" must follow the day:** a phone can keep the app open or frozen across midnight. `checkDay()` (page load, 30s timer, `visibilitychange`, `focus`, `pageshow`) re-renders header/greeting, rituals, 30-day path, minutes, season and Today when the date changes, and the ritual/path tick handlers call it first and refuse to write if the day just rolled over, so a tick can never land on a different day than the one on screen. Anything new that shows "today's" state must be refreshed from `checkDay()`. Element ids must be unique (`#today` is the header date; the Today card is `#todayCard`).
+- **Which step does an action credit?** `pickStep(keys)`: the latest scheduled step that is already due and not done, else the next one (readings: `amBP`/`pmBP`; breathing: `amBr`/`pmBr`, or `bed` for 4-7-8). Never use a fixed hour cut-off. Tapping Start on a breathing step does not tick it; a session ticks it when it finishes or after 3+ minutes.
+- **Saves are never silent:** `store.set` returns false and toasts once a minute when localStorage refuses a write (full or blocked).
 - **Smarter reminders:** notification buttons "Done" / "In 1 hour" (Android/desktop only; iOS ignores action buttons). `markRem()` also tells the server (`pushDone`) so a reminder already done today is not sent (`rems.skip_until`, survives re-syncs because sync upserts). Snooze = one-off row (`once=1`, key `~`+k). "Done" from a closed app leaves a note in Cache `tenang-pending` that the app applies on open (`drainPending`).
 - **Web Push** (end of `index.html` + `push-server.js` + `sw.js` handlers): Settings has Turn on/off notifications. The client sends the push subscription, UTC offset and enabled reminders (title, calm body text, route) to `/api/push/sync` on enable, on every reminder edit and ~1.5s after each app open; the server stores each reminder's UTC minute and fires it from the cron. Server stores no readings or names. Endpoints are restricted to FCM, Mozilla, Apple and Windows push hosts. Offset is captured when the app is opened, so DST changes self-heal on the next open.
 - **PWA layer** (end of `index.html`): service worker registration, install card on Home (shown from the second visit, `beforeinstallprompt` on Android, Add-to-Home-Screen hint on iOS), `navigator.storage.persist()`, and Save/Restore backup in Settings (JSON of all `tenang:` keys, validated before restore). Navigations are network-first with a 4s fallback to the cached app, so updates arrive on the next open.

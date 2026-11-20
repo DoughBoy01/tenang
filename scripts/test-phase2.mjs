@@ -14,6 +14,7 @@ const ISO = (y, mo, d, h = 8, m = 0) => new Date(y, mo - 1, d, h, m).getTime(); 
 async function open(iso, seed = {}, { scheme = 'light', badge = false, path = '/#home' } = {}) {
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, timezoneId: 'Asia/Kuala_Lumpur', colorScheme: scheme });
   await ctx.addInitScript(([s, badge]) => {
+    localStorage.setItem('tenang:setup', '{"done":true}');
     for (const [k, v] of Object.entries(s)) localStorage.setItem('tenang:' + k, JSON.stringify(v));
     if (badge) { window.__badge = []; navigator.setAppBadge = n => { window.__badge.push(n); return Promise.resolve(); }; navigator.clearAppBadge = () => { window.__badge.push(0); return Promise.resolve(); }; }
   }, [seed, badge]);

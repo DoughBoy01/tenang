@@ -254,10 +254,10 @@ button{font:inherit;color:inherit}
 .tips{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:var(--ink-2)}
 
 /* Nav */
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
-.nav-in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
-.nav a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 2px 9px;text-decoration:none;color:var(--ink-2);font-size:11px;letter-spacing:.04em}
-.nav a svg{width:22px;height:22px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--surface) 97%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+.nav-in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:58px;padding:9px 2px 8px;text-decoration:none;color:var(--ink-2);font-size:12px;letter-spacing:.02em}
+.nav a svg{width:24px;height:24px}
 .nav a[aria-current="page"]{color:var(--moss)}
 .nav a[aria-current="page"] svg{stroke-width:2}
 .foot{font-size:12px;color:var(--ink-2);padding-top:6px;line-height:1.55}
@@ -309,11 +309,18 @@ button{font:inherit;color:inherit}
 .wk-stat{background:var(--paper);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
 .wk-stat b{font:500 22px var(--font-mono);font-variant-numeric:tabular-nums}
 .wk-stat span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
-.habits>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
-.habits>summary::-webkit-details-marker{display:none}
-.habits>summary .chev{width:18px;height:18px;flex:0 0 auto;transition:transform .3s var(--ease)}
-.habits[open]>summary .chev{transform:rotate(180deg)}
+.habits>summary,.you-sec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
+.habits>summary::-webkit-details-marker,.you-sec>summary::-webkit-details-marker{display:none}
+.habits>summary .chev,.you-sec>summary .chev{width:18px;height:18px;flex:0 0 auto;transition:transform .3s var(--ease)}
+.habits[open]>summary .chev,.you-sec[open]>summary .chev{transform:rotate(180deg)}
 #focusList .task{margin:0}
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pick button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 6px;border:1.5px solid var(--line);background:var(--surface);border-radius:var(--r);cursor:pointer;font:inherit;color:var(--ink);min-height:88px;text-align:center}
+.pick button b{font-family:var(--font-display);font-size:26px;font-weight:500;line-height:1}
+.pick button span{font-size:13px;line-height:1.25}
+.pick button[aria-pressed="true"]{border-color:var(--moss);background:var(--moss-soft)}
+.invite{border-color:var(--moss)}
+.youtoday .ins-txt{font-size:14px}
 .ql-res{display:flex;flex-direction:column;gap:12px}
 .ql-big{font:500 44px/1.1 var(--font-mono);letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .ql-big small{font-size:13px;color:var(--ink-2);letter-spacing:0}
@@ -647,6 +654,18 @@ a.btn{text-decoration:none;color:var(--ink)}
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
     </button>
 
+    <button class="panel med-link youtoday" id="youToday" type="button" hidden>
+      <span class="glyph g-moss" id="ytGlyph">私</span>
+      <span style="min-width:0"><span class="eyebrow" id="ytTitle" style="display:block"></span><span class="ins-txt" id="ytTip" style="display:block;margin-top:2px"></span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
+    <div class="panel inst invite" id="tailorPrompt" hidden>
+      <div class="inst-txt"><b>Make Tenang fit you</b><span class="hint">Tips, guides and questions for your doctor, for women or men. Optional, and you only set it once.</span></div>
+      <button class="btn btn-primary btn-sm" id="tpGo" type="button">Choose</button>
+      <button class="go" id="tpX" type="button">Not now</button>
+    </div>
+
     <div class="panel stack" id="focusPanel" hidden>
       <div class="path-head"><div class="eyebrow"><span class="kanji">道</span>Today’s focus</div><button class="link" id="focusDay" data-go="learn" style="font-size:12.5px"></button></div>
       <div id="focusList"></div>
@@ -693,6 +712,11 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div class="eyebrow"><span class="kanji">学</span>Learn</div>
       <h2 class="h-l">Understand your numbers, at your own pace.</h2>
     </div>
+    <button class="panel med-link" id="youCard" type="button">
+      <span class="glyph g-moss">私</span>
+      <span style="min-width:0"><span class="h-m" id="youCardT" style="font-family:var(--font-display);display:block">Make Tenang fit you</span><span class="hint" id="youCardS"></span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
     <div class="panel stack" id="pathPanel">
       <div class="path-head"><div class="eyebrow"><span class="kanji">道</span>30-day path</div><span class="example" id="pathDay">Day 1 of 30</span></div>
       <h3 class="h-m" id="pathWeek"></h3>
@@ -746,6 +770,23 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div class="full"><button class="btn btn-primary btn-sm" data-share="">Share with someone</button></div>
     </div>
     <p class="foot">Tenang supports, and never replaces, care from your doctor. Keep taking prescribed medication unless your doctor changes it.</p>
+  </section>
+
+  <!-- FOR YOU -->
+  <section class="view" id="v-you" data-view="you" hidden>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji">私</span>For you</div>
+      <h2 class="h-l" id="youTitle"></h2>
+      <p class="lede" id="youIntro"></p>
+    </div>
+    <div id="youBody" class="stack"></div>
+    <div class="panel stack" id="youQs">
+      <div class="eyebrow">Questions to ask your doctor</div>
+      <ul class="tips" id="youQList"></ul>
+      <div class="controls"><button class="btn btn-quiet btn-sm" id="youCopy" type="button">Copy the questions</button><button class="link" id="youChange" type="button" style="font-size:13px">Change who this is for</button></div>
+      <textarea class="fallback" id="youFallback" readonly hidden aria-label="Questions to copy"></textarea>
+    </div>
+    <p class="foot">General information drawn from published guidance, not medical advice. Talk to your doctor or pharmacist before changing anything about your medicines.</p>
   </section>
 
   <!-- BREATHE -->
@@ -890,7 +931,7 @@ a.btn{text-decoration:none;color:var(--ink)}
     </div>
     <div class="panel stack">
       <div class="eyebrow">For an accurate reading</div>
-      <ul class="tips">
+      <ul class="tips" id="logTips">
         <li>Skip caffeine, smoking and exercise for 30 minutes first.</li>
         <li>Sit quietly for 5 minutes, back supported, feet flat, legs uncrossed.</li>
         <li>Rest your arm on a table with the cuff at heart level, on bare skin.</li>
@@ -965,6 +1006,7 @@ a.btn{text-decoration:none;color:var(--ink)}
       <h2 class="h-l">Know what you take, and why.</h2>
       <p class="lede">Plain-language facts about the main families of blood pressure medicine, drawn from standard drug references. Many people need one alongside natural methods, and they work well together.</p>
     </div>
+    <div class="panel stack" id="medsNote" hidden><div class="eyebrow">For you</div><p class="ins-txt" id="medsNoteT"></p></div>
     <p class="note">General information only, not medical advice. The leaflet that comes with your medicine, your pharmacist and your doctor are the authority for you. Never stop, skip or change a dose without asking them first.</p>
     <input class="search" id="medQ" type="search" placeholder="Search a medicine, e.g. amlodipine" aria-label="Search medicines" autocomplete="off">
     <div class="chips" id="medJump" role="group" aria-label="Jump to a medicine family"></div>
@@ -1028,6 +1070,7 @@ a.btn{text-decoration:none;color:var(--ink)}
     </div>
     <div id="sumEx"></div>
     <article class="panel rep" id="report"></article>
+    <div class="panel stack" id="sumQsBox" hidden><div class="eyebrow">Suggested questions for your doctor</div><ul class="tips" id="sumQs"></ul></div>
     <div class="panel stack">
       <label class="eyebrow" for="sumNotes">Questions and notes for the visit</label>
       <textarea class="notes" id="sumNotes" placeholder="For example: dizzy when standing up in the morning. Should I take my pill at night instead?"></textarea>
@@ -1045,22 +1088,64 @@ a.btn{text-decoration:none;color:var(--ink)}
     <a href="#learn" data-nav="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2z"/><path d="M12 6v14"/></svg>Learn</a>
   </div>
 </nav>
+<div class="sheet-bg" id="profile" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="prTitle">
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-h"><h2 class="h-m" id="prTitle">Make Tenang fit you</h2><button class="go" id="prX" type="button">Close</button></div>
+    <p class="hint">Optional. Blood pressure categories are the same for everyone. This only changes the tips, guides and questions for your doctor that we show. You can change or turn it off at any time, and every guide stays in Learn.</p>
+    <div class="stack"><div class="eyebrow">Which fits you best?</div>
+      <div class="moods" id="prSex" role="group" aria-label="Tailoring">
+        <button type="button" class="chip" data-sex="female" aria-pressed="false">Female</button>
+        <button type="button" class="chip" data-sex="male" aria-pressed="false">Male</button>
+        <button type="button" class="chip" data-sex="general" aria-pressed="false">Not tailored</button>
+      </div></div>
+    <div class="stack" id="prStageBox" hidden><div class="eyebrow">Where are you in life?</div>
+      <div class="moods" id="prStage" role="group" aria-label="Life stage">
+        <button type="button" class="chip" data-stage="regular" aria-pressed="false">Periods are regular</button>
+        <button type="button" class="chip" data-stage="peri" aria-pressed="false">Perimenopause (periods changing)</button>
+        <button type="button" class="chip" data-stage="post" aria-pressed="false">After menopause (a year without a period)</button>
+        <button type="button" class="chip" data-stage="preg" aria-pressed="false">Pregnant or recently pregnant</button>
+        <button type="button" class="chip" data-stage="none" aria-pressed="false">Prefer not to say</button>
+      </div></div>
+    <button class="btn btn-primary wide" id="prSave" type="button">Save</button>
+    <p class="hint">Based on published guidance (AHA/ACC, NAMS, FDA and others). Information only; it does not replace your doctor.</p>
+  </div>
+</div>
 <div class="sheet-bg" id="setup" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="suTitle">
     <div class="sheet-h"><h2 class="h-m" id="suTitle">Welcome to Tenang</h2><button class="go" id="suSkip" type="button">Skip</button></div>
-    <p class="lede" style="font-size:14px">A calm daily check-in for your blood pressure. Two quick choices and you’re set.</p>
-    <div class="stack" style="gap:2px">
-      <div class="eyebrow">When do you like to check in?</div>
-      <div class="rem-row" style="grid-template-columns:1fr auto"><label for="suAm">Morning</label><input type="time" id="suAm" value="07:00"></div>
-      <div class="rem-row" style="grid-template-columns:1fr auto"><label for="suPm">Evening</label><input type="time" id="suPm" value="20:30"></div>
-      <p class="hint" style="margin-top:6px">Morning is for your reading and a few slow breaths. Evening is to wind down. Change this any time with the bell.</p>
+    <div id="suStep1" class="stack" style="gap:14px">
+      <p class="lede" style="font-size:14px"><b>Who is Tenang for?</b> Blood pressure categories are the same for everyone. Telling us helps us show tips and guides that fit your life, such as menopause for women, or sleep and medicines for men. It is optional, and you can change it any time.</p>
+      <div class="pick" id="suSex" role="group" aria-label="Who is Tenang for">
+        <button type="button" data-sex="female" aria-pressed="false"><b>女</b><span>Female</span></button>
+        <button type="button" data-sex="male" aria-pressed="false"><b>男</b><span>Male</span></button>
+        <button type="button" data-sex="general" aria-pressed="false"><b>・</b><span>Prefer not to say</span></button>
+      </div>
+      <div class="stack" id="suStageBox" hidden><div class="eyebrow">Where are you in life?</div>
+        <div class="moods" id="suStage" role="group" aria-label="Life stage">
+          <button type="button" class="chip" data-stage="regular" aria-pressed="false">Periods are regular</button>
+          <button type="button" class="chip" data-stage="peri" aria-pressed="false">Perimenopause (periods changing)</button>
+          <button type="button" class="chip" data-stage="post" aria-pressed="false">After menopause (a year without a period)</button>
+          <button type="button" class="chip" data-stage="preg" aria-pressed="false">Pregnant or recently pregnant</button>
+          <button type="button" class="chip" data-stage="none" aria-pressed="false">Prefer not to say</button>
+        </div></div>
+      <button class="btn btn-primary wide" id="suNext" type="button">Next</button>
     </div>
-    <div class="stack" style="gap:6px">
-      <div class="eyebrow">Reminders</div>
-      <p class="hint" id="suNote"></p>
-      <div><button class="btn btn-quiet btn-sm" id="suBell" type="button" hidden>Turn on reminders</button></div>
+    <div id="suStep2" class="stack" style="gap:14px" hidden>
+      <p class="lede" style="font-size:14px">A calm daily check-in for your blood pressure. One last choice and you’re set.</p>
+      <div class="stack" style="gap:2px">
+        <div class="eyebrow">When do you like to check in?</div>
+        <div class="rem-row" style="grid-template-columns:1fr auto"><label for="suAm">Morning</label><input type="time" id="suAm" value="07:00"></div>
+        <div class="rem-row" style="grid-template-columns:1fr auto"><label for="suPm">Evening</label><input type="time" id="suPm" value="20:30"></div>
+        <p class="hint" style="margin-top:6px">Morning is for your reading and a few slow breaths. Evening is to wind down. Change this any time with the bell.</p>
+      </div>
+      <div class="stack" style="gap:6px">
+        <div class="eyebrow">Reminders</div>
+        <p class="hint" id="suNote"></p>
+        <div><button class="btn btn-quiet btn-sm" id="suBell" type="button" hidden>Turn on reminders</button></div>
+      </div>
+      <button class="btn btn-primary wide" id="suGo" type="button">Start</button>
     </div>
-    <button class="btn btn-primary wide" id="suGo" type="button">Start</button>
     <p class="hint">Your readings stay on this phone. Tenang gives general information and does not replace your doctor.</p>
   </div>
 </div>
@@ -1105,6 +1190,11 @@ a.btn{text-decoration:none;color:var(--ink)}
       <p class="hint" style="margin-top:8px">Reminders appear on the home screen while Tenang is open, and tick themselves off when you log a reading or finish a session. For alerts when the app is closed, copy the schedule into your phone's reminders or calendar.</p>
       <div style="margin-top:8px"><button class="btn btn-quiet btn-sm" id="copyRem">Copy schedule</button></div>
       <textarea class="fallback" id="remFallback" readonly hidden aria-label="Schedule text to copy" style="min-height:120px;margin-top:8px"></textarea>
+    </div>
+    <div class="stack" style="gap:6px">
+      <div class="eyebrow"><span class="kanji">私</span>Tailor Tenang</div>
+      <p class="hint" id="tailorHint"></p>
+      <div><button class="btn btn-quiet btn-sm" id="tailorBtn" type="button">Choose</button></div>
     </div>
     <div class="stack" style="gap:6px" id="pushSet">
       <div class="eyebrow"><span class="kanji">響</span>Phone notifications</div>
@@ -1219,10 +1309,97 @@ function runMigrations(ls,migs=MIGRATIONS,now=Date.now()){
 }
 /* @data-safety:end */
 let DS_RES={};try{const q=dsQuarantine(localStorage);DS_RES=runMigrations(localStorage);DS_RES.quarantined=q;dsExpire(localStorage)}catch(e){}
+/* @profiles:start  (pure content; scripts/test-profiles.mjs runs this exact block and fails on unsafe claims) */
+// Tailored guidance for women and men. Every statement traces to docs/research/sex-specific-bp.md.
+// Hard rules: no sex-specific BP thresholds (pregnancy hands off to the care team); nothing says breathing treats hot flushes;
+// no recommendation for or against any medicine, hormone or contraceptive; never "stop/switch" a medicine: "talk to your doctor or pharmacist".
+const PSRC={
+  aha2020:'AHA scientific statement on the menopause transition and cardiovascular risk, 2020',
+  aha2025:'AHA/ACC high blood pressure guideline, 2025',
+  nams2023:'NAMS nonhormone therapy position statement, 2023',
+  nams2022:'NAMS hormone therapy position statement, 2022',
+  cdc2024:'CDC/NCHS hypertension data brief, 2024',
+  ahapreg:'AHA statement on hypertension in pregnancy, 2021',
+  ahapost:'AHA statement on the postpartum period and cardiovascular risk, 2024',
+  ukmec:'UK Medical Eligibility Criteria for contraception (UK guidance: check local guidance)',
+  fdaras:'FDA labelling for ACE inhibitors and ARBs (fetal toxicity boxed warning)',
+  fdatest:'FDA class-wide testosterone labelling update, Feb 2025',
+  edrev:'Reviews of blood pressure medicines and erectile dysfunction',
+  aware:'Hypertension journal study of awareness and treatment in younger adults, by sex',
+  osa:'Studies of sleep apnoea in resistant hypertension',
+  vms:'Midlife studies of hot flushes, blood pressure and heart rate (e.g. Sleep 2019; SWAN analyses)'
+};
+const PSEC={
+  midlife:{h:'Blood pressure and the menopause years',p:['Blood pressure tends to rise with age in everyone. The years around menopause are a sensible time to check more regularly and to look after your weight, sleep, salt and movement.','Studies suggest that healthy habits during the menopause transition can help keep weight and blood pressure in check.'],src:['aha2020']},
+  flush:{h:'Hot flushes and night sweats',p:['Hot flushes are very common and can disturb sleep and mood. Research on whether they affect blood pressure is mixed, but frequent or long-lasting flushes are linked with higher heart-health risk later on, so they are worth mentioning to a clinician.','Slow breathing can help you feel calmer and is a good blood pressure habit. It has not been shown to reduce hot flushes themselves. Cognitive behavioural therapy and clinical hypnosis have good evidence for flushes, and there are other options. A clinician can talk them through with you.','You can add a "Hot flush" note to a reading, so patterns show up in your own numbers.'],src:['nams2023','aha2020']},
+  ht:{h:'Menopause hormone therapy',p:['Hormone therapy is a personal decision. Guidance describes it as a way to relieve symptoms, not as a way to protect the heart, and the balance of benefits and risks depends on your age, how long since menopause, and your health.','If you are thinking about it, take your blood pressure readings with you and talk it through with a clinician.'],src:['nams2022']},
+  pregHistory:{h:'If you had high blood pressure in pregnancy',p:['High blood pressure or preeclampsia during pregnancy is linked with a higher chance of high blood pressure later in life, often years afterwards. It is a good reason to keep checking regularly.','Tell every doctor about it.'],src:['ahapost']},
+  contra:{h:'Hormonal contraception',p:['Some hormonal contraception can raise blood pressure a little. Have your blood pressure checked before starting a method and regularly afterwards. If yours is high, ask your doctor or nurse which methods suit you. Please do not stop a method without a plan.'],src:['ukmec']},
+  planning:{h:'Planning a pregnancy',p:['If you take a blood pressure medicine and are planning a pregnancy or could become pregnant, talk to your doctor before you conceive. Some blood pressure medicines are not safe in pregnancy. Please do not stop any medicine on your own.'],src:['fdaras','ahapreg']},
+  preg:{h:'Pregnancy and blood pressure',p:['Tenang is not a pregnancy blood pressure monitor, and its categories do not apply in pregnancy.','Share every reading with your midwife or doctor. If a reading is 140/90 or higher, or you have a severe headache, changes in your vision, pain under your ribs or sudden swelling, contact your maternity care team the same day.','If you take a blood pressure medicine, ask your care team about it. Some are not safe in pregnancy. Please do not stop any medicine on your own.','After the birth, blood pressure can stay high or rise. Follow the plan your care team gives you.'],src:['ahapreg','fdaras','ahapost']},
+  alcF:{h:'Alcohol',p:['The guideline advice is to avoid alcohol if you can, and if you drink, to keep to no more than one drink a day for women. Less is better. One drink is about a small glass of wine (150 ml), a bottle of beer (350 ml) or a single shot of spirits.'],src:['aha2025']},
+  alcM:{h:'Alcohol',p:['The guideline advice is to avoid alcohol if you can, and if you drink, to keep to no more than two drinks a day for men. Less is better. One drink is about a small glass of wine (150 ml), a bottle of beer (350 ml) or a single shot of spirits.'],src:['aha2025']},
+  sleep:{h:'Snoring and sleep',p:['Loud snoring, pauses in your breathing at night or heavy daytime sleepiness can be signs of sleep apnoea, which is common in people with high blood pressure. Ask a doctor about a sleep test.'],src:['osa']},
+  aware:{h:'Why checking matters',p:['High blood pressure usually has no symptoms. Men tend to develop it earlier than women, and younger men are less likely to know they have it, partly because they see doctors less often. A quick check at home is the whole point.'],src:['aware','cdc2024']},
+  ed:{h:'Erections and blood pressure',p:['Erection problems are common in men with high blood pressure and are often tied to the health of the blood vessels. They are worth mentioning to a doctor.','For some men a blood pressure medicine plays a part, but the evidence differs from one medicine to another. Please do not stop your medicine. Ask your doctor or pharmacist what the options are; there are often alternatives.'],src:['edrev']},
+  testo:{h:'If you use testosterone',p:['Regulators now warn that testosterone products can raise blood pressure. If you use one, check your blood pressure regularly and tell the prescriber about your readings.'],src:['fdatest']}
+};
+const PTIP={
+  midlife:{t:'Blood pressure tends to rise with age in everyone. The menopause years are a sensible time to check regularly.',src:['aha2020']},
+  flushNote:{t:'Had a hot flush? Add a "Hot flush" note to your reading, so patterns show up in your own numbers.',src:['vms']},
+  flushCalm:{t:'Slow breathing helps you feel calmer, but it has not been shown to reduce hot flushes. A clinician can talk through options that have.',src:['nams2023']},
+  flushMeasure:{t:'After a hot flush, or waking up sweating, wait until you feel settled before you measure.',src:['vms']},
+  pregHistory:{t:'High blood pressure in a past pregnancy is worth telling every doctor about. It is a good reason to keep checking regularly.',src:['ahapost']},
+  alcF:{t:'If you drink, the guideline limit is no more than one drink a day for women. Less is better.',src:['aha2025']},
+  alcM:{t:'If you drink, the guideline limit is no more than two drinks a day for men. Less is better.',src:['aha2025']},
+  contra:{t:'Some hormonal contraception can raise blood pressure a little, so have yours checked by a doctor or nurse before starting and regularly after.',src:['ukmec']},
+  planning:{t:'Thinking about a pregnancy? If you take a blood pressure medicine, talk to your doctor before you conceive.',src:['fdaras','ahapreg']},
+  aware:{t:'High blood pressure usually has no symptoms, so a quick check at home is the whole point.',src:['aware']},
+  sleepT:{t:'Loud snoring, pauses in your breathing or heavy daytime sleepiness are worth asking a doctor about.',src:['osa']},
+  ed:{t:'Erection problems are common with high blood pressure and worth mentioning to a doctor. Please do not stop a medicine on your own.',src:['edrev']},
+  testo:{t:'If you use testosterone, check your blood pressure regularly and tell the prescriber about your readings.',src:['fdatest']},
+  preg:{t:'Share every reading with your midwife or doctor. If a reading is 140/90 or higher, or you have a severe headache, changes in your vision, pain under your ribs or sudden swelling, contact your maternity care team the same day.',src:['ahapreg']}
+};
+// One tip a day, steady within the day, rotating through the list.
+function profileTip(g,dayStr){
+  if(!g||!g.tips||!g.tips.length)return null;
+  let h=0;for(const c of String(dayStr))h=(h*31+c.charCodeAt(0))>>>0;
+  return g.tips[h%g.tips.length];
+}
+function profileGuide(p){
+  const sex=p&&(p.sex==='female'||p.sex==='male')?p.sex:'general',st=p&&p.stage||'none';
+  const G={sex,stage:st,title:'',intro:'',sections:[],questions:[],tags:['sleep','salt','stress','move','coffee','alcohol'],tip:'',medNote:'',pregnant:false,moodFlush:false,tips:[]};
+  const tips=ids=>{G.tips=ids.map(id=>({id,...PTIP[id]}))};
+  const add=ids=>{G.sections=ids.map(id=>({id,...PSEC[id]}))};
+  if(sex==='female'){
+    const mid=st==='peri'||st==='post',pg=st==='preg';
+    G.pregnant=pg;G.moodFlush=!pg&&st!=='regular';
+    G.title=mid?'Midlife and menopause':pg?'Pregnancy and blood pressure':"Women's blood pressure";
+    G.intro='Blood pressure categories are the same for women and men. What differs is when it tends to rise and what can affect it along the way. Men tend to develop high blood pressure earlier, and in women the rates rise through midlife and are higher in older age.';
+    if(pg){add(['preg']);tips(['preg']);G.questions=['What blood pressure should I report to you, and when should I call you?','Should I take low-dose aspirin?','How will my blood pressure be followed after the birth?']}
+    else if(mid){add(['midlife','flush','ht','pregHistory','alcF','sleep']);tips(['midlife','flushNote','flushCalm','flushMeasure','pregHistory','alcF']);G.tags.push('flush');G.tip='After a hot flush, or waking up sweating, wait until you feel settled before you measure.';
+      G.medNote='If you take hormone therapy or hormonal contraception, mention it to anyone who reviews your blood pressure or your medicines.';
+      G.questions=['I have hot flushes or night sweats. Could they, or their treatment, affect my blood pressure?','What are my options for symptoms, including ones without medicine?','Is hormone therapy suitable for me, given my blood pressure?','Did my pregnancy history, if I had high blood pressure then, change how often I should be checked?']}
+    else if(st==='regular'){add(['contra','planning','pregHistory','alcF','sleep']);tips(['contra','planning','pregHistory','alcF']);G.medNote=PSEC.planning.p[0];
+      G.questions=['Which contraception options suit me, given my blood pressure?','If I plan a pregnancy, should anything change in my plan or my medicines?','I had high blood pressure in a pregnancy. What follow-up do I need?']}
+    else{add(['midlife','pregHistory','contra','planning','alcF','sleep']);tips(['midlife','flushNote','pregHistory','contra','planning','alcF']);G.tags.push('flush');G.medNote=PSEC.planning.p[0];
+      G.questions=['Which contraception options suit me, given my blood pressure?','If I plan a pregnancy, should anything change in my medicines?','If I had high blood pressure in a pregnancy, what follow-up do I need?']}
+  }else if(sex==='male'){
+    G.title="Men's blood pressure";
+    G.intro='Blood pressure categories are the same for men and women. Men tend to develop high blood pressure earlier, and are less likely to know about it, so a regular check is a quiet habit worth having.';
+    add(['aware','ed','sleep','alcM','testo']);tips(['aware','sleepT','alcM','ed','testo']);G.tip='Measure before coffee or alcohol, at the same time each day.';
+    G.medNote='Some men notice changes in erections or energy on a blood pressure medicine. Please do not stop it: ask your doctor or pharmacist about options. If you use testosterone, tell the prescriber about your blood pressure readings.';
+    G.questions=['Could sleep apnoea be involved? Should I have a sleep test?','Do my medicines affect erections or energy? Are there alternatives?','If I use testosterone, how should we keep an eye on my blood pressure?','How much alcohol is sensible for me?'];
+  }
+  return G;
+}
+/* @profiles:end */
+let PROFILE=null; // {sex:'female'|'male'|'general', stage?} set in Settings; additive key tenang:profile
 const store={get(k,d){try{const v=localStorage.getItem('tenang:'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tenang:'+k,JSON.stringify(v));return true}catch(e){if(typeof toast==='function'&&Date.now()-(store._w||0)>60000){store._w=Date.now();toast("Couldn\u2019t save that. Your phone\u2019s storage may be full or blocked.")}return false}}};
 const dayKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('on'),2200)};
 
+PROFILE=store.get('profile',null);
 /* header: date and greeting, refreshed whenever the day or the hour changes */
 function renderHeader(){
   const n=new Date(),h=n.getHours();
@@ -1235,24 +1412,26 @@ renderHeader();
 let curDay=dayKey();
 function checkDay(){
   const k=dayKey();if(k===curDay)return false;
-  curDay=k;renderHeader();renderRituals();renderPath();renderMinutes();applySeason();renderNext();renderInsights();return true;
+  curDay=k;renderHeader();if(typeof applyProfile==='function')applyProfile();renderRituals();renderPath();renderMinutes();applySeason();renderNext();renderInsights();return true;
 }
 window.addEventListener('pageshow',()=>checkDay());window.addEventListener('focus',()=>checkDay());
 
 /* ---------- routing ---------- */
-const views=['home','breathe','reset','log','learn','summary','meds','numbers'];
+const views=['home','breathe','reset','log','learn','you','summary','meds','numbers'];
 function route(){
   if(location.hash==='#qlog'||location.hash==='#calmnow'){const h=location.hash;history.replaceState(null,'',location.pathname+location.search+'#home');setTimeout(()=>{if(h==='#qlog')openQLog({});else $('#panicBtn').click()},60)} // home-screen shortcuts
   let v=(location.hash||'#home').slice(1);
   if(v==='rituals'){history.replaceState(null,'',location.pathname+location.search+'#home');v='home';setTimeout(()=>{const h=$('#habits');h.open=true;h.scrollIntoView({behavior:'smooth',block:'start'})},120)} // old link: habits now live on Today
+  if(v==='you'&&profileGuide(PROFILE).sex==='general'){history.replaceState(null,'',location.pathname+location.search+'#learn');v='learn';setTimeout(()=>openProfile(),150)} // nothing to show until someone chooses
   if(!views.includes(v)) v='home';
   $$('.view').forEach(s=>s.hidden=s.dataset.view!==v);
   const cv=$('#v-'+v);if(cv){[...cv.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,8)));cv.dataset.dir=window._swipeDir||'';window._swipeDir='';replay(cv,'enter')}
   requestAnimationFrame(()=>$$('.snap').forEach(s=>s._upd&&s._upd()));
-  const nv=v==='summary'?'log':v==='numbers'||v==='meds'?'learn':v==='reset'?'breathe':v;
+  const nv=v==='summary'?'log':v==='numbers'||v==='meds'||v==='you'?'learn':v==='reset'?'breathe':v;
   if(v==='numbers')bpEnter();
   $$('[data-nav]').forEach(a=>a.dataset.nav===nv?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   if(v==='summary'&&typeof renderSummary==='function')renderSummary();
+  if(v==='you')renderYou();
   window.scrollTo(0,0);
   if(v!=='breathe' && B.running) pause();
 }
@@ -1578,7 +1757,9 @@ const MOODS={
   tense:{l:'Tense body',t:'Progressive relaxation',d:'Tense and release each muscle group, from your feet up to your face.',go:'reset',open:'Progressive relaxation'},
   calm:{l:'Calm',t:'A good moment to measure',d:'Calm, seated readings are the most accurate. Take one, then keep the feeling with 5 minutes of resonance breathing.',go:'log'}
 };
-$('#moods').innerHTML=Object.entries(MOODS).map(([k,m])=>`<button class="chip" data-mood="${k}" aria-pressed="false">${m.l}</button>`).join('');
+MOODS.flush={l:'Hot flush',t:'Cool, slow breaths',d:'Slow breathing helps you feel calmer. It has not been shown to stop hot flushes, but a calmer body is a kinder place to ride one out. If flushes are frequent, a clinician can talk through the options.',go:'breathe',p:'exhale',min:3};
+function renderMoods(){const sel=($('#moods .chip[aria-pressed="true"]')||{}).dataset;$('#moods').innerHTML=Object.entries(MOODS).filter(([k])=>k!=='flush'||profileGuide(PROFILE).moodFlush).map(([k,m])=>`<button class="chip" data-mood="${k}" aria-pressed="${!!sel&&sel.mood===k}">${m.l}</button>`).join('')}
+renderMoods();
 $('#moods').addEventListener('click',e=>{const b=e.target.closest('[data-mood]');if(!b)return;$$('#moods .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));const m=MOODS[b.dataset.mood],s=$('#suggest');s.hidden=false;
   s.innerHTML=`<span class="tag">Try this</span><span class="h-m" style="font-family:var(--font-display)">${m.t}</span><p style="font-size:14px;color:var(--ink-2)">${m.d}</p><div><button class="btn btn-primary btn-sm" id="moodGo">${m.panic?'Start calm-now':'Start'}</button></div>`;
   $('#moodGo').addEventListener('click',()=>runMood(m));replay(s,'swap')});
@@ -1713,7 +1894,7 @@ let lastDue=null;
 /* @insights:start  (pure functions; scripts/test-insights.mjs runs this exact block) */
 // Plain statements about the user's own numbers. Never advice, never causal claims, never a verdict:
 // hedged wording, minimum sample sizes, and both directions are reported honestly.
-const INS_TAGS={sleep:'Slept badly',salt:'Salty food',stress:'Stressed',move:'Exercised',coffee:'Coffee'};
+const INS_TAGS={sleep:'Slept badly',salt:'Salty food',stress:'Stressed',move:'Exercised',coffee:'Coffee',alcohol:'Alcohol',flush:'Hot flush'};
 const insPad=n=>String(n).padStart(2,'0');
 const insKey=t=>{const d=new Date(t);return d.getFullYear()+'-'+insPad(d.getMonth()+1)+'-'+insPad(d.getDate())};
 const insMean=a=>a.reduce((x,y)=>x+y,0)/a.length;
@@ -1916,6 +2097,7 @@ function buildSumText(){
   if(S.P.length)L.push(`  Before/after breathing session: average change ${sg(S.pds)}/${sg(S.pdd)} mmHg over ${S.P.length} sessions`);
   L.push(`  30-day lifestyle program: day ${S.pd}, ${S.pathDone} days fully completed`);
   if(S.R.some(r=>r.ex))L.push('','NOTE: includes example readings, not real data.');
+  {const qs=profGuide().questions;if(qs.length)L.push('','Questions I would like to ask:',...qs.map(q=>'  - '+q))}
   if(notes)L.push('','Questions and notes:',notes);
   sumText=L.join('\n');
 }
@@ -2207,7 +2389,7 @@ function openQLog(o={}){
   QL.k=o.k||null;
   $('#qlS').value=last?last.s:'';$('#qlD').value=last?last.d:'';$('#qlP').value=last&&last.p?last.p:'';
   $('#qlCtx').value=o.ctx||(new Date().getHours()<12?'Morning, before meds':'Evening');
-  $$('#qlTags .chip').forEach(c=>c.setAttribute('aria-pressed','false'));
+  renderTagChips();
   $('#qlForm').hidden=false;$('#qlResult').hidden=true;$('#qlMsg').textContent='';$('#qlTitle').textContent='Log a reading';
   $('#qlog').hidden=false;document.body.style.overflow='hidden';$('#qlX').focus({preventScroll:true});
 }
@@ -2233,13 +2415,15 @@ function qlSave(){
   readings.push({s,d,p,t:Date.now(),c:$('#qlCtx').value,...(g.length?{g}:{})});save();renderLog();
   const k=QL.k&&REM.some(r=>r.k===QL.k&&r.go==='log')?QL.k:(pickStep(['amBP','pmBP'])||{}).k;
   if(k)markRem(k,true);renderToday();
-  const[c,cl]=cat(s,d),mean=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length);
+  const preg=profileGuide(PROFILE).pregnant;
+  let[c,cl]=cat(s,d);const mean=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length);
   let line;
   if(!prior.length)line='First reading saved. Measure at the same times each day so the trend means something.';
   else{const as=mean(prior.map(r=>r.s)),ad=mean(prior.map(r=>r.d)),df=s-as;
     line=df<=-3?`${-df} lower on top than your recent average of ${as}/${ad}. A good sign.`:df>=3?`${df} higher on top than your recent average of ${as}/${ad}. One reading is a moment; the trend is the story.`:`Right in line with your recent average of ${as}/${ad}.`}
   let tip='',btns='<button class="btn btn-primary wide" data-ql-close type="button">Done</button>';
-  if(s>180||d>120)tip='<div class="banner crisis"><b>This reading is in the severe range.</b><span>Rest quietly for 5 minutes and measure again. If it is still above 180/120, contact your doctor today.</span><span><b>Call emergency services now</b> if you also have chest pain, shortness of breath, back pain, numbness or weakness, vision changes, or difficulty speaking.</span></div>';
+  if(preg&&!(s>180||d>120)){c='Share with your care team';cl='';tip='<p class="hint"><b>Pregnancy has its own blood pressure guidance.</b> Share every reading with your midwife or doctor. If it is 140/90 or higher, or you have a severe headache, changes in your vision, pain under your ribs or sudden swelling, contact your maternity care team the same day.</p>'}
+  else if(s>180||d>120)tip='<div class="banner crisis"><b>This reading is in the severe range.</b><span>Rest quietly for 5 minutes and measure again. If it is still above 180/120, contact your doctor today.</span><span><b>Call emergency services now</b> if you also have chest pain, shortness of breath, back pain, numbness or weakness, vision changes, or difficulty speaking.</span></div>';
   else if(c==='Stage 2')tip='<p class="hint">This is in the higher range. Rest quietly for five minutes and measure once more. If readings stay this high across days, bring your log to your doctor.</p>';
   else if(c==='Normal')tip='<p class="hint">Looks calm. See you at your next check-in.</p>';
   else{tip='<p class="hint">A few slow breaths can help settle things. A short session now is a good way to wind down.</p>';btns='<button class="btn btn-primary wide" data-go="breathe" data-pattern="resonance" data-ql-close type="button">Breathe for a few minutes</button><button class="btn btn-ghost wide" data-ql-close type="button">Not now</button>'}
@@ -2248,7 +2432,8 @@ function qlSave(){
   $('#qlResult').innerHTML=`<div class="ql-big">${s}/${d}<small>mmHg${p?' · '+p+' bpm':''}</small></div><span class="pill ${cl}">${c}</span><p style="font-size:14.5px">${line}</p>${vals.length>1?spark(vals):''}${tip}<div class="stack" style="gap:8px">${btns}</div>`;
   $('#qlResult').hidden=false;
 }
-$('#qlTags').innerHTML=Object.entries(INS_TAGS).map(([k,l])=>`<button type="button" class="chip" data-tag="${k}" aria-pressed="false">${l}</button>`).join('');
+function renderTagChips(){$('#qlTags').innerHTML=profileGuide(PROFILE).tags.map(k=>`<button type="button" class="chip" data-tag="${k}" aria-pressed="false">${INS_TAGS[k]}</button>`).join('')}
+renderTagChips();
 $('#qlTags').addEventListener('click',e=>{const b=e.target.closest('[data-tag]');if(b)b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
 $('#qlSave').addEventListener('click',qlSave);
 document.addEventListener('click',e=>{if(e.target.closest('[data-ql]'))openQLog({})});
@@ -2368,6 +2553,60 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkDay(
   setTimeout(check,3000);
   try{if(sessionStorage.getItem('tenang-updated')){sessionStorage.removeItem('tenang-updated');setTimeout(()=>toast('You have the latest version'),1200)}}catch(e){}
 })();
+/* ---------- tailoring: women's and men's guidance ---------- */
+const profGuide=()=>profileGuide(PROFILE);
+const FSTAGE={regular:'periods are regular',peri:'perimenopause',post:'after menopause',preg:'pregnant or recently pregnant',none:''};
+function applyProfile(){
+  const g=profGuide(),on=g.sex!=='general';
+  $('#youCardT').textContent=on?g.title:'Make Tenang fit you';
+  $('#youCardS').textContent=on?'Guides and questions for your doctor.':'Optional. Tips and guides for women or men.';
+  $('#tailorHint').textContent=on?'Tailored for '+(g.sex==='female'?'women':'men')+(g.sex==='female'&&FSTAGE[g.stage]?' ('+FSTAGE[g.stage]+')':'')+'. You can change or turn this off.':'Not tailored. Optional: add tips and questions for your doctor, for women or men.';
+  renderMoods();
+  const mn=$('#medsNote');mn.hidden=!g.medNote;if(g.medNote)$('#medsNoteT').textContent=g.medNote;
+  let li=$('#tipProfile');if(!li){li=document.createElement('li');li.id='tipProfile';$('#logTips').appendChild(li)}li.hidden=!g.tip;li.textContent=g.tip;
+  $('#sumQsBox').hidden=!g.questions.length;$('#sumQs').innerHTML=g.questions.map(q=>`<li>${eh(q)}</li>`).join('');
+  const tip=on?profileTip(g,dayKey()):null,yt=$('#youToday');yt.hidden=!tip;
+  if(tip){$('#ytGlyph').textContent=g.sex==='female'?'\u5973':'\u7537';$('#ytTitle').textContent=g.title;$('#ytTip').textContent=tip.t}
+  $('#tailorPrompt').hidden=!(!PROFILE&&store.get('visits',0)>=2&&!store.get('tailorDismiss',false));
+  if(!$('#v-you').hidden)renderYou();
+  if(typeof buildSumText==='function')buildSumText();
+}
+function renderYou(){
+  const g=profGuide(),src=ids=>ids.map(i=>PSRC[i]).join('; ');
+  $('#youTitle').textContent=g.title;$('#youIntro').textContent=g.intro;
+  $('#youBody').innerHTML=g.sections.map((x,i)=>`<details class="panel you-sec"${i===0?' open':''}><summary><span class="h-m" style="font-family:var(--font-display)">${eh(x.h)}</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>${x.p.map(t=>`<p class="ins-txt" style="margin-top:8px">${eh(t)}</p>`).join('')}<p class="hint" style="margin-top:8px">Sources: ${eh(src(x.src))}.</p></details>`).join('');
+  $('#youQs').hidden=!g.questions.length;$('#youQList').innerHTML=g.questions.map(q=>`<li>${eh(q)}</li>`).join('');
+}
+let prDraft={sex:'general',stage:''};
+function paintProfile(){
+  $$('#prSex .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.sex===prDraft.sex));
+  $('#prStageBox').hidden=prDraft.sex!=='female';
+  $$('#prStage .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.stage===prDraft.stage));
+}
+function openProfile(){
+  prDraft={sex:PROFILE&&PROFILE.sex||'general',stage:PROFILE&&PROFILE.stage||''};paintProfile();
+  $('#profile').hidden=false;document.body.style.overflow='hidden';$('#prX').focus({preventScroll:true});
+}
+function closeProfile(){$('#profile').hidden=true;document.body.style.overflow=''}
+$('#prSex').addEventListener('click',e=>{const b=e.target.closest('[data-sex]');if(!b)return;prDraft.sex=b.dataset.sex;paintProfile()});
+$('#prStage').addEventListener('click',e=>{const b=e.target.closest('[data-stage]');if(!b)return;prDraft.stage=b.dataset.stage;paintProfile()});
+function commitProfile(d){PROFILE=d.sex==='general'?{sex:'general',at:Date.now()}:{sex:d.sex,...(d.sex==='female'?{stage:d.stage||'none'}:{}),at:Date.now()};store.set('profile',PROFILE);applyProfile()}
+$('#prSave').addEventListener('click',()=>{
+  commitProfile(prDraft);closeProfile();
+  toast(PROFILE.sex==='general'?'Tenang is not tailored':'Tenang is tailored for you');
+  if(PROFILE.sex!=='general')location.hash='#you';
+});
+$('#prX').addEventListener('click',closeProfile);
+$('#profile').addEventListener('click',e=>{if(e.target.id==='profile')closeProfile()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#profile').hidden)closeProfile()});
+$('#youCard').addEventListener('click',()=>{if(profGuide().sex==='general')openProfile();else location.hash='#you'});
+$('#youChange').addEventListener('click',openProfile);
+$('#youToday').addEventListener('click',()=>{location.hash='#you'});
+$('#tailorBtn').addEventListener('click',()=>{closeSheet();openProfile()});
+$('#tpGo').addEventListener('click',openProfile);
+$('#tpX').addEventListener('click',()=>{store.set('tailorDismiss',true);applyProfile()});
+$('#youCopy').addEventListener('click',()=>{const g=profGuide();copyText('Questions for my doctor\n'+g.questions.map(q=>'- '+q).join('\n'),'#youFallback')});
+
 /* ---------- Web Push reminders ---------- */
 (function(){
   const supported='serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window&&/^https?:$/.test(location.protocol);
@@ -2443,9 +2682,9 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkDay(
   render();
   window.addEventListener('load',()=>setTimeout(sync,1500));
 })();
-/* ---------- first run: two choices, then done ---------- */
+/* ---------- first run: who it is for, then your day ---------- */
 (function(){
-  const sh=$('#setup');
+  const sh=$('#setup');let d={sex:'',stage:''};
   const addM=(t,m)=>{const x=((+t.slice(0,2)*60+ +t.slice(3,5)+m)%1440+1440)%1440;return String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0')};
   // Only for someone who has never used the app. Anyone with readings or activity is an existing user: never interrupt them.
   function isNew(){
@@ -2458,7 +2697,13 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkDay(
     b.hidden=!st.can||st.on;b.disabled=false;
     n.textContent=st.on?'Reminders are on. Tenang will nudge you at these times, even when the app is closed.':st.needsInstall?'On iPhone, add Tenang to your Home Screen first (Share, then Add to Home Screen) and you can turn on reminders from Settings.':st.denied?'Notifications are blocked for Tenang. You can allow them in your phone settings later.':st.can?'Get a gentle nudge at these times, even when the app is closed.':'Reminders will appear on the home screen while Tenang is open.';
   }
-  function open(){sh.hidden=false;document.body.style.overflow='hidden';note();$('#suGo').focus({preventScroll:true})}
+  function paint(){
+    $$('#suSex button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sex===d.sex));
+    $('#suStageBox').hidden=d.sex!=='female';
+    $$('#suStage .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.stage===d.stage));
+  }
+  function step(n){$('#suStep1').hidden=n!==1;$('#suStep2').hidden=n!==2;$('#suTitle').textContent=n===1?'Welcome to Tenang':'Your day';if(n===2){note();$('#suGo').focus({preventScroll:true})}}
+  function open(){d={sex:'',stage:''};paint();step(1);sh.hidden=false;document.body.style.overflow='hidden';$('#suNext').focus({preventScroll:true})}
   function close(){sh.hidden=true;document.body.style.overflow=''}
   function done(apply){
     if(apply){
@@ -2469,13 +2714,17 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden){checkDay(
     }
     store.set('setup',{at:Date.now(),skipped:!apply});close();renderNext();
   }
+  $('#suSex').addEventListener('click',e=>{const b=e.target.closest('[data-sex]');if(!b)return;d.sex=b.dataset.sex;paint()});
+  $('#suStage').addEventListener('click',e=>{const b=e.target.closest('[data-stage]');if(!b)return;d.stage=b.dataset.stage;paint()});
+  // The profile is saved as soon as they move on, so skipping the times never loses it.
+  $('#suNext').addEventListener('click',()=>{if(d.sex)commitProfile(d);step(2)});
   $('#suGo').addEventListener('click',()=>done(true));
   $('#suSkip').addEventListener('click',()=>done(false));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden)done(false)});
   $('#suBell').addEventListener('click',async()=>{const b=$('#suBell');b.disabled=true;try{await pushEnable()}catch(e){}note()});
   if(location.hash!=='#qlog'&&location.hash!=='#calmnow')setTimeout(()=>{if(isNew())open()},700);
 })();
-renderMinutes(); renderRituals(); renderLog(); renderPath(); renderNext(); route();
+applyProfile(); renderMinutes(); renderRituals(); renderLog(); renderPath(); renderNext(); route();
 })();
 </script>
 </body>

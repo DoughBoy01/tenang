@@ -26,6 +26,8 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 | `migrations/` | D1 schema (`0001_push.sql` subscriptions, `0002_actions.sql` snooze + done-today); always apply remotely BEFORE deploying code that needs it (apply with `npx wrangler d1 migrations apply tenang-push --remote`) |
 | `wrangler.jsonc` | Worker config: D1 binding `DB`, cron `* * * * *`, `VAPID_PUBLIC` var |
 | `scripts/test-push.mjs` | Tests push crypto (independent decrypt), VAPID signature, validation, API, snooze/done and cron against real SQLite running `migrations/*.sql` |
+| `scripts/test-profiles.mjs` | **Content-safety tests** for the tailored guidance (runs the `@profiles` block): every section sourced, no stop/switch/start-a-medicine advice, medicine/hormone/contraception topics hand off to a professional, breathing never presented as a hot-flush treatment, no sex-specific BP targets, pregnancy is a hand-off, no cross-over between the sexes' content |
+| `scripts/test-profile-ui.mjs` | Profile chooser, what appears where for female (peri) / male / pregnancy / not tailored, persistence, backup, small phone + dark mode |
 | `scripts/test-journey.mjs` | The simplified journey: four tabs and highlights, Today length budget (<=1.7 screens, <=8 blocks), nothing educational on Today, Today's focus, one way to log, Learn contents, 360px + dark overflow |
 | `scripts/test-firstrun.mjs` | First-run sheet: new users only, times -> reminders, Skip/Escape, never shown to existing users, shortcuts bypass it, iPhone wording |
 | `scripts/test-daychecks.mjs` | Regression tests for daily checks: rituals/path/Today steps persist, follow midnight while the app is open, credit the right scheduled step, and a failed save is never silent |
@@ -39,7 +41,7 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 | `scripts/build-worker.mjs` | Regenerates `worker.js` from the files above |
 | `scripts/smoke.mjs` | Playwright mobile smoke test (all views, light and dark, page errors, horizontal overflow). Needs `npm i -D playwright` |
 
-Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, `test-companion`, `test-phase2`, `test-daychecks`, `test-journey`, `test-firstrun`, `test-insights`, `test-push`, `test-sw`, `test-data-safety` and `test-update` (all in `scripts/`), commit the source files and `worker.js`, then deploy.
+Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, `test-companion`, `test-phase2`, `test-daychecks`, `test-journey`, `test-firstrun`, `test-profiles`, `test-profile-ui`, `test-insights`, `test-push`, `test-sw`, `test-data-safety` and `test-update` (all in `scripts/`), commit the source files and `worker.js`, then deploy.
 
 ## Deploy
 
@@ -61,6 +63,16 @@ Users' data lives only in their `localStorage` (`tenang:*`) and survives every d
 5. **Staying current:** the build stamps a release id into the page (`const BUILD='__BUILD__'`, replaced only by `scripts/build-worker.mjs`; never write that token anywhere else in `index.html`) and serves `/version`. The page checks on foreground/every 15 min and shows a "new version is ready" banner (never while a session, timer or reading entry is open; never auto-reloads). Refresh activates the waiting service worker, then reloads.
 6. **Data belongs to the exact origin.** Moving from `tenang.pm2120600.workers.dev` to another domain (or a Capacitor app) looks like total data loss to users: choose the permanent domain before launch, and move people with Save/Restore backup.
 
+## Tailored guidance for women and men (branch `feature/sex-specific-guidance`)
+
+Research and the claim limits live in `docs/research/sex-specific-bp.md`; read it before editing any tailored text. In short:
+
+- **Set once, at first run, then visible every day.** First run is now two short steps: (1) "Who is Tenang for?" (Female / Male / Prefer not to say, plus life stage for Female), (2) check-in times and reminders. The profile is saved the moment someone taps Next, so skipping step 2 never loses it. Today then shows a **"For you" card** (`#youToday`) with one sourced tip a day (`profileTip`: deterministic per day, rotates), tapping it opens the guide. Existing users and anyone who skipped get a prominent "Make Tenang fit you" invite (`#tailorPrompt`) directly under the Today card until they choose or dismiss it. Exactly one of the two cards is ever shown, so Today's block budget is unchanged.
+- **It is an optional profile, not two apps.** `tenang:profile` = `{sex:'female'|'male'|'general', stage?:'regular'|'peri'|'post'|'preg'|'none', at}` (additive, in backups). Chosen in Settings ("Tailor Tenang"), the Learn card, or a dismissible Today prompt (from the 2nd visit). "Not tailored" is always available and every guide stays reachable. First run is unchanged (two choices).
+- **All content comes from the pure `@profiles` block** (`profileGuide(profile)` -> title, intro, sourced sections, doctor questions, extra tags, measuring tip, Medicines note, flags). The UI only renders it: the "For you" view (`#you`, under Learn), "Hot flush"/"Alcohol" notes on readings, a "Hot flush" mood for perimenopause / after menopause / unspecified, a Log tip, a Medicines 101 note, and suggested questions in the doctor summary (also in the copied text).
+- **Hard rules (enforced by `test-profiles.mjs`):** no sex-specific BP thresholds or targets (the only number is the pregnancy hand-off, 140/90); never imply breathing treats hot flushes (NAMS 2023: not recommended); never tell anyone to stop, switch or start a medicine, hormone, contraceptive or testosterone: say "do not stop, ask your doctor or pharmacist"; every medicine/hormone/contraception topic names a professional; pregnancy is a hand-off to the care team with no categories or coaching (the quick-log result shows "Share with your care team"); men's and women's content never cross over; show population facts with their source, never personal risk percentages.
+- **Every new tailored sentence needs a source id in `PSRC` and a row in the research brief.** This includes the daily tips (`PTIP`), which `test-profiles` holds to the same rules (sourced, short, professional named where medicines/contraception/pregnancy are involved, 140/90 only in the pregnancy tip, no cross-over). Wording changes need clinician review before public launch (see section 4 of the brief).
+
 ## Keep the daily journey simple (read before adding anything to Today)
 
 The product is a daily companion: **open, do the one next thing, close.** Rules that `test-journey.mjs` enforces or that reviewers should:
@@ -68,7 +80,7 @@ The product is a daily companion: **open, do the one next thing, close.** Rules 
 1. **Today stays short** (about one and a half screens): the Today card (steps, ring, rhythm), Today's focus (only path tasks the steps do not already cover), the mood check-in, one insight, a collapsed Daily habits list, the season line. Anything educational, promotional or "browse and explore" belongs in **Learn**, never on Today.
 2. **One checklist per idea, no duplicates:** breathing and readings are the Today steps; the path's breathing tasks and the day-1 baseline tick themselves from them; habits are the optional collapsed list.
 3. **One way to log a reading:** the quick-log sheet (`openQLog`), reached from Today, the Log tab button, the timer, and the `#qlog` shortcut. Do not reintroduce a second form.
-4. **First run is two choices** (morning/evening time, reminders) and only for people with no data; skipping is always possible. Do not add steps to it.
+4. **First run is two short steps** (who Tenang is for; then check-in times and reminders) and only for people with no data; skipping is always possible. Do not add steps to it.
 5. New features need a home in this structure first; if a new thing wants a fifth tab or a new block on Today, that is a design discussion, not a code change.
 
 ## Design language

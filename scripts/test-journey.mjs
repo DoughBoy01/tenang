@@ -92,4 +92,18 @@ for (const [w, hh, scheme] of [[360, 640, 'light'], [390, 844, 'dark']]) {
   assert.deepEqual(errs, []); await ctx.close();
 }
 ok('360px and dark mode: no horizontal overflow on any tab, no page errors');
+
+// 9. The tab bar is evenly spaced across the full width on every phone size (it once kept five columns for four tabs)
+for (const [w, hh] of [[320, 568], [360, 740], [390, 844], [430, 932]]) {
+  const ctx = await b.newContext({ viewport: { width: w, height: hh }, timezoneId: 'Asia/Kuala_Lumpur' }); const pg = await ctx.newPage();
+  await pg.addInitScript(() => localStorage.setItem('tenang:setup', '{"done":true}')); await pg.goto(base + '/#home'); await pg.waitForTimeout(400);
+  const m = await pg.evaluate(() => { const nav = document.querySelector('.nav-in').getBoundingClientRect(); return { l: nav.left, r: nav.right, a: [...document.querySelectorAll('.nav a')].map(a => { const r = a.getBoundingClientRect(), t = a.getBoundingClientRect(); const range = document.createRange(); range.selectNodeContents(a); const tr = range.getBoundingClientRect(); return { left: r.left, right: r.right, w: r.width, h: r.height, textW: tr.width, scrollW: a.scrollWidth, clientW: a.clientWidth }; }) }; });
+  assert.equal(m.a.length, 4);
+  const widths = m.a.map(x => x.w); assert.ok(Math.max(...widths) - Math.min(...widths) < 1.5, `${w}px: columns uneven ${widths}`);
+  assert.ok(m.a[0].left < 16, `${w}px: first tab starts at ${m.a[0].left}`); assert.ok(w - m.a[3].right < 16, `${w}px: ${w - m.a[3].right}px of empty bar on the right`);
+  for (let i = 1; i < 4; i++) assert.ok(Math.abs(m.a[i].left - m.a[i - 1].right) < 1.5, `${w}px: gap between tabs`);
+  assert.ok(m.a.every(x => x.h >= 56), `${w}px: tap target ${Math.min(...m.a.map(x => x.h))}px tall`); assert.ok(m.a.every(x => x.scrollW <= x.clientW + 1), `${w}px: label clipped`);
+  await ctx.close();
+}
+ok('tab bar: four equal columns spanning the whole width at 320/360/390/430px, tap targets >= 56px, no clipped labels');
 await b.close(); srv.close(); console.log('journey tests passed');

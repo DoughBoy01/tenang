@@ -34,8 +34,8 @@ rich[0].g = ['salt']; rich[2].g = ['salt']; rich[4].g = ['salt'];
 
 // 1. Tags in the quick log
 let p = await open(FRI, {});
-await p.click('#tdGo'); assert.equal(await p.locator('#qlTags .chip').count(), 5);
-assert.deepEqual(await p.locator('#qlTags .chip').allTextContents(), ['Slept badly', 'Salty food', 'Stressed', 'Exercised', 'Coffee']);
+await p.click('#tdGo'); assert.equal(await p.locator('#qlTags .chip').count(), 6);
+assert.deepEqual(await p.locator('#qlTags .chip').allTextContents(), ['Slept badly', 'Salty food', 'Stressed', 'Exercised', 'Coffee', 'Alcohol']);
 await p.click('[data-st=qlS][data-d="1"]'); await p.click('[data-st=qlD][data-d="1"]');
 await p.click('#qlTags [data-tag=sleep]'); await p.click('#qlTags [data-tag=stress]'); await p.click('#qlTags [data-tag=coffee]'); await p.click('#qlTags [data-tag=coffee]');
 assert.equal(await p.locator('#qlTags .chip[aria-pressed=true]').count(), 2);
@@ -46,7 +46,7 @@ assert.deepEqual(saved[0].g, ['sleep', 'stress']);
 await p.click('[data-ql-close]'); await p.click('#qlog', { position: { x: 5, y: 5 }, force: true }).catch(() => {});
 await p.evaluate(() => { location.hash = '#log'; }); await p.waitForTimeout(400);
 assert.match(await text(p, '#readings'), /Slept badly, Stressed/);
-ok('quick log: 5 tags, toggle on/off, saved as an additive field `g`, shown on the log row');
+ok('quick log: 6 tags, toggle on/off, saved as an additive field `g`, shown on the log row');
 await p.evaluate(() => { location.hash = '#qlog'; }); await p.waitForSelector('#qlog:not([hidden])'); await p.click('[data-st=qlS][data-d="1"]'); await p.click('[data-st=qlD][data-d="1"]'); await p.click('#qlSave');
 saved = await p.evaluate(() => JSON.parse(localStorage.getItem('tenang:readings')).filter(r => !r.ex)); assert.equal(saved.length, 2); assert.equal(saved.filter(r => 'g' in r).length, 1); // the clock is frozen, so both share a timestamp; only the tagged one has `g`
 ok('no tags selected: no `g` field is written (old and new readings stay interchangeable)');

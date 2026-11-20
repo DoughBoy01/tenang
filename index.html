@@ -298,6 +298,8 @@ button{font:inherit;color:inherit}
 .stp input{width:100%;min-width:0;text-align:center;font:500 30px var(--font-mono);border:0;background:transparent;color:var(--ink);padding:6px 0;outline-offset:2px}
 .stp input::placeholder{color:var(--line)}
 .ql-f select{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);min-height:44px}
+.upd{position:fixed;left:12px;right:12px;margin-inline:auto;width:fit-content;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:31;display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);padding:8px 8px 8px 16px;border-radius:999px;font-size:13px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.upd[hidden]{display:none}.upd span{min-width:0;white-space:nowrap}.upd .go,.upd .btn{flex:0 0 auto}.upd .btn{background:var(--paper);color:var(--ink);min-height:32px;padding:4px 14px}.upd .go{background:transparent;color:var(--paper);border-color:rgba(255,255,255,.35)}
 .ql-res{display:flex;flex-direction:column;gap:12px}
 .ql-big{font:500 44px/1.1 var(--font-mono);letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .ql-big small{font-size:13px;color:var(--ink-2);letter-spacing:0}
@@ -1067,6 +1069,7 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div class="controls"><button class="btn btn-quiet btn-sm" id="bkExport">Save backup</button><button class="btn btn-quiet btn-sm" id="bkImport">Restore backup</button></div>
       <input type="file" id="bkFile" accept="application/json,.json" hidden>
       <p class="hint" id="bkHint"></p>
+      <div id="undoRow" hidden style="display:flex;flex-direction:column;gap:6px"><p class="hint" id="undoHint"></p><div><button class="btn btn-quiet btn-sm" id="bkUndo">Undo last backup restore</button></div></div>
     </div>
     <div class="stack" style="gap:6px" id="instSet" hidden>
       <div class="eyebrow"><span class="kanji">家</span>Home screen</div>
@@ -1105,11 +1108,69 @@ a.btn{text-decoration:none;color:var(--ink)}
   <p class="calm-sub" id="calmSub"></p>
   <button class="btn calm-next" id="calmNext" hidden>Next</button>
 </div>
+<div class="upd" id="updBar" hidden role="status"><span>A new version is ready.</span><button class="btn btn-primary btn-sm" id="updGo" type="button">Refresh</button><button class="go" id="updX" type="button">Later</button></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+/* @data-safety:start  (dependency-free on purpose: scripts/test-data-safety.mjs runs this exact block in a sandbox) */
+// Rules for stored data (see CLAUDE.md): append-only. Add fields, never rename or delete them; read tolerantly.
+// If a format change is ever unavoidable, add a migration below. The runner snapshots everything first,
+// rolls back automatically if a migration throws, and never touches data written by a NEWER version.
+const DS_SCHEMA='tenang:schema',DS_SNAP='tenang:snapshot',DS_PFX='tenang:',DS_TTL=30*864e5;
+const MIGRATIONS=[{v:1,name:'baseline',up(st){}}];
+const DS_TARGET=Math.max(0,...MIGRATIONS.map(m=>m.v));
+function dsKeys(ls){const o=[];for(let i=0;i<ls.length;i++){const k=ls.key(i);if(k&&k.startsWith(DS_PFX))o.push(k)}return o}
+function dsSchema(ls){try{const n=parseInt(JSON.parse(ls.getItem(DS_SCHEMA)),10);return n>0?n:0}catch(e){return 0}}
+function dsSnapshot(ls,reason,now=Date.now()){
+  const data={};for(const k of dsKeys(ls))if(k!==DS_SNAP)data[k]=ls.getItem(k);
+  ls.setItem(DS_SNAP,JSON.stringify({reason,at:now,schema:dsSchema(ls),data})); // throws if storage is full: callers must not proceed
+}
+function dsReadSnapshot(ls){try{const s=JSON.parse(ls.getItem(DS_SNAP));return s&&typeof s.at==='number'&&s.data&&typeof s.data==='object'?s:null}catch(e){return null}}
+function dsRestore(ls){
+  const s=dsReadSnapshot(ls);if(!s)return false;
+  const ks=Object.keys(s.data).filter(k=>k.startsWith(DS_PFX)&&k!==DS_SNAP&&typeof s.data[k]==='string');
+  for(const k of ks)ls.setItem(k,s.data[k]);                                   // write everything back first...
+  for(const k of dsKeys(ls))if(k!==DS_SNAP&&!ks.includes(k))ls.removeItem(k);  // ...then remove what wasn't there
+  return true;
+}
+function dsExpire(ls,now=Date.now()){const s=dsReadSnapshot(ls);if(s&&now-s.at>DS_TTL){ls.removeItem(DS_SNAP);return true}return false}
+// If a saved value has the wrong shape (corrupt, or written by a bug), set it aside instead of letting the app crash or silently dropping it.
+const DS_SHAPES={readings:'array',rem:'object',path:'object',mins:'object'};
+function dsQuarantine(ls,now=Date.now()){
+  const moved=[];
+  for(const [k,t] of Object.entries(DS_SHAPES)){
+    const key=DS_PFX+k,raw=ls.getItem(key);if(raw===null)continue;
+    let v,bad=false;try{v=JSON.parse(raw)}catch(e){bad=true}
+    if(!bad)bad=t==='array'?!Array.isArray(v):!(v&&typeof v==='object'&&!Array.isArray(v));
+    if(bad){ls.setItem(DS_PFX+'quarantine:'+k+':'+now,JSON.stringify({key:k,at:now,raw}));ls.removeItem(key);moved.push(k)}
+  }
+  return moved;
+}
+const dsHelper=ls=>({get:(k,d)=>{try{const v=ls.getItem(DS_PFX+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set:(k,v)=>ls.setItem(DS_PFX+k,JSON.stringify(v)),del:k=>ls.removeItem(DS_PFX+k)});
+function runMigrations(ls,migs=MIGRATIONS,now=Date.now()){
+  const cur=dsSchema(ls),res={from:cur,to:cur,ran:[],snapshot:false,error:null,restored:false,newer:false};
+  const target=Math.max(0,...migs.map(m=>m.v));
+  if(cur>target){res.newer=true;return res}                    // data from a newer version: leave it alone, never lower the number
+  const todo=migs.filter(m=>m.v>cur).sort((a,b)=>a.v-b.v);
+  if(!todo.length)return res;
+  if(dsKeys(ls).some(k=>k!==DS_SCHEMA&&k!==DS_SNAP)){          // brand-new install has nothing to protect
+    try{dsSnapshot(ls,'update',now);res.snapshot=true}catch(e){res.error='no safety copy: '+(e&&e.message);return res} // can't protect it, so don't touch it
+  }
+  try{
+    const st=dsHelper(ls);
+    for(const m of todo){m.up(st);ls.setItem(DS_SCHEMA,JSON.stringify(m.v));res.ran.push(m.v)}
+    res.to=dsSchema(ls);
+  }catch(e){
+    res.error=String(e&&e.message||e);
+    try{if(res.snapshot){dsRestore(ls);res.restored=true}else ls.removeItem(DS_SCHEMA)}catch(e2){res.error+=' (rollback failed)'}
+    res.ran=[];res.to=dsSchema(ls);
+  }
+  return res;
+}
+/* @data-safety:end */
+let DS_RES={};try{const q=dsQuarantine(localStorage);DS_RES=runMigrations(localStorage);DS_RES.quarantined=q;dsExpire(localStorage)}catch(e){}
 const store={get(k,d){try{const v=localStorage.getItem('tenang:'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tenang:'+k,JSON.stringify(v))}catch(e){}}};
 const dayKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('on'),2200)};
@@ -2062,9 +2123,20 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderNext
     $('#bkHint').textContent=s;
     try{if(navigator.storage&&navigator.storage.persisted)navigator.storage.persisted().then(p=>{if(!p&&!standalone())$('#bkHint').textContent=s+' Your browser may clear this data if it runs low on space, so installing the app and keeping a backup is wise.'})}catch(e){}
   }
+  function renderUndo(){
+    // Only restores are undoable by the user: after an app update the new code would simply migrate again. The update snapshot stays as a 30-day recovery copy.
+    const sn=dsReadSnapshot(localStorage),row=$('#undoRow'),on=!!sn&&sn.reason==='restore';
+    row.hidden=!on;row.style.display=on?'flex':'none';
+    if(on)$('#undoHint').textContent='You restored a backup on '+new Date(sn.at).toLocaleDateString(undefined,{day:'numeric',month:'short'})+'. A safety copy of what was here before is kept for 30 days. Undo puts everything back exactly as it was.';
+  }
+  $('#bkUndo').addEventListener('click',()=>{
+    const sn=dsReadSnapshot(localStorage);if(!sn||sn.reason!=='restore')return;
+    if(!confirm('Put your data back exactly as it was on '+new Date(sn.at).toLocaleDateString(undefined,{day:'numeric',month:'short'})+'? Anything you logged since then will be removed.'))return;
+    try{dsRestore(localStorage);toast('Your data is back as it was');setTimeout(()=>location.reload(),700)}catch(e){toast("Couldn't restore. Nothing was changed.")}
+  });
   async function exportData(){
     const data={};
-    try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(PFX))data[k]=localStorage.getItem(k)}}catch(e){}
+    try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(PFX)&&k!==DS_SNAP)data[k]=localStorage.getItem(k)}}catch(e){}
     const name='tenang-backup-'+new Date().toISOString().slice(0,10)+'.json';
     const blob=new Blob([JSON.stringify({app:'tenang',format:1,exported:new Date().toISOString(),data},null,1)],{type:'application/json'});
     try{
@@ -2081,19 +2153,50 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderNext
       if(!j||j.app!=='tenang'||!j.data||typeof j.data!=='object')throw 0;
       const keys=Object.keys(j.data);
       if(!keys.length||keys.some(k=>!k.startsWith(PFX)||typeof j.data[k]!=='string'))throw 0;
-      if(!confirm('Replace the data on this phone with this backup? Your current readings and progress will be overwritten.'))return;
       keys.forEach(k=>{JSON.parse(j.data[k])});
-      const old=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(PFX))old.push(k)}
-      old.forEach(k=>localStorage.removeItem(k));
-      keys.forEach(k=>localStorage.setItem(k,j.data[k]));
+      if(keys.includes(DS_SNAP))throw 0;
+      if(keys.includes(DS_SCHEMA)&&parseInt(JSON.parse(j.data[DS_SCHEMA]),10)>DS_TARGET){toast('That backup is from a newer version of Tenang. Refresh the app, then try again.');return}
+      if(!confirm('Replace the data on this phone with this backup? Your current readings and progress will be overwritten. You can undo this afterwards from Settings.'))return;
+      try{dsSnapshot(localStorage,'restore')}catch(e){toast("Couldn't make a safety copy first, so nothing was changed.");return}
+      const old=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(PFX)&&k!==DS_SNAP)old.push(k)}
+      keys.forEach(k=>localStorage.setItem(k,j.data[k]));            // write the backup first...
+      old.forEach(k=>{if(!keys.includes(k))localStorage.removeItem(k)}); // ...then clear what it doesn't contain
       toast('Backup restored');setTimeout(()=>location.reload(),600);
     }catch(e){toast("That file isn't a Tenang backup")}
   }
   $('#bkExport').addEventListener('click',exportData);
   $('#bkImport').addEventListener('click',()=>$('#bkFile').click());
   $('#bkFile').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)importData(f)});
-  $('#setBtn').addEventListener('click',()=>{bkHint();renderInstall()});
-  renderInstall();bkHint();
+  $('#setBtn').addEventListener('click',()=>{bkHint();renderInstall();renderUndo()});
+  renderInstall();bkHint();renderUndo();
+  setTimeout(()=>{if(DS_RES.error)toast('An update could not finish, so your data was left exactly as it was.');else if(DS_RES.quarantined&&DS_RES.quarantined.length)toast('Some saved data looked damaged, so it was set aside safely.')},1500);
+})();
+/* ---------- staying current without ever touching data ---------- */
+(function(){
+  const BUILD='__BUILD__'; // stamped by scripts/build-worker.mjs; stays a placeholder in local dev, which switches checks off
+  const live=!BUILD.startsWith('__')&&/^https?:$/.test(location.protocol);
+  let pending=false;
+  const quiet=()=>!(typeof B!=='undefined'&&B.running)&&$('#tmr').hidden&&$('#calm').hidden&&$('#qlog').hidden; // never interrupt a session or a half-typed reading
+  function show(){$('#updBar').hidden=!(pending&&quiet())}
+  async function check(){
+    if(!live||pending)return;
+    try{const r=await fetch('/version',{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(j&&typeof j.v==='string'&&j.v!==BUILD){pending=true;show()}}catch(e){}
+  }
+  async function apply(){
+    $('#updGo').disabled=true;
+    try{sessionStorage.setItem('tenang-updated','1')}catch(e){}
+    try{ // let the new service worker take over first, so cached files and page match; data is untouched either way
+      const reg=await navigator.serviceWorker.getRegistration();
+      if(reg){await reg.update();if(reg.waiting)await new Promise(res=>{navigator.serviceWorker.addEventListener('controllerchange',res,{once:true});reg.waiting.postMessage('skip-waiting');setTimeout(res,1500)})}
+    }catch(e){}
+    location.reload();
+  }
+  $('#updGo').addEventListener('click',apply);
+  $('#updX').addEventListener('click',()=>{$('#updBar').hidden=true;setTimeout(()=>{if(pending)show()},30*60000)});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){check();show()}});
+  setInterval(()=>{check();show()},15*60000);setInterval(show,5000);
+  setTimeout(check,3000);
+  try{if(sessionStorage.getItem('tenang-updated')){sessionStorage.removeItem('tenang-updated');setTimeout(()=>toast('You have the latest version'),1200)}}catch(e){}
 })();
 /* ---------- Web Push reminders ---------- */
 (function(){

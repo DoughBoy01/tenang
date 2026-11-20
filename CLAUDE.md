@@ -26,13 +26,15 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 | `migrations/` | D1 schema (`0001_push.sql` subscriptions, `0002_actions.sql` snooze + done-today); always apply remotely BEFORE deploying code that needs it (apply with `npx wrangler d1 migrations apply tenang-push --remote`) |
 | `wrangler.jsonc` | Worker config: D1 binding `DB`, cron `* * * * *`, `VAPID_PUBLIC` var |
 | `scripts/test-push.mjs` | Tests push crypto (independent decrypt), VAPID signature, validation, API, snooze/done and cron against real SQLite running `migrations/*.sql` |
+| `scripts/test-data-safety.mjs` | Runs the `@data-safety` block of `index.html` against a fake localStorage: snapshot, rollback, full disk, newer data, quarantine, expiry |
+| `scripts/test-update.mjs` | End-to-end upgrade journey across real generated Workers (A -> B migrating -> C crashing -> older A): banner, no data loss, rollback, backup restore + undo, cache cleanup |
 | `scripts/test-sw.mjs` | Runs `sw.js` in a sandbox: push display, Done / In 1 hour buttons, click routing |
 | `scripts/test-companion.mjs` | Playwright tests (fake clock, Asia/Kuala_Lumpur) for the Today card, rhythm, ring, quick-log sheet, pending notification actions; writes `shots/companion-*.png` — look at them |
 | `worker.js` | **Generated.** Single-file Cloudflare Worker with the HTML, manifest, icons, `sw.js` and Three.js embedded. Do not hand-edit. |
 | `scripts/build-worker.mjs` | Regenerates `worker.js` from the files above |
 | `scripts/smoke.mjs` | Playwright mobile smoke test (all views, light and dark, page errors, horizontal overflow). Needs `npm i -D playwright` |
 
-Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, `node scripts/test-companion.mjs`, `node scripts/test-push.mjs` and `node scripts/test-sw.mjs`, commit the source files and `worker.js`, then deploy.
+Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, `test-companion`, `test-push`, `test-sw`, `test-data-safety` and `test-update` (all in `scripts/`), commit the source files and `worker.js`, then deploy.
 
 ## Deploy
 
@@ -42,6 +44,17 @@ Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA 
 - Do not use `tenang.pages.dev`: that address is owned by someone else (it served an unrelated spam site).
 - The live site may lag the repo; redeploy after pulling.
 - A Claude-hosted copy also exists as a Claude artifact (https://claude.ai/artifact/Np8XXjU3Deyg6DwJk1EFRu). It differs only by two header tags (`<meta name="claude:viewport-fit-sides" content="cover">`) and no manifest link. It is not part of this repo's workflow. In the app, `APP_URL` uses the origin on `*.workers.dev`/`*.pages.dev` and falls back to the artifact URL elsewhere. Update `APP_URL` when a permanent domain exists.
+
+## Updating without losing user data (read before changing anything that is stored)
+
+Users' data lives only in their `localStorage` (`tenang:*`) and survives every deploy. Keep it that way:
+
+1. **Stored data is append-only.** Add fields, never rename, repurpose or delete them. Read tolerantly (missing field = default). An old app version and a new one must be able to read each other's data.
+2. **A format change that cannot be additive needs a migration** in `MIGRATIONS` (inside the `@data-safety` block of `index.html`; versions ascending, `up(st)` gets `get/set/del` for unprefixed keys). The runner snapshots everything to `tenang:snapshot` first, rolls back automatically if `up` throws, skips if the snapshot cannot be saved (disk full), never touches data from a newer version and never lowers the version. The snapshot is kept 30 days as a recovery copy. Add a case to `test-update.mjs` or `test-data-safety.mjs` for every migration, with old-format data.
+3. **Wrongly shaped values** for `readings`, `rem`, `path`, `mins` are moved to `tenang:quarantine:*` (raw text kept) instead of crashing the app or being dropped.
+4. **Backup restore** takes a snapshot first (user-visible Undo in Settings, 30 days) and refuses backups from a newer schema. The snapshot itself is never exported.
+5. **Staying current:** the build stamps a release id into the page (`const BUILD='__BUILD__'`, replaced only by `scripts/build-worker.mjs`; never write that token anywhere else in `index.html`) and serves `/version`. The page checks on foreground/every 15 min and shows a "new version is ready" banner (never while a session, timer or reading entry is open; never auto-reloads). Refresh activates the waiting service worker, then reloads.
+6. **Data belongs to the exact origin.** Moving from `tenang.pm2120600.workers.dev` to another domain (or a Capacitor app) looks like total data loss to users: choose the permanent domain before launch, and move people with Save/Restore backup.
 
 ## Design language
 

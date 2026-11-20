@@ -16,6 +16,9 @@ self.addEventListener('activate', e => {
   })());
 });
 
+// The page asks the waiting worker to take over when the user taps Refresh on the update banner.
+self.addEventListener('message', e => { if (e.data === 'skip-waiting') self.skipWaiting(); });
+
 // Web Push: the server sends {title, body, url, k}. Browsers (iOS especially) require a visible notification for every push.
 self.addEventListener('push', e => {
   let d = {};

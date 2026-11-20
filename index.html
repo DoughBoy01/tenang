@@ -504,26 +504,41 @@ button{font:inherit;color:inherit}
 .linkrow{display:flex;gap:8px;align-items:center}
 .linkrow input{flex:1;min-width:0;font-family:var(--font-mono);font-size:12.5px;padding:8px 14px}
 a.btn{text-decoration:none;color:var(--ink)}
+/* ---------- top & bottom numbers explainer ---------- */
+.bp-stage{position:relative;background:var(--sunk);border-radius:24px;padding:30px 12px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .4s var(--spring);display:flex;flex-direction:column;gap:8px}
+.bp-stage:active{transform:scale(.99);transition-duration:.1s}
+.bp-stage:focus-visible{outline:2px solid var(--moss);outline-offset:3px}
+.bp-hint{position:absolute;right:14px;top:10px;font-family:var(--font-mono);font-size:11px;color:var(--ink-2)}
+.bp-grid{display:grid;grid-template-columns:minmax(0,1fr) 98px;gap:6px;align-items:stretch}
+.bp-scene{position:relative;aspect-ratio:5/4;max-width:100%;min-width:0}
+.bp-scene canvas,.bp-scene svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.bp-phase{position:absolute;left:6px;bottom:0;font-family:var(--font-display);font-size:19px;line-height:1.2}
+.bp-gauge{display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding:0 4px 2px 0}
+.bp-col{position:relative;flex:1;width:100%;min-height:150px}
+.bp-col .trk{position:absolute;right:0;top:0;bottom:0;width:16px;border-radius:8px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.bp-col .trk i{position:absolute;left:0;right:0;bottom:0;background:var(--saffron)}
+.bp-tick{position:absolute;left:0;right:0;height:0;border-top:2px dashed var(--kc)}
+.bp-tick span{position:absolute;right:22px;top:-1px;transform:translateY(-50%);background:var(--sunk);padding:0 4px;font-family:var(--font-mono);font-size:11px;color:var(--kc);white-space:nowrap}
+.bp-now{font-family:var(--font-mono);font-size:11px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.bp-now b{font-size:17px;color:var(--ink);font-weight:500}
+.bp-cap{font-size:12.5px;color:var(--ink-2);padding:0 6px}
+.bpm{display:grid;gap:8px}
+.bpm-row{display:grid;grid-template-columns:auto 1fr;gap:2px 16px;align-items:center;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:var(--surface);opacity:.5;transition:opacity .35s var(--ease),border-color .35s var(--ease),background-color .35s var(--ease),transform .5s var(--spring)}
+.bpm-row.top{--kc:var(--indigo)}
+.bpm-row.bot{--kc:var(--moss)}
+.bpm-row.on{opacity:1;border-color:var(--kc);background:color-mix(in srgb,var(--kc) 9%,var(--surface));transform:scale(1.015)}
+.bpm-num{grid-row:span 2;font-family:var(--font-mono);font-size:42px;line-height:1;font-variant-numeric:tabular-nums;color:var(--kc);min-width:2.6ch;text-align:right}
+.bpm-row > b{font-weight:500;font-size:15px}
+.bpm-row > b small{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-2);margin-left:6px;font-weight:400;white-space:nowrap}
+.bpm-row .t{font-size:13.5px;color:var(--ink-2);line-height:1.4}
+.bpm-row .t b{color:var(--ink);font-weight:500}
+.ncard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px;min-height:176px}
+.ncard p{font-size:14px;color:var(--ink-2)}
+.quiz-q{display:flex;flex-direction:column;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}
+.quiz-q:last-child{border-bottom:0;padding-bottom:0}
+.quiz-q > b{font-weight:500}
+.quiz-fb{font-size:14px;color:var(--ink-2);display:flex;flex-direction:column;gap:6px}
 .pebble{fill:none;stroke:var(--moss);stroke-width:1.5;transform-box:view-box;transform-origin:200px 200px;animation:pebble 2.6s var(--ease) forwards}
-
-/* ---------- words & origins ---------- */
-[data-w]{cursor:help}
-.kanji:lang(sa),.kanji:lang(th),.kanji:lang(ko){letter-spacing:0}
-.kanji:lang(vi),.kanji:lang(ban),.gloss .w:lang(vi),.gloss .w:lang(ban),.gloss .w:lang(ms){font-family:Georgia,"Times New Roman",serif;font-style:italic}
-.origin{font-size:12.5px;color:var(--ink-2);display:flex;gap:8px;align-items:baseline;line-height:1.5}
-.origin::before{content:"";flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--saffron);transform:translateY(-1px)}
-.gloss{display:grid;grid-template-columns:minmax(0,6.5em) minmax(0,1fr);gap:2px 14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:baseline}
-.gloss:last-child{border-bottom:0}
-.gloss .w{font-family:var(--font-display);font-size:21px;color:var(--moss);line-height:1.25;grid-row:span 2;overflow-wrap:anywhere}
-.gloss b{font-weight:500;font-size:14px}
-.gloss .m{font-size:13.5px;color:var(--ink-2)}
-.orig-list{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none}
-.orig-list li{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr);gap:2px 12px;font-size:14px}
-.orig-list li span{color:var(--ink-2)}
-@media (max-width:400px){.orig-list li{grid-template-columns:1fr}}
-.calm-word{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--font-display);font-size:24px;line-height:1.2;color:#E2C38E}
-.calm-word span{font-family:var(--font-body);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#AFC0D4}
-.toast{width:max-content;max-width:calc(100vw - 32px);text-align:center;border-radius:20px}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 @keyframes rise{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -536,7 +551,7 @@ a.btn{text-decoration:none;color:var(--ink)}
   <header class="top">
     <div class="brand">
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M27 12.5A12 12 0 1 0 22.5 27"/><circle cx="16" cy="16" r="3.2" fill="currentColor" stroke="none"/></svg>
-      <div><b lang="ms" data-w="tenang">Tenang</b><small>Pressure, softened</small></div>
+      <div><b>Tenang</b><small>Pressure, softened</small></div>
     </div>
     <div class="top-r">
       <div class="date mono" id="today"></div>
@@ -553,7 +568,7 @@ a.btn{text-decoration:none;color:var(--ink)}
   <section class="view" id="v-home" data-view="home">
     <div class="hero">
       <div style="min-width:0">
-        <div class="eyebrow" style="color:#C9D3DF"><span class="kanji" style="color:#E2C38E" lang="ja" data-w="kokyu">呼吸</span><span id="greet">Good afternoon</span></div>
+        <div class="eyebrow" style="color:#C9D3DF"><span class="kanji" style="color:#E2C38E">呼吸</span><span id="greet">Good afternoon</span></div>
         <h1 style="margin-top:8px">Slow your breath. Your pressure follows.</h1>
         <p>Five minutes at about six breaths a minute is the single best place to start.</p>
         <div class="hero-actions">
@@ -567,20 +582,20 @@ a.btn{text-decoration:none;color:var(--ink)}
     </div>
 
     <div class="season" id="seasonCard">
-      <div class="sk-kanji" id="skKanji" lang="ja" data-w="sekki">霜降</div>
+      <div class="sk-kanji" id="skKanji">霜降</div>
       <div><div class="eyebrow" id="skRange">Season</div><h3 class="h-m" id="skName"></h3><p class="hint" id="skTip"></p></div>
     </div>
 
     <div class="panel next" id="nextRem"></div>
 
     <div class="panel stack">
-      <div class="eyebrow"><span class="kanji" lang="zh" data-w="xin">心</span>How do you feel right now?</div>
+      <div class="eyebrow"><span class="kanji">心</span>How do you feel right now?</div>
       <div class="moods" id="moods" role="group" aria-label="Current feeling"></div>
       <div class="suggest" id="suggest" hidden></div>
     </div>
 
     <div class="panel stack" id="pathPanel">
-      <div class="path-head"><div class="eyebrow"><span class="kanji" lang="zh" data-w="dao">道</span>30-day path</div><span class="example" id="pathDay">Day 1 of 30</span></div>
+      <div class="path-head"><div class="eyebrow"><span class="kanji">道</span>30-day path</div><span class="example" id="pathDay">Day 1 of 30</span></div>
       <h3 class="h-m" id="pathWeek"></h3>
       <p class="lede" id="pathWeekD" style="font-size:13.5px"></p>
       <div class="dots" id="pathDots" aria-label="Progress across 30 days"></div>
@@ -602,18 +617,24 @@ a.btn{text-decoration:none;color:var(--ink)}
     </div>
 
     <div class="stack">
-      <div class="row-h"><div class="eyebrow"><span class="kanji" lang="ko" data-w="sum">숨</span>Quick resets · swipe</div><div class="dotsnav" data-for="qr"></div></div>
+      <div class="row-h"><div class="eyebrow"><span class="kanji">숨</span>Quick resets · swipe</div><div class="dotsnav" data-for="qr"></div></div>
       <div class="snap" id="qr">
-        <button class="rcard" data-go="breathe" data-pattern="sigh"><span aria-hidden="true" class="glyph g-moss">息</span><span class="h-m">Physiological sigh</span><span class="hint">The fastest way to settle a racing heart.</span><span class="tag">1 min · 2 in · 1 top-up · 6 out</span></button>
-        <button class="rcard" data-go="breathe" data-pattern="hum"><span aria-hidden="true" class="glyph g-indigo">蜂</span><span class="h-m">Bee breath</span><span class="hint">A humming out-breath that soothes the vagus nerve.</span><span class="tag">3 min · 4 in · 8 hum</span></button>
-        <button class="rcard" data-go="breathe" data-pattern="exhale"><span aria-hidden="true" class="glyph g-saffron">長</span><span class="h-m">Long exhale</span><span class="hint">A gentle brake for a wired system.</span><span class="tag">3 min · 4 in · 6 out</span></button>
-        <button class="rcard" data-go="breathe" data-pattern="box"><span aria-hidden="true" class="glyph g-moss">方</span><span class="h-m">Box breathing</span><span class="hint">Steady focus before a stressful moment.</span><span class="tag">3 min · 4 · 4 · 4 · 4</span></button>
-        <button class="rcard" data-go="reset"><span aria-hidden="true" class="glyph g-indigo">静</span><span class="h-m">Reset library</span><span class="hint">Practices for body, mind and the outdoors.</span><span class="tag">8 practices</span></button>
+        <button class="rcard" data-go="breathe" data-pattern="sigh"><span class="glyph g-moss">息</span><span class="h-m">Physiological sigh</span><span class="hint">The fastest way to settle a racing heart.</span><span class="tag">1 min · 2 in · 1 top-up · 6 out</span></button>
+        <button class="rcard" data-go="breathe" data-pattern="hum"><span class="glyph g-indigo">蜂</span><span class="h-m">Bee breath</span><span class="hint">A humming out-breath that soothes the vagus nerve.</span><span class="tag">3 min · 4 in · 8 hum</span></button>
+        <button class="rcard" data-go="breathe" data-pattern="exhale"><span class="glyph g-saffron">長</span><span class="h-m">Long exhale</span><span class="hint">A gentle brake for a wired system.</span><span class="tag">3 min · 4 in · 6 out</span></button>
+        <button class="rcard" data-go="breathe" data-pattern="box"><span class="glyph g-moss">方</span><span class="h-m">Box breathing</span><span class="hint">Steady focus before a stressful moment.</span><span class="tag">3 min · 4 · 4 · 4 · 4</span></button>
+        <button class="rcard" data-go="reset"><span class="glyph g-indigo">静</span><span class="h-m">Reset library</span><span class="hint">Practices for body, mind and the outdoors.</span><span class="tag">8 practices</span></button>
       </div>
     </div>
 
+    <button class="panel med-link" data-go="numbers">
+      <span class="glyph g-indigo" style="font-size:15px">上下</span>
+      <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">Top and bottom numbers</span><span class="hint">A one-minute animated guide to what “120 over 80” means</span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
     <button class="panel med-link" data-go="meds">
-      <span aria-hidden="true" class="glyph g-saffron">薬</span>
+      <span class="glyph g-saffron">薬</span>
       <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">Medicines 101</span><span class="hint">What common blood pressure medicines do, and their usual side effects</span></span>
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
     </button>
@@ -631,18 +652,13 @@ a.btn{text-decoration:none;color:var(--ink)}
       <p class="full hint" style="color:var(--ink-2)">Sending Tenang is a kind nudge to check, and five minutes of breathing is an easy place to start. Source: WHO.</p>
       <div class="full"><button class="btn btn-primary btn-sm" data-share="">Share with someone</button></div>
     </div>
-    <button class="panel med-link" data-go="origins">
-      <span aria-hidden="true" class="glyph g-moss">源</span>
-      <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">Words &amp; origins</span><span class="hint"><i lang="ms">Tenang</i> is Malay and Indonesian for calm. See where each practice and word in the app comes from.</span></span>
-      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
     <p class="foot">Tenang supports, and never replaces, care from your doctor. Keep taking prescribed medication unless your doctor changes it.</p>
   </section>
 
   <!-- BREATHE -->
   <section class="view" id="v-breathe" data-view="breathe" hidden>
     <div class="stack">
-      <div class="eyebrow"><span class="kanji" lang="sa" data-w="pranayama">प्राणायाम</span>Breath studio</div>
+      <div class="eyebrow"><span class="kanji">息</span>Breath studio</div>
       <h2 class="h-l">Choose a rhythm, follow the stone.</h2>
     </div>
     <div class="row-h"><span class="hint">Swipe to choose a rhythm</span><div class="dotsnav" data-for="chips"></div></div>
@@ -674,8 +690,8 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div class="eyebrow" id="ppEy">Before you begin</div>
       <p id="ppMsg" style="font-size:14px">Sit still for a minute with the cuff on, then enter your reading.</p>
       <div class="form" id="ppForm">
-        <div class="field"><label for="ppS">Systolic</label><input id="ppS" type="number" inputmode="numeric" placeholder="140"></div>
-        <div class="field"><label for="ppD">Diastolic</label><input id="ppD" type="number" inputmode="numeric" placeholder="90"></div>
+        <div class="field"><label for="ppS">Top · SYS</label><input id="ppS" type="number" inputmode="numeric" placeholder="140"></div>
+        <div class="field"><label for="ppD">Bottom · DIA</label><input id="ppD" type="number" inputmode="numeric" placeholder="90"></div>
         <div class="field"><label for="ppP">Pulse</label><input id="ppP" type="number" inputmode="numeric" placeholder="72"></div>
       </div>
       <div id="ppResult" class="stack" hidden></div>
@@ -697,7 +713,6 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div class="rhythm" id="pRhythm"></div>
       <div class="legend"><span><i class="r-in"></i>Inhale</span><span><i class="r-hold"></i>Hold</span><span><i class="r-out"></i>Exhale</span></div>
       <p id="pDesc" class="lede" style="font-size:14px"></p>
-      <p class="origin" id="pOrigin"></p>
       <p class="note" id="pNote" hidden></p>
     </div>
     <div class="panel stack">
@@ -713,12 +728,12 @@ a.btn{text-decoration:none;color:var(--ink)}
   <!-- RESET -->
   <section class="view" id="v-reset" data-view="reset" hidden>
     <div class="stack">
-      <div class="eyebrow"><span class="kanji" lang="zh" data-w="jing">静</span>Nervous system reset</div>
+      <div class="eyebrow"><span class="kanji">静</span>Nervous system reset</div>
       <h2 class="h-l">Move your body out of alarm mode.</h2>
       <p class="lede">Chronic stress keeps the sympathetic system switched on, tightening vessels and lifting pressure. These practices send the opposite signal. Pick one when you feel wound up, or one each evening.</p>
     </div>
     <div class="stack">
-      <div class="row-h"><div class="eyebrow"><span class="kanji" lang="vi" data-w="thongtha">thong thả</span>Timers</div><div class="dotsnav" data-for="tmrs"></div></div>
+      <div class="row-h"><div class="eyebrow"><span class="kanji">時</span>Timers</div><div class="dotsnav" data-for="tmrs"></div></div>
       <div class="snap" id="tmrs"></div>
     </div>
     <div class="chips" id="resetCats" role="group" aria-label="Filter practices"></div>
@@ -728,9 +743,9 @@ a.btn{text-decoration:none;color:var(--ink)}
   <!-- RITUALS -->
   <section class="view" id="v-rituals" data-view="rituals" hidden>
     <div class="stack">
-      <div class="eyebrow"><span class="kanji" lang="ban" data-w="thk">Tri Hita Karana</span>Daily rituals</div>
+      <div class="eyebrow"><span class="kanji">Tri Hita Karana</span>Daily rituals</div>
       <h2 class="h-l">Small offerings, made every day.</h2>
-      <p class="lede">Like the canang sari, the small flower offerings made each day in Bali, these work through repetition. Tick them off as you go. The list resets at midnight.</p>
+      <p class="lede">Like the Balinese canang left each morning, these work through repetition. Tick them off as you go. The list resets at midnight.</p>
     </div>
     <div class="panel">
       <div class="rit-head"><svg class="rit-ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" class="rr-t"/><circle cx="24" cy="24" r="20" class="rr-p" id="ritRing" transform="rotate(-90 24 24)"/></svg><div><b class="mono" id="ritCount">0 of 8</b><span class="hint" id="ritMsg">Start with the easiest one.</span></div><i id="ritBar" hidden></i></div>
@@ -753,19 +768,20 @@ a.btn{text-decoration:none;color:var(--ink)}
   <!-- LOG -->
   <section class="view" id="v-log" data-view="log" hidden>
     <div class="stack">
-      <div class="eyebrow"><span class="kanji" lang="ja" data-w="kiroku">記録</span>Readings</div>
+      <div class="eyebrow"><span class="kanji">記録</span>Readings</div>
       <h2 class="h-l">Watch the trend, not the single number.</h2>
-      <div class="chips"><button class="btn btn-quiet btn-sm" data-go="summary">Doctor summary</button><button class="btn btn-ghost btn-sm" data-timer="rest">5-min rest timer</button><button class="btn btn-ghost btn-sm" data-go="meds">Medicines 101</button></div>
+      <div class="chips"><button class="btn btn-quiet btn-sm" data-go="summary">Doctor summary</button><button class="btn btn-ghost btn-sm" data-go="numbers">What the numbers mean</button><button class="btn btn-ghost btn-sm" data-timer="rest">5-min rest timer</button><button class="btn btn-ghost btn-sm" data-go="meds">Medicines 101</button></div>
     </div>
     <div id="crisis"></div>
     <form class="panel form" id="bpForm" autocomplete="off">
-      <div class="field"><label for="sys">Systolic</label><input id="sys" type="number" inputmode="numeric" min="60" max="260" placeholder="128" required></div>
-      <div class="field"><label for="dia">Diastolic</label><input id="dia" type="number" inputmode="numeric" min="30" max="160" placeholder="82" required></div>
+      <div class="field"><label for="sys">Top · SYS</label><input id="sys" type="number" inputmode="numeric" min="60" max="260" placeholder="128" required></div>
+      <div class="field"><label for="dia">Bottom · DIA</label><input id="dia" type="number" inputmode="numeric" min="30" max="160" placeholder="82" required></div>
       <div class="field"><label for="pulse">Pulse</label><input id="pulse" type="number" inputmode="numeric" min="30" max="200" placeholder="68"></div>
       <div class="field wide"><label for="ctx">Context</label>
         <select id="ctx"><option>Morning, before meds</option><option>Evening</option><option>After breathing practice</option><option>After exercise</option><option>Feeling stressed</option></select></div>
       <button class="btn btn-primary wide" type="submit">Save reading</button>
       <p class="foot wide" id="formMsg" style="padding:0">Enter both numbers from your monitor.</p>
+      <p class="foot wide" style="padding:0"><button type="button" class="link" data-go="numbers">What do the top and bottom numbers mean?</button></p>
     </form>
     <div class="panel stack">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
@@ -813,10 +829,67 @@ a.btn{text-decoration:none;color:var(--ink)}
     <p class="foot">Readings stay in this browser only. They are not sent anywhere.</p>
   </section>
 
+  <!-- TOP & BOTTOM NUMBERS -->
+  <section class="view" id="v-numbers" data-view="numbers" hidden>
+    <div><button class="link" data-go="log">← Back to log</button></div>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji">上下</span>Top and bottom numbers</div>
+      <h2 class="h-l">Two numbers, one heartbeat.</h2>
+      <p class="lede">Every heartbeat has two parts: a squeeze and a rest. A blood pressure reading is the pressure inside your arteries at each one.</p>
+    </div>
+    <div class="bp-stage" id="bpStage" role="button" tabindex="0" aria-label="3D animation of a heart pumping blood through an artery, with a pressure gauge. Tap to pause or play.">
+      <span class="bp-hint" id="bpHint">tap to pause</span>
+      <div class="bp-grid">
+        <div class="bp-scene">
+          <canvas id="bp3d" hidden aria-hidden="true"></canvas>
+          <svg id="bp2d" viewBox="14 6 322 112" aria-hidden="true">
+            <defs><clipPath id="bpClip"><rect id="bpClipR" x="92" y="50" width="236" height="24" rx="12"/></clipPath></defs>
+            <rect id="bpTube" x="92" y="50" width="236" height="24" rx="12" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="2"/>
+            <g clip-path="url(#bpClip)" id="bpCells" fill="var(--saffron)"></g>
+            <g id="bpHeart"><path d="M58 88 C 30 68, 28 44, 44 40 C 52 38, 57 43, 58 48 C 59 43, 64 38, 72 40 C 88 44, 86 68, 58 88Z" fill="var(--saffron)"/></g>
+          </svg>
+          <div class="bp-phase" id="bpPhase">Heart squeezes</div>
+        </div>
+        <div class="bp-gauge">
+          <span class="tag">pressure</span>
+          <div class="bp-col">
+            <div class="trk"><i id="bpFill" style="height:50%"></i></div>
+            <div class="bp-tick" id="bpTickT" style="--kc:var(--indigo);bottom:50%"><span>top 120</span></div>
+            <div class="bp-tick" id="bpTickB" style="--kc:var(--moss);bottom:25%"><span>bottom 80</span></div>
+          </div>
+          <span class="bp-now"><b id="bpNow">120</b> now</span>
+        </div>
+      </div>
+      <p class="bp-cap" id="bpCap">Your heart pumps blood into an artery, shown here cut open.</p>
+    </div>
+    <div class="bpm">
+      <div class="bpm-row top on" id="rowTop"><span class="bpm-num" id="numTop">120</span><b>Top number <small>SYS · SYSTOLIC</small></b><span class="t">The peak, as your heart <b>squeezes</b> and pushes blood out.</span></div>
+      <div class="bpm-row bot" id="rowBot"><span class="bpm-num" id="numBot">80</span><b>Bottom number <small>DIA · DIASTOLIC</small></b><span class="t">The low point, as your heart <b>rests</b> and refills between beats.</span></div>
+    </div>
+    <div class="controls">
+      <div class="seg" id="bpMode" role="group" aria-label="What to show"><button data-m="watch" aria-pressed="true">Watch</button><button data-m="squeeze" aria-pressed="false">Squeeze</button><button data-m="rest" aria-pressed="false">Rest</button></div>
+      <div class="seg" id="bpSpeed" role="group" aria-label="Speed"><button data-c="3.2" aria-pressed="true">Slow</button><button data-c="0.9" aria-pressed="false">Real speed</button></div>
+    </div>
+    <div class="stack">
+      <div class="eyebrow">Try a different reading</div>
+      <div class="moods" id="bpPre" role="group" aria-label="Example reading"></div>
+      <p class="note" id="bpNote"></p>
+    </div>
+    <div class="stack">
+      <div class="row-h"><div class="eyebrow">In plain English · swipe</div><div class="dotsnav" data-for="numCards"></div></div>
+      <div class="snap" id="numCards"></div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Quick check</div>
+      <div id="bpQuiz"></div>
+    </div>
+    <div><button class="btn btn-quiet btn-sm" data-go="log">See the categories and log a reading</button></div>
+  </section>
+
   <!-- MEDICINES 101 -->
   <section class="view" id="v-meds" data-view="meds" hidden>
     <div class="stack">
-      <div class="eyebrow"><span class="kanji" lang="ja" data-w="kusuri">薬</span>Medicines 101</div>
+      <div class="eyebrow"><span class="kanji">薬</span>Medicines 101</div>
       <h2 class="h-l">Know what you take, and why.</h2>
       <p class="lede">Plain-language facts about the main families of blood pressure medicine, drawn from standard drug references. Many people need one alongside natural methods, and they work well together.</p>
     </div>
@@ -874,7 +947,7 @@ a.btn{text-decoration:none;color:var(--ink)}
   <section class="view" id="v-summary" data-view="summary" hidden>
     <div><button class="link" data-go="log">← Back to log</button></div>
     <div class="stack">
-      <div class="eyebrow"><span class="kanji" lang="ja" data-w="shin">診</span>For your doctor</div>
+      <div class="eyebrow"><span class="kanji">診</span>For your doctor</div>
       <h2 class="h-l">Home blood pressure summary</h2>
       <p class="lede">Show this screen at your appointment, or copy it as text into an email or patient portal message.</p>
     </div>
@@ -889,27 +962,6 @@ a.btn{text-decoration:none;color:var(--ink)}
     </div>
     <div class="controls"><button class="btn btn-primary" id="copySum">Copy summary as text</button></div>
     <textarea class="fallback" id="sumFallback" readonly hidden aria-label="Summary text to copy"></textarea>
-  </section>
-
-  <!-- WORDS & ORIGINS -->
-  <section class="view" id="v-origins" data-view="origins" hidden>
-    <div><button class="link" data-go="home">← Home</button></div>
-    <div class="stack">
-      <div class="eyebrow"><span class="kanji" lang="ja" data-w="gen">源</span>Words &amp; origins</div>
-      <h2 class="h-l">Calm practices from across Asia, set beside modern research.</h2>
-      <p class="lede"><i lang="ms">Tenang</i> means calm, still, in Malay and Indonesian. The app gathers ways of slowing down from India, Japan, Bali and beyond, and places them next to newer techniques from medicine and physiology. Each word and practice is credited to where it comes from.</p>
-    </div>
-    <div class="panel"><div class="eyebrow" style="margin-bottom:4px">Words you'll see</div><div id="glossary"></div></div>
-    <div class="panel stack">
-      <div class="eyebrow">Where the practices come from</div>
-      <h3 class="h-m">Traditions</h3><ul class="orig-list" id="origTrad"></ul>
-      <h3 class="h-m" style="margin-top:10px">Modern research</h3><ul class="orig-list" id="origMod"></ul>
-    </div>
-    <div class="panel stack">
-      <div class="eyebrow">The small characters on cards</div>
-      <p style="font-size:14px">Card icons use Chinese characters, in their Japanese forms, as pictures rather than words: <span lang="ja">森</span> is three trees for forest, <span lang="ja">蜂</span> is a bee, <span lang="ja">息</span> is breath and <span lang="ja">壁</span> is a wall.</p>
-    </div>
-    <p class="foot">These are short, simplified introductions, not full teachings of any tradition. If one speaks to you, learn more from a teacher rooted in it.</p>
   </section>
 </div>
 
@@ -927,12 +979,12 @@ a.btn{text-decoration:none;color:var(--ink)}
     <div class="grab" aria-hidden="true"></div>
     <div class="sheet-h"><h2 class="h-m" id="sheetTitle">Season &amp; reminders</h2><button class="go" id="sheetX">Done</button></div>
     <div class="stack">
-      <div class="eyebrow"><span class="kanji" lang="ja" data-w="ki">季</span>Seasonal theme</div>
+      <div class="eyebrow"><span class="kanji">季</span>Seasonal theme</div>
       <div class="moods" id="seasonChips" role="group" aria-label="Seasonal theme"></div>
       <p class="hint" id="seasonHint"></p>
     </div>
     <div class="stack" style="gap:4px">
-      <div class="eyebrow"><span class="kanji" lang="ja" data-w="kane">鐘</span>Reminders</div>
+      <div class="eyebrow"><span class="kanji">鐘</span>Reminders</div>
       <div id="remList"></div>
       <p class="hint" style="margin-top:8px">Reminders appear on the home screen while Tenang is open, and tick themselves off when you log a reading or finish a session. For alerts when the app is closed, copy the schedule into your phone's reminders or calendar.</p>
       <div style="margin-top:8px"><button class="btn btn-quiet btn-sm" id="copyRem">Copy schedule</button></div>
@@ -963,7 +1015,6 @@ a.btn{text-decoration:none;color:var(--ink)}
 </div>
 <div class="calm" id="calm" hidden role="dialog" aria-modal="true" aria-labelledby="calmTitle">
   <button class="calm-x" id="calmX">Close</button>
-  <div class="calm-word" lang="th" data-w="jaiyen">ใจเย็น<span lang="en">jai yen · Thai for a cool heart</span></div>
   <div class="calm-step" id="calmStep">Step 1 of 3</div>
   <h2 class="calm-title" id="calmTitle">Three long sighs</h2>
   <div class="calm-orb" id="calmOrbWrap"><div class="orb" id="calmOrb"></div><div class="calm-phase" id="calmPhase">Breathe in</div></div>
@@ -980,59 +1031,20 @@ const store={get(k,d){try{const v=localStorage.getItem('tenang:'+k);return v?JSO
 const dayKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('on'),2200)};
 
-/* ---------- words & origins ---------- */
-// [shown, lang, romanisation, language, meaning, where in the app]
-const GLOSS={
- tenang:['Tenang','ms','','Malay & Indonesian','calm, still','The name'],
- kokyu:['呼吸','ja','kokyū','Japanese','breathing','Home'],
- xin:['心','zh','xīn','Chinese (kokoro in Japanese)','heart and mind, as one','Check-in'],
- dao:['道','zh','dào','Chinese','the way; a path','30-day path'],
- sum:['숨','ko','sum','Korean','breath','Quick resets'],
- pranayama:['प्राणायाम','sa','prāṇāyāma','Sanskrit','extending and guiding the breath (prāṇa: breath, life force)','Breath studio'],
- jing:['静','zh','jìng','Chinese','stillness, quiet','Reset'],
- thongtha:['thong thả','vi','','Vietnamese','unhurried, at ease','Timers'],
- thk:['Tri Hita Karana','ban','','Balinese','the three causes of wellbeing: harmony with people, with nature and with the divine','Rituals'],
- jaiyen:['ใจเย็น','th','jai yen','Thai','a “cool heart”: staying calm and patient','Calm me now'],
- kiroku:['記録','ja','kiroku','Japanese','record','Log'],
- kusuri:['薬','ja','kusuri','Japanese','medicine','Medicines 101'],
- shin:['診','ja','shin','Japanese','to examine, as a doctor does','Doctor summary'],
- sekki:['二十四節気','ja','nijūshi sekki','Japanese, from Chinese jiéqì','the 24 solar terms of the year','Season card'],
- ki:['季','ja','ki','Japanese','season','Settings'],
- kane:['鐘','ja','kane','Japanese','bell','Reminders'],
- gen:['源','ja','gen','Japanese','source, origin','This page']
-};
-// [name, where it comes from, 1 = tradition / 0 = modern research]
-const ORIG={
- exhale:['Long exhale','Found across yoga and meditation traditions, and backed by modern research on the vagus nerve.',1],
- hum:['Bee breath','Bhramari prāṇāyāma, from the yoga traditions of India. The name comes from the Sanskrit for bee.',1],
- legs:['Legs up the wall','Viparīta Karaṇī, a restorative pose from Indian hatha yoga.',1],
- forest:['Forest bathing','Shinrin-yoku (森林浴), a term coined by Japan\'s Forestry Agency in 1982 and studied by Japanese researchers since.',1],
- rituals:['Daily rituals','Framed by Balinese Tri Hita Karana and the daily canang sari offerings. The habits themselves come from blood pressure guidelines.',1],
- sekki:['Seasonal palette','The 24 solar terms, first set out in ancient China and still marked in Japan, Korea and Vietnam.',1],
- resonance:['Resonance breathing','Modern heart-rate-variability research (Lehrer, Vaschillo and colleagues, 2000s). It echoes much older slow-breathing practice in yoga.',0],
- sigh:['Physiological sigh','A natural breathing reflex, studied as a calming tool at Stanford (Balban and colleagues, 2023).',0],
- box:['Box breathing','Modern, spread through military and first-responder training.',0],
- '478':['4-7-8 breathing','Popularised by US physician Andrew Weil, adapted from yogic breathing.',0],
- iso:['Isometric hold','Modern exercise science.',0],
- water:['Cool water face','The mammalian dive reflex, used as a calming skill in modern therapy (DBT).',0],
- ground:['5-4-3-2-1 grounding','A modern technique from anxiety therapy.',0],
- pmr:['Progressive relaxation','Developed by US physician Edmund Jacobson in the 1920s and 30s.',0]
-};
-const wordLine=w=>`${w[0]}${w[2]?' · '+w[2]:''} — ${w[3]}: ${w[4]}`;
-
 /* header */
 const now=new Date();
 $('#today').innerHTML=now.toLocaleDateString('en-US',{weekday:'short'})+'<br>'+now.toLocaleDateString('en-US',{month:'short',day:'numeric'});
 const h=now.getHours(); $('#greet').textContent=h<5?'Still night':h<12?'Good morning':h<18?'Good afternoon':'Good evening';
 
 /* ---------- routing ---------- */
-const views=['home','breathe','reset','rituals','log','summary','meds','origins'];
+const views=['home','breathe','reset','rituals','log','summary','meds','numbers'];
 function route(){
   let v=(location.hash||'#home').slice(1); if(!views.includes(v)) v='home';
   $$('.view').forEach(s=>s.hidden=s.dataset.view!==v);
   const cv=$('#v-'+v);if(cv){[...cv.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,8)));cv.dataset.dir=window._swipeDir||'';window._swipeDir='';replay(cv,'enter')}
   requestAnimationFrame(()=>$$('.snap').forEach(s=>s._upd&&s._upd()));
-  const nv=v==='summary'?'log':(v==='meds'||v==='origins')?'home':v;
+  const nv=v==='summary'||v==='numbers'?'log':v==='meds'?'home':v;
+  if(v==='numbers')bpEnter();
   $$('[data-nav]').forEach(a=>a.dataset.nav===nv?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   if(v==='summary'&&typeof renderSummary==='function')renderSummary();
   window.scrollTo(0,0);
@@ -1079,7 +1091,7 @@ function selectPattern(id){
   const p=PATTERNS.find(x=>x.id===id)||PATTERNS[0]; if(B.running) pause(); B.p=p; resetSession();
   $$('.pcard').forEach(c=>c.setAttribute('aria-pressed',c.dataset.p===p.id));
   const pc=$('.pcard[data-p="'+p.id+'"]'),sc=$('#chips');if(pc&&sc&&sc.offsetParent)sc.scrollTo({left:pc.offsetLeft-(parseFloat(getComputedStyle(sc).paddingLeft)||0),behavior:'smooth'});
-  $('#pName').textContent=p.name; $('#pBest').textContent=p.best; $('#pDesc').textContent=p.desc; $('#pOrigin').textContent=(ORIG[p.id]||['',''])[1];
+  $('#pName').textContent=p.name; $('#pBest').textContent=p.best; $('#pDesc').textContent=p.desc;
   const n=$('#pNote'); n.hidden=!p.note; n.textContent=p.note||'';
   const total=p.phases.reduce((a,x)=>a+x[1],0);
   $('#pRhythm').innerHTML=p.phases.map(x=>`<span class="r-${x[2]==='in2'?'in':x[2]}" style="flex:${x[1]}" title="${x[0]} ${x[1]}s"></span>`).join('');
@@ -1243,8 +1255,7 @@ const PRACTICES=[
  {g:'身',c:'g-indigo',t:'Progressive relaxation',s:'10 minutes · lying down',steps:['Start at your feet. Tense the muscles gently for 5 seconds as you breathe in.','Release all at once as you breathe out, and feel the difference for 10 seconds.','Move up: calves, thighs, belly, hands, arms, shoulders, face.','Finish with three slow breaths through the whole body.']}
 ];
 const PCAT=['Breath','Breath','Body','Body','Outdoors','Body','Mind','Mind'];
-const POK=['sigh','hum','iso','water','forest','legs','ground','pmr'];
-$('#practices').innerHTML=PRACTICES.map((p,i)=>`<details class="practice" data-cat="${PCAT[i]}"${i===0?' open':''}><summary><span aria-hidden="true" class="glyph ${p.c}">${p.g}</span><div style="min-width:0"><h3>${p.t}</h3><div class="sub">${p.s}</div></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></summary><div class="body"><p class="origin">${ORIG[POK[i]][1]}</p>${p.why?`<p style="font-size:14px">${p.why}</p>`:''}<ol>${p.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${p.caution?`<p class="note">${p.caution}</p>`:''}${p.go?`<div><button class="btn btn-quiet btn-sm" data-go="breathe" data-pattern="${p.go}">Practise with the guide</button></div>`:''}${p.timer?`<div><button class="btn btn-quiet btn-sm" data-timer="${p.timer}">Start the timer</button></div>`:''}</div></details>`).join('');
+$('#practices').innerHTML=PRACTICES.map((p,i)=>`<details class="practice" data-cat="${PCAT[i]}"${i===0?' open':''}><summary><span class="glyph ${p.c}">${p.g}</span><div style="min-width:0"><h3>${p.t}</h3><div class="sub">${p.s}</div></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></summary><div class="body">${p.why?`<p style="font-size:14px">${p.why}</p>`:''}<ol>${p.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${p.caution?`<p class="note">${p.caution}</p>`:''}${p.go?`<div><button class="btn btn-quiet btn-sm" data-go="breathe" data-pattern="${p.go}">Practise with the guide</button></div>`:''}${p.timer?`<div><button class="btn btn-quiet btn-sm" data-timer="${p.timer}">Start the timer</button></div>`:''}</div></details>`).join('');
 
 /* ---------- rituals ---------- */
 const RITUALS=[
@@ -1474,7 +1485,7 @@ function applySeason(){
   $('#skTip').textContent=SEASONS[sk.s[5]].tip;
   const opts=[['auto','Follow the calendar'],['spring','Spring · sakura'],['rainy','Rainy · hydrangea'],['summer','Summer · bamboo'],['autumn','Autumn · maple'],['winter','Winter · camellia'],['stone','Stone · always']];
   $('#seasonChips').innerHTML=opts.map(([k,l])=>`<button class="chip" data-season="${k}" aria-pressed="${k===pick}">${l}</button>`).join('');
-  $('#seasonHint').textContent=pick==='auto'?`Now showing ${SEASONS[s].l.toLowerCase()} colours for ${sk.s[3]} (${sk.s[2]}). The palette shifts with each of the 24 solar terms (nijūshi sekki), first set out in ancient China and still marked in Japan, Korea and Vietnam.`:'A fixed palette. Choose "Follow the calendar" to let it change through the year.';
+  $('#seasonHint').textContent=pick==='auto'?`Now showing ${SEASONS[s].l.toLowerCase()} colours for ${sk.s[3]} (${sk.s[2]}). The palette shifts with each of the 24 solar terms of the old Japanese calendar.`:'A fixed palette. Choose "Follow the calendar" to let it change through the year.';
 }
 $('#seasonChips').addEventListener('click',e=>{const b=e.target.closest('[data-season]');if(!b)return;store.set('season',b.dataset.season);applySeason()});
 
@@ -1614,7 +1625,7 @@ const KIND={prep:['Get ready','var(--indigo)'],work:['Work','var(--saffron)'],re
 const T={id:null,segs:[],i:0,acc:0,t0:0,running:false,started:false,done:false,snd:store.get('tsound',true),mins:10,lock:null,last:-1};
 const TC=2*Math.PI*122;
 const durTxt=s=>Math.round(s/60)+' min';
-$('#tmrs').innerHTML=Object.entries(TIMERS).map(([id,P])=>{const sg=P.seg(10);return`<button class="rcard" data-timer="${id}"><span aria-hidden="true" class="glyph ${P.c}">${P.k}</span><span class="h-m">${P.n}</span><span class="hint">${P.d}</span><span class="tag">${P.mins?P.mins[0]+'–'+P.mins[P.mins.length-1]+' min':durTxt(sg.reduce((a,s)=>a+s[1],0))} · ${sg.length} steps</span></button>`}).join('');
+$('#tmrs').innerHTML=Object.entries(TIMERS).map(([id,P])=>{const sg=P.seg(10);return`<button class="rcard" data-timer="${id}"><span class="glyph ${P.c}">${P.k}</span><span class="h-m">${P.n}</span><span class="hint">${P.d}</span><span class="tag">${P.mins?P.mins[0]+'–'+P.mins[P.mins.length-1]+' min':durTxt(sg.reduce((a,s)=>a+s[1],0))} · ${sg.length} steps</span></button>`}).join('');
 function segNow(){return T.acc+(T.running?(performance.now()-T.t0)/1000:0)}
 function sndLbl(){const b=$('#tmrSnd');b.setAttribute('aria-pressed',T.snd);b.textContent=T.snd?'Sound on':'Sound off'}
 function openTimer(id){const P=TIMERS[id];if(!P)return;if(B.running)pause();if(CALM.on)closeCalm();
@@ -1683,6 +1694,102 @@ $('#shareSheet').addEventListener('click',e=>{if(e.target.id==='shareSheet')clos
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#shareSheet').hidden)closeShare()});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-share]');if(b)openShare(b.dataset.share)});
 
+/* ---------- top & bottom numbers ---------- */
+const BP={sys:120,dia:80,T:2,last:0,mode:'watch',play:!reduceMotion,frozen:false,cycle:3.2,flow:0,raf:0,pre:'text',lb:''};
+const bpWave=t=>t<.15?(1-Math.cos(Math.PI*t/.15))/2:t<.38?1-.5*ease((t-.15)/.23):t<.46?.5+.06*Math.sin(Math.PI*(t-.38)/.08):.5*Math.pow(1-(t-.46)/.54,1.6);
+const bpSqueeze=t=>t<.1?ease(t/.1):t<.3?1:t<.44?1-ease((t-.3)/.14):0;
+const bpPct=v=>(Math.min(200,Math.max(40,v))-40)/160*100;
+const BPT={squeeze:.15,rest:.96};
+$('#bpCells').innerHTML=Array.from({length:8},(_,i)=>`<circle r="3.6" cy="${i%2?66:58}" cx="0" opacity=".75"/>`).join('');
+/* 3D scene: loaded on demand; the flat drawing stays as the fallback */
+const BP3={ok:false,loading:false};
+function bp3Load(){if(BP3.ok||BP3.loading)return;BP3.loading=true;
+  const go=()=>{try{bp3Init()}catch(e){BP3.ok=false}};
+  if(window.THREE){go();return}
+  const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';s.onload=go;s.onerror=()=>{BP3.loading=false};document.head.appendChild(s)}
+function bp3Init(){const T=window.THREE,cv=$('#bp3d'),g=BP3;
+  g.r=new T.WebGLRenderer({canvas:cv,antialias:true,alpha:true});g.r.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+  g.scene=new T.Scene();g.cam=new T.PerspectiveCamera(30,1.25,.1,60);g.cam.position.set(0,2.2,13.6);g.cam.lookAt(0,-.15,0);
+  g.scene.add(new T.HemisphereLight(0xffffff,0x9a857c,.9));
+  const dl=new T.DirectionalLight(0xffffff,.8);dl.position.set(-3,6,7);g.scene.add(dl);
+  const root=new T.Group();root.rotation.y=-.5;root.position.set(-.1,.3,0);g.scene.add(root);
+  const sh=new T.Shape();sh.moveTo(0,-1.05);sh.bezierCurveTo(-1.5,-.1,-1.25,1.05,-.55,1.05);sh.bezierCurveTo(-.2,1.05,0,.8,0,.55);sh.bezierCurveTo(0,.8,.2,1.05,.55,1.05);sh.bezierCurveTo(1.25,1.05,1.5,-.1,0,-1.05);
+  const hg=new T.ExtrudeGeometry(sh,{depth:.3,bevelEnabled:true,bevelThickness:.4,bevelSize:.34,bevelSegments:12,curveSegments:28});hg.center();
+  g.heart=new T.Mesh(hg,new T.MeshStandardMaterial({color:0xB5333B,roughness:.4,metalness:.05}));g.heart.position.set(-3.2,.1,0);g.heart.rotation.y=.5;root.add(g.heart);
+  g.L=5.8;const R=.7,art=new T.Group();art.position.x=.45;root.add(art);
+  g.wall=new T.MeshStandardMaterial({color:0xE2A29C,roughness:.6,side:T.DoubleSide});g.c0=new T.Color(0xE2A29C);g.c1=new T.Color(0xC4473F);
+  g.tube=new T.Mesh(new T.CylinderGeometry(R,R,g.L,56,1,true,Math.PI*.42,Math.PI*1.42),g.wall);g.tube.rotation.z=Math.PI/2;art.add(g.tube);
+  g.lin=new T.Mesh(new T.CylinderGeometry(R*.9,R*.9,g.L,56,1,true,Math.PI*.42,Math.PI*1.42),new T.MeshStandardMaterial({color:0x8E2F38,roughness:.7,side:T.DoubleSide}));g.lin.rotation.z=Math.PI/2;art.add(g.lin);
+  const cg=new T.SphereGeometry(.17,18,12),cm=new T.MeshStandardMaterial({color:0xD23A3F,roughness:.35});g.cells=[];
+  for(let i=0;i<24;i++){const m=new T.Mesh(cg,cm),a=i*2.4,rr=R*.62*Math.sqrt(((i*7)%24+1)/24);m.scale.set(1,.45,1);m.rotation.set(i*.9,i*1.7,i*.5);art.add(m);g.cells.push({m,u:((i*.618)%1),y:Math.sin(a)*rr,z:Math.cos(a)*rr,rx:i*.9})}
+  g.ok=true;cv.hidden=false;$('#bp2d').setAttribute('hidden','');bp3Size();bpRender()}
+function bp3Size(){if(!BP3.ok)return;const cv=$('#bp3d'),w=cv.clientWidth||250,h=cv.clientHeight||200;BP3.r.setSize(w,h,false);BP3.cam.aspect=w/h;BP3.cam.updateProjectionMatrix()}
+window.addEventListener('resize',()=>{if(BP3.ok&&!$('#v-numbers').hidden){bp3Size();bpRender()}});
+function bpRender(){
+  const f=BP.T-Math.floor(BP.T),w=bpWave(f),env=bpSqueeze(f),p=BP.dia+(BP.sys-BP.dia)*w;
+  const strain=Math.max(0,Math.min(1,(BP.sys-115)/50));
+  const lb=f<.38?'squeeze':'rest';if(lb!==BP.lb){BP.lb=lb;$('#bpPhase').textContent=lb==='squeeze'?'Heart squeezes':'Heart rests';$('#rowTop').classList.toggle('on',lb==='squeeze');$('#rowBot').classList.toggle('on',lb==='rest')}
+  $('#bpFill').style.height=bpPct(p).toFixed(1)+'%';$('#bpNow').textContent=Math.round(p);
+  if(BP3.ok){const g=BP3,s=1+.2*w+.1*strain;
+    g.heart.scale.setScalar(1-.14*env);g.tube.scale.set(s,1,s);g.lin.scale.set(s,1,s);g.wall.color.copy(g.c0).lerp(g.c1,strain);
+    g.cells.forEach(c=>{const x=((c.u*g.L+BP.flow/248*g.L)%g.L+g.L)%g.L-g.L/2;c.m.position.set(x,c.y*s,c.z*s);c.m.rotation.x=c.rx+BP.flow*.012});
+    g.r.render(g.scene,g.cam)}
+  else{const h=11+6*w+3*strain;
+    [$('#bpTube'),$('#bpClipR')].forEach(r=>{r.setAttribute('y',(62-h).toFixed(1));r.setAttribute('height',(2*h).toFixed(1));r.setAttribute('rx',h.toFixed(1))});
+    $('#bpTube').setAttribute('stroke',strain>.5?'var(--high)':'var(--ink-2)');$('#bpTube').setAttribute('stroke-width',(2+strain*1.6).toFixed(1));
+    $('#bpHeart').setAttribute('transform',`translate(58 62) scale(${(1-.13*env).toFixed(3)}) translate(-58 -62)`);
+    [...$('#bpCells').children].forEach((c,i)=>c.setAttribute('cx',(88+((i*31+BP.flow)%248)).toFixed(1)))}
+  $('#bpHint').textContent=BP.play&&BP.mode==='watch'?'tap to pause':'tap to play';
+}
+function bpLoop(ts){BP.raf=0;if($('#v-numbers').hidden)return;const dt=Math.min(.05,(ts-BP.last)/1000);BP.last=ts;
+  if(BP.play&&!BP.frozen){let dT=dt/BP.cycle;
+    if(BP.mode!=='watch'){const f=BP.T-Math.floor(BP.T),gap=((BPT[BP.mode]-f)%1+1)%1;if(gap<=dT+1e-6){dT=gap;BP.frozen=true}}
+    const f2=BP.T-Math.floor(BP.T);BP.flow+=dT*(40+330*bpSqueeze(f2));BP.T+=dT}
+  bpRender();if(BP.play&&!BP.frozen)BP.raf=requestAnimationFrame(bpLoop)}
+function bpKick(){if(!BP.raf){BP.last=performance.now();BP.raf=requestAnimationFrame(bpLoop)}}
+function bpSetMode(m){BP.mode=m;$$('#bpMode button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  if(m==='watch'){BP.frozen=false;BP.play=true}
+  else if(reduceMotion){BP.T=Math.floor(BP.T)+BPT[m];BP.frozen=true;BP.play=true}
+  else{BP.frozen=false;BP.play=true}
+  bpRender();bpKick()}
+$('#bpMode').addEventListener('click',e=>{const b=e.target.closest('button');if(b)bpSetMode(b.dataset.m)});
+$('#bpSpeed').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;BP.cycle=+b.dataset.c;$$('#bpSpeed button').forEach(x=>x.setAttribute('aria-pressed',x===b));if(BP.mode==='watch'){BP.play=true;bpKick()}});
+function bpTap(){if(BP.mode!=='watch'){bpSetMode('watch');return}BP.play=!BP.play;bpRender();if(BP.play)bpKick()}
+$('#bpStage').addEventListener('click',bpTap);
+$('#bpStage').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();bpTap()}});
+function bpPresets(){const real=[...readings].filter(r=>!r.ex).sort((a,b)=>b.t-a.t)[0],o=[['text','Textbook 120/80',120,80]];if(real)o.push(['mine',`Your last ${real.s}/${real.d}`,real.s,real.d]);o.push(['high','High 160/100',160,100]);return o}
+function bpSetPre(k){const o=bpPresets(),p=o.find(x=>x[0]===k)||o[0];BP.pre=p[0];BP.sys=p[2];BP.dia=p[3];
+  $('#bpPre').innerHTML=o.map(x=>`<button class="chip" data-pre="${x[0]}" aria-pressed="${x[0]===BP.pre}">${x[1]}</button>`).join('');
+  countUp($('#numTop'),[BP.sys],v=>v[0]);countUp($('#numBot'),[BP.dia],v=>v[0]);
+  $('#bpTickT').style.bottom=bpPct(BP.sys)+'%';$('#bpTickT').firstElementChild.textContent='top '+BP.sys;
+  $('#bpTickB').style.bottom=bpPct(BP.dia)+'%';$('#bpTickB').firstElementChild.textContent='bottom '+BP.dia;
+  const hi=BP.sys>=140||BP.dia>=90;
+  $('#bpCap').textContent=hi?'At this pressure the artery wall is stretched and under strain with every beat.':'Your heart pumps blood into an artery, shown here cut open.';
+  $('#bpNote').textContent=p[0]==='text'?'A healthy reading. The gauge rises to the top number with each squeeze and sinks to the bottom number with each rest, and the artery wall flexes easily.':
+    p[0]==='high'?'At 160 over 100, every beat pushes much harder on the artery wall, about 100,000 times a day. Over years that strain damages arteries, the heart, the brain and the kidneys. It rarely causes symptoms, which is why measuring matters.':
+    `Your last reading, ${BP.sys} over ${BP.dia}, is in the “${cat(BP.sys,BP.dia)[0]}” range. The gauge shows the pressure in your arteries swinging between those two numbers with every beat.`;
+  bpRender()}
+$('#bpPre').addEventListener('click',e=>{const b=e.target.closest('[data-pre]');if(b){bpSetPre(b.dataset.pre);if(BP.play)bpKick()}});
+function bpEnter(){bp3Load();bp3Size();bpSetPre(BP.pre);if(BP.play&&!BP.frozen)bpKick()}
+const NCARDS=[
+ ['Think of a garden hose','Turn the tap on in short bursts. Pressure in the hose jumps with each burst, then eases, but the hose never goes empty. Your arteries work the same way, with one burst per heartbeat.'],
+ ['The top number','The highest pressure, reached as your heart squeezes. Its medical name is systolic. Memory hook: S for squeeze. Under 120 is ideal.'],
+ ['The bottom number','The lowest pressure, while your heart rests and refills. Its medical name is diastolic. Memory hook: D for the dip between beats. Under 80 is ideal.'],
+ ['How to say it','120/80 is read aloud as “120 over 80”. On a home monitor the top number is usually labelled SYS and the bottom one DIA.'],
+ ['What mmHg means','Millimetres of mercury. Old gauges measured pressure by how far it pushed a column of mercury up a glass tube. Digital monitors kept the unit.'],
+ ['Which one matters more?','Both. If either number is high, the reading counts as high. For most people over 50, doctors watch the top number most closely, because it tends to climb as arteries stiffen.'],
+ ['Pulse is something else','The third number on your monitor is your pulse: heartbeats per minute. A fast pulse doesn\'t mean high pressure, and a calm pulse doesn\'t rule it out.']
+];
+$('#numCards').innerHTML=NCARDS.map((c,i)=>`<div class="ncard"><span class="tag">${i+1} of ${NCARDS.length}</span><h3 class="h-m">${c[0]}</h3><p>${c[1]}</p></div>`).join('');
+const BPQ=[
+ {q:'A monitor shows 142 over 78. Which number is raised?',o:['Top','Bottom','Both'],a:0,y:'142 is above 130, while 78 is under 80. A raised top number on its own is common as arteries stiffen with age, and it still counts as high blood pressure.',n:'78 is under 80, which is fine. The 142 is the raised one, and a high top number on its own still counts as high blood pressure.'},
+ {q:'Which number is measured while your heart rests between beats?',o:['Top','Bottom'],a:1,y:'The bottom number is the pressure that remains in your arteries while the heart refills.',n:'It\'s the bottom number. The top number is the peak, when the heart squeezes.'}
+];
+$('#bpQuiz').innerHTML=BPQ.map((q,i)=>`<div class="quiz-q" data-qi="${i}"><b>${q.q}</b><div class="moods" role="group" aria-label="Answers">${q.o.map((o,j)=>`<button class="chip" data-ans="${j}" aria-pressed="false">${o}</button>`).join('')}</div><div class="quiz-fb" aria-live="polite" hidden></div></div>`).join('');
+$('#bpQuiz').addEventListener('click',e=>{const b=e.target.closest('[data-ans]');if(!b)return;const box=b.closest('.quiz-q'),q=BPQ[+box.dataset.qi],ok=+b.dataset.ans===q.a,fb=box.querySelector('.quiz-fb');
+  box.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  fb.hidden=false;fb.innerHTML=`<span class="pill ${ok?'c-normal':'c-elevated'}">${ok?'Correct':'Not quite'}</span><span>${ok?q.y:q.n}</span>`;replay(fb,'swap');buzz(ok?10:20)});
+
 /* ---------- carousels ---------- */
 function initSnap(el){if(!el)return;const nav=document.querySelector(`.dotsnav[data-for="${el.id}"]`);const items=[...el.children];if(!nav||!items.length)return;
   nav.innerHTML=items.map((_,i)=>`<button aria-label="Show card ${i+1} of ${items.length}"></button>`).join('');
@@ -1691,7 +1798,7 @@ function initSnap(el){if(!el)return;const nav=document.querySelector(`.dotsnav[d
   el.addEventListener('scroll',()=>requestAnimationFrame(upd),{passive:true});
   nav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const i=[...nav.children].indexOf(b);el.scrollTo({left:items[i].offsetLeft-pl(),behavior:'smooth'})});
   el._upd=upd;upd()}
-['qr','why','chips','tmrs'].forEach(id=>initSnap($('#'+id)));
+['qr','why','chips','tmrs','numCards'].forEach(id=>initSnap($('#'+id)));
 
 /* ---------- filters & jumps ---------- */
 const RCATS=['All','Breath','Body','Mind','Outdoors'];
@@ -1730,13 +1837,6 @@ sheetEl.addEventListener('pointerup',sdEnd);sheetEl.addEventListener('pointercan
 
 /* ---------- header hairline on scroll ---------- */
 window.addEventListener('scroll',()=>$('.top').classList.toggle('scrolled',scrollY>6),{passive:true});
-
-/* ---------- words & origins: render ---------- */
-$('#glossary').innerHTML=Object.values(GLOSS).map(w=>`<div class="gloss"><span class="w" lang="${w[1]}">${w[0]}</span><b>${w[2]?w[2]+' · ':''}${w[3]}</b><span class="m">${w[4]} · <i>${w[5]}</i></span></div>`).join('');
-const oli=t=>Object.values(ORIG).filter(x=>x[2]===t).map(x=>`<li><b>${x[0]}</b><span>${x[1]}</span></li>`).join('');
-$('#origTrad').innerHTML=oli(1);$('#origMod').innerHTML=oli(0);
-$$('[data-w]').forEach(el=>{const w=GLOSS[el.dataset.w];if(w&&el.id!=='skKanji')el.title=wordLine(w)});
-document.addEventListener('click',e=>{const el=e.target.closest('[data-w]');if(!el||el.closest('button,a'))return;const w=GLOSS[el.dataset.w];if(w)toast(wordLine(w))});
 
 /* init */
 applySeason();

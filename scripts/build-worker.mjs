@@ -8,6 +8,8 @@ const icons = {};
 for (const f of ['icon-192.png', 'icon-512.png', 'apple-touch-icon.png']) icons[f] = readFileSync(f).toString('base64');
 const three = readFileSync('vendor/three.min.js', 'utf8');
 const swSrc = readFileSync('sw.js', 'utf8');
+// push-server.js is inlined (its `export` keywords stripped) so worker.js stays a single file.
+const pushSrc = readFileSync('push-server.js', 'utf8').replace(/^export /gm, '');
 // Cache version = hash of everything the service worker precaches, so any change invalidates the old cache.
 const version = createHash('sha256').update(html).update(manifest).update(JSON.stringify(icons)).update(three).update(swSrc).digest('hex').slice(0, 10);
 const sw = swSrc.replace('__VERSION__', version);
@@ -17,11 +19,13 @@ const MANIFEST = ${JSON.stringify(manifest)};
 const ICONS = ${JSON.stringify(icons)};
 const THREE_JS = ${JSON.stringify(three)};
 const SW = ${JSON.stringify(sw)};
+${pushSrc}
 const SEC = {'X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin'};
 function b64(s){const bin=atob(s);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u}
 export default {
-  async fetch(req){
+  async fetch(req,env){
     const p=new URL(req.url).pathname;
+    if(p.startsWith('/api/push/')){const r=await pushRoutes(req,env,p);if(r)return r}
     if(p==='/'||p==='/index.html')return new Response(HTML,{headers:{...SEC,'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}});
     if(p==='/manifest.webmanifest')return new Response(MANIFEST,{headers:{...SEC,'Content-Type':'application/manifest+json','Cache-Control':'public, max-age=3600'}});
     if(p==='/sw.js')return new Response(SW,{headers:{...SEC,'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'no-cache'}});
@@ -30,7 +34,8 @@ export default {
     if(ICONS[n])return new Response(b64(ICONS[n]),{headers:{...SEC,'Content-Type':'image/png','Cache-Control':'public, max-age=86400'}});
     if(p==='/favicon.ico')return new Response(b64(ICONS['icon-192.png']),{headers:{'Content-Type':'image/png'}});
     return new Response('Not found',{status:404,headers:SEC});
-  }
+  },
+  async scheduled(event,env,ctx){ctx.waitUntil(runReminders(env))}
 };
 `;
 writeFileSync('worker.js', out);

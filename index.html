@@ -997,6 +997,11 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div style="margin-top:8px"><button class="btn btn-quiet btn-sm" id="copyRem">Copy schedule</button></div>
       <textarea class="fallback" id="remFallback" readonly hidden aria-label="Schedule text to copy" style="min-height:120px;margin-top:8px"></textarea>
     </div>
+    <div class="stack" style="gap:6px" id="pushSet">
+      <div class="eyebrow"><span class="kanji">響</span>Phone notifications</div>
+      <p class="hint" id="pushHint"></p>
+      <div><button class="btn btn-quiet btn-sm" id="pushBtn">Turn on notifications</button></div>
+    </div>
     <div class="stack" style="gap:6px">
       <div class="eyebrow"><span class="kanji">守</span>Your data</div>
       <p class="hint">Everything you log stays on this phone. Save a backup file before changing phones or clearing your browser data.</p>
@@ -1526,7 +1531,7 @@ function renderNext(){
   el.innerHTML=`<span class="nr-time">${r.t}</span><div class="nr-txt"><span class="nr-state${due?' due':''}">${due?'Due now':'Up next'}${more>0?` · +${more}`:''}</span><b>${r.l}</b></div><button class="btn btn-primary btn-sm" data-rem-start="${r.k}">Start</button><button class="chk-btn" data-rem-done="${r.k}" aria-label="Mark ${r.l} done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>`;
 }
 function renderRemList(){$('#remList').innerHTML=remList().map(r=>`<div class="rem-row"><input type="checkbox" class="sw" id="rem-${r.k}" data-k="${r.k}"${r.on?' checked':''}><label for="rem-${r.k}">${r.l}</label><input type="time" id="remt-${r.k}" data-k="${r.k}" value="${r.t}" aria-label="${r.l} time"></div>`).join('')}
-$('#remList').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;remCfgs[k]=remCfgs[k]||{};if(e.target.type==='checkbox')remCfgs[k].on=e.target.checked;else if(e.target.value)remCfgs[k].t=e.target.value;store.set('rem',remCfgs);renderNext();if(e.target.type==='time')renderRemList()});
+$('#remList').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;remCfgs[k]=remCfgs[k]||{};if(e.target.type==='checkbox')remCfgs[k].on=e.target.checked;else if(e.target.value)remCfgs[k].t=e.target.value;store.set('rem',remCfgs);renderNext();if(e.target.type==='time')renderRemList();window.pushSync&&pushSync()});
 $('#copyRem').addEventListener('click',()=>copyText('Tenang daily reminders\n'+remList().filter(r=>r.on).map(r=>`${r.t}  ${r.l}`).join('\n'),'#remFallback'));
 document.addEventListener('click',e=>{
   const s=e.target.closest('[data-rem-start]');if(s){const r=REM.find(x=>x.k===s.dataset.remStart);markRem(r.k,true);if(r.p)selectPattern(r.p);location.hash=r.go;return}
@@ -1928,6 +1933,66 @@ const savedP=store.get('pattern','resonance'); selectPattern(savedP);
   $('#bkFile').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)importData(f)});
   $('#setBtn').addEventListener('click',()=>{bkHint();renderInstall()});
   renderInstall();bkHint();
+})();
+/* ---------- Web Push reminders ---------- */
+(function(){
+  const supported='serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window&&/^https?:$/.test(location.protocol);
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  const COPY={amBP:'Time for your morning reading. Sit quietly for five minutes first.',amBr:'Five calm minutes of slow breathing. Tap to begin.',move:'A gentle walk or an isometric hold today.',pmBr:'Wind down with a few slow breaths. Tap to begin.',pmBP:'Time for your evening reading.',bed:'A slow 4-7-8 breath to ease into sleep.'};
+  const u8=b=>{b=b.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';return Uint8Array.from(atob(b),c=>c.charCodeAt(0))};
+  const enc=b=>btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  const post=(p,o)=>fetch(p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});
+  const reg=()=>navigator.serviceWorker.ready;
+  let serverKey=null;
+  async function getKey(){if(serverKey)return serverKey;const r=await fetch('/api/push/key');if(!r.ok)throw new Error('push unavailable');serverKey=(await r.json()).key;return serverKey}
+  async function current(){try{return await (await reg()).pushManager.getSubscription()}catch(e){return null}}
+  function payload(sub){
+    const j=sub.toJSON();
+    return{endpoint:j.endpoint,keys:j.keys,offset:-new Date().getTimezoneOffset(),
+      reminders:remList().filter(r=>r.on).map(r=>({k:r.k,t:r.t,title:r.l,body:COPY[r.k]||'A calm moment is waiting.',url:'/#'+r.go}))}
+  }
+  async function sync(){
+    if(!supported||Notification.permission!=='granted')return;
+    try{
+      const key=await getKey();let sub=await current();if(!sub)return;
+      // A different server key (e.g. keys were rotated) invalidates the old subscription: resubscribe.
+      if(sub.options&&sub.options.applicationServerKey&&enc(sub.options.applicationServerKey)!==key){await sub.unsubscribe();sub=await (await reg()).pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(key)})}
+      await post('/api/push/sync',payload(sub));
+    }catch(e){}
+  }
+  window.pushSync=sync;
+  async function render(){
+    const btn=$('#pushBtn'),hint=$('#pushHint');
+    btn.hidden=false;btn.disabled=false;
+    if(!supported){btn.hidden=true;hint.textContent='This browser can’t send notifications. Reminders still appear on the home screen while Tenang is open.';return}
+    if(isIOS&&!standalone()){btn.hidden=true;hint.textContent='On iPhone, first add Tenang to your Home Screen (Share, then Add to Home Screen), then open it from there to turn on notifications.';return}
+    if(Notification.permission==='denied'){btn.hidden=true;hint.textContent='Notifications are blocked for Tenang. Allow them in your phone or browser settings, then come back.';return}
+    const sub=await current();
+    if(sub&&Notification.permission==='granted'){btn.textContent='Turn off notifications';hint.textContent='On. Tenang will nudge you at the times above, even when the app is closed. Only your reminder times and this phone’s notification address are stored on our server, never your readings.'}
+    else{btn.textContent='Turn on notifications';hint.textContent='Get a gentle nudge at your reminder times, even when the app is closed. Only your reminder times and this phone’s notification address are stored on our server, never your readings.'}
+  }
+  async function toggle(){
+    const btn=$('#pushBtn');btn.disabled=true;
+    try{
+      const sub=await current();
+      if(sub){await post('/api/push/unsubscribe',{endpoint:sub.endpoint}).catch(()=>{});await sub.unsubscribe();toast('Notifications off')}
+      else{
+        const perm=await Notification.requestPermission();
+        if(perm!=='granted'){toast(perm==='denied'?'Notifications are blocked':'Notifications not turned on');return}
+        const key=await getKey();
+        const s=await (await reg()).pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(key)});
+        const r=await post('/api/push/sync',payload(s));
+        if(!r.ok)throw new Error('sync failed');
+        toast('Notifications on');
+      }
+    }catch(e){toast('Couldn’t change notifications. Try again.')}
+    finally{await render()}
+  }
+  $('#pushBtn').addEventListener('click',toggle);
+  $('#setBtn').addEventListener('click',render);
+  render();
+  window.addEventListener('load',()=>setTimeout(sync,1500));
 })();
 renderMinutes(); renderRituals(); renderLog(); renderPath(); renderNext(); route();
 })();

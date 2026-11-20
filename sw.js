@@ -16,6 +16,29 @@ self.addEventListener('activate', e => {
   })());
 });
 
+// Web Push: the server sends {title, body, url, k}. Browsers (iOS especially) require a visible notification for every push.
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) {}
+  e.waitUntil(self.registration.showNotification(d.title || 'Tenang', {
+    body: d.body || 'A calm moment is waiting.',
+    icon: '/icon-192.png', badge: '/icon-192.png',
+    tag: d.k || 'tenang', data: { url: /^\/#[a-z0-9-]{0,20}$/.test(d.url || '') ? d.url : '/#home' }
+  }));
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || '/#home';
+  e.waitUntil((async () => {
+    const all = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const c of all) {
+      if (new URL(c.url).origin === location.origin) { await c.focus(); if ('navigate' in c) { try { await c.navigate(url); } catch (err) {} } return; }
+    }
+    await self.clients.openWindow(url);
+  })());
+});
+
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;

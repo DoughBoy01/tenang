@@ -22,16 +22,21 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 | `manifest.webmanifest`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png`, `_headers` | PWA assets (and Cloudflare Pages headers) |
 | `sw.js` | Service worker source (offline app shell, font cache). Build swaps its `__VERSION__` placeholder for a content hash; keep that token only on the `VERSION` line. |
 | `vendor/three.min.js` | Three.js r128 (MIT), served locally so the 3D guide works offline |
+| `push-server.js` | Web Push backend: subscription API (`/api/push/*`), per-minute cron sender, VAPID signing, RFC 8291 encryption. Inlined into `worker.js` by the build (its `export`s are stripped) |
+| `migrations/0001_push.sql` | D1 schema for push subscriptions (apply with `npx wrangler d1 migrations apply tenang-push --remote`) |
+| `wrangler.jsonc` | Worker config: D1 binding `DB`, cron `* * * * *`, `VAPID_PUBLIC` var |
+| `scripts/test-push.mjs` | Tests push crypto (independent decrypt), VAPID signature, validation, API and cron with a fake D1 |
 | `worker.js` | **Generated.** Single-file Cloudflare Worker with the HTML, manifest, icons, `sw.js` and Three.js embedded. Do not hand-edit. |
 | `scripts/build-worker.mjs` | Regenerates `worker.js` from the files above |
 | `scripts/smoke.mjs` | Playwright mobile smoke test (all views, light and dark, page errors, horizontal overflow). Needs `npm i -D playwright` |
 
-Workflow after any change to `index.html` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, commit both `index.html` and `worker.js`, then deploy.
+Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs` and `node scripts/test-push.mjs`, commit the source files and `worker.js`, then deploy.
 
 ## Deploy
 
 - Live (test) site: https://tenang.pm2120600.workers.dev (Cloudflare Workers, account has many other Workers; this one is named `tenang`).
-- Deploy: `npx wrangler deploy worker.js --name tenang --compatibility-date 2026-10-01`
+- Deploy: `npx wrangler deploy` (config in `wrangler.jsonc`). `cf deploy` does not suit this single-file Worker.
+- Push resources (Cloudflare account `tenang` Worker): D1 database `tenang-push`, secret `VAPID_PRIVATE_JWK` (never commit; if lost, generate a new key pair, update `VAPID_PUBLIC` in `wrangler.jsonc`, and the app resubscribes phones automatically on next open), cron trigger every minute.
 - Do not use `tenang.pages.dev`: that address is owned by someone else (it served an unrelated spam site).
 - The live site may lag the repo; redeploy after pulling.
 - A Claude-hosted copy also exists as a Claude artifact (https://claude.ai/artifact/Np8XXjU3Deyg6DwJk1EFRu). It differs only by two header tags (`<meta name="claude:viewport-fit-sides" content="cover">`) and no manifest link. It is not part of this repo's workflow. In the app, `APP_URL` uses the origin on `*.workers.dev`/`*.pages.dev` and falls back to the artifact URL elsewhere. Update `APP_URL` when a permanent domain exists.
@@ -54,6 +59,7 @@ Inspired by Japanese, Korean and Balinese Buddhist aesthetics: quiet, spacious, 
 - **Features:** 30-day path, before/after readings, mood check-in leading to a "calm now" sequence, rituals, reminders with auto-complete (`markRem`), doctor-ready summary (`renderSummary`, `buildSumText`, `copyText`), Medicines guide, shareable card/sheet with a "who could this help" reason, timers sheet (`#tmr`), settings sheet (`#sheet`).
 - **Top and bottom numbers guide (`#v-numbers`):** animated 3D explanation (Three.js r128 loaded on demand from cdnjs, `bp3Load/bp3Init/bpRender`): a pumping heart, a cut-open artery with blood cells, and a vertical gauge with "top 120 / bottom 80" marks. Modes Watch/Squeeze/Rest, speeds Slow/Real, presets (including a high 160/100 reading), number cards carousel, quick quiz. If WebGL or the script fails, a 2D SVG fallback (`#bp2d`) with the same gauge shows. The owner found an earlier 2D wave graph "confusing", so keep it simple: one caption, one gauge.
 - CSP-style constraint carried over from the artifact host: external scripts only from cdnjs, CSS only from Google Fonts. Keep everything else inline. Three.js now comes from `/vendor/three.min.js`.
+- **Web Push** (end of `index.html` + `push-server.js` + `sw.js` handlers): Settings has Turn on/off notifications. The client sends the push subscription, UTC offset and enabled reminders (title, calm body text, route) to `/api/push/sync` on enable, on every reminder edit and ~1.5s after each app open; the server stores each reminder's UTC minute and fires it from the cron. Server stores no readings or names. Endpoints are restricted to FCM, Mozilla, Apple and Windows push hosts. Offset is captured when the app is opened, so DST changes self-heal on the next open.
 - **PWA layer** (end of `index.html`): service worker registration, install card on Home (shown from the second visit, `beforeinstallprompt` on Android, Add-to-Home-Screen hint on iOS), `navigator.storage.persist()`, and Save/Restore backup in Settings (JSON of all `tenang:` keys, validated before restore). Navigations are network-first with a 4s fallback to the cached app, so updates arrive on the next open.
 
 ## Testing notes
@@ -82,6 +88,6 @@ Inspired by Japanese, Korean and Balinese Buddhist aesthetics: quiet, spacious, 
 - Live Cloudflare deployment is manual (wrangler). A GitHub Action or Cloudflare Git integration would remove that step.
 - Data is local to each device (`localStorage`); there is no account or sync. Manual backup/restore exists in Settings.
 - Not yet install-tested on a real phone (Android Chrome and iOS Safari). Offline use and backup were verified in headless Chromium only.
-- Reminders still only show while the app is open; background alerts need Web Push (Worker + Cron + KV) or a Capacitor wrapper with local notifications.
+- Web Push reminders are built but only verified with unit tests and a live API/D1 round trip, not yet on a real phone. Free-plan limit: a cron run can make about 50 outbound requests, so more than ~45 reminders due in the same minute will be dropped; fix with a paid plan (1000) or Queues. A push also fires if the reminder was already ticked off that day. iOS needs the app installed to the Home Screen (16.4+).
 - Medicines content and BP category thresholds should get a clinician review before any public launch.
 - No translations yet; English only.

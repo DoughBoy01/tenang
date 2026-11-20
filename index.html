@@ -1,0 +1,1748 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ECEEE8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111614" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Tenang: calm, natural ways to lower blood pressure. Guided breathing, nervous-system resets, a 30-day path and a doctor-ready summary.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tenang">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Tenang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single calm column, like a stone path. One raked-sand breathing stage is the bold moment; everything else is quiet paper and ink. */
+:root{
+  --paper:#ECEEE8; --surface:#F7F8F3; --sunk:#E2E6DE; --ink:#1D2725; --ink-2:#56625D; --line:#D0D6CC;
+  --moss:#4F6B4A; --moss-soft:#DCE4D6; --indigo:#2D4565; --indigo-soft:#DCE2EA; --saffron:#A9701F; --saffron-soft:#F0E3CC;
+  --ok:#3F7347; --ok-bg:#DDE9DC; --warn:#8C6A12; --warn-bg:#F1E7C9; --high:#A4492A; --high-bg:#F3DDD3; --crisis:#9B2424; --crisis-bg:#F4D6D6;
+  --font-display:"Shippori Mincho","Hiragino Mincho ProN","Noto Serif JP",Georgia,serif;
+  --font-body:"Zen Kaku Gothic New","Hiragino Sans","Apple SD Gothic Neo",system-ui,-apple-system,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:18px; --hero:#2D4565;
+}
+/* seasonal palettes (light): placed before the dark blocks so dark mode still wins */
+:root[data-season="spring"]{--moss:#5C7A57;--moss-soft:#E2EADB;--saffron:#B4566F;--saffron-soft:#F4DEE4;--hero:#5A4560;--paper:#F0ECEC;--sunk:#E7E1E2}
+:root[data-season="rainy"]{--moss:#4E6E68;--moss-soft:#DAE6E3;--saffron:#6A5AA8;--saffron-soft:#E4E0F3;--hero:#3B4B78;--paper:#EBEEF0;--sunk:#DFE4E8}
+:root[data-season="summer"]{--moss:#2F7360;--moss-soft:#D5E9E1;--saffron:#B5651F;--saffron-soft:#F5E2CE;--hero:#1F4E5A;--paper:#EAF0EC;--sunk:#DCE6E0}
+:root[data-season="autumn"]{--moss:#5D6B3F;--moss-soft:#E5E6D3;--saffron:#B0482A;--saffron-soft:#F3DBD0;--hero:#5A3326;--paper:#EFECE7;--sunk:#E5E0D8}
+:root[data-season="winter"]{--moss:#4A6670;--moss-soft:#DCE5E9;--saffron:#A8323E;--saffron-soft:#F1D7DA;--hero:#34404E;--paper:#EEF1F3;--sunk:#E1E6EA}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#111614; --surface:#18201D; --sunk:#0D1210; --ink:#E3E8E1; --ink-2:#9AA69F; --line:#28322E;
+  --moss:#93B488; --moss-soft:#22301F; --indigo:#93AACB; --indigo-soft:#1C2635; --saffron:#DDA65C; --saffron-soft:#33281A;
+  --ok:#86BB8A; --ok-bg:#1C2E1F; --warn:#DDBB62; --warn-bg:#2F2914; --high:#E7906C; --high-bg:#36211A; --crisis:#F08080; --crisis-bg:#3A1A1A; --hero:#1C2738;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#111614; --surface:#18201D; --sunk:#0D1210; --ink:#E3E8E1; --ink-2:#9AA69F; --line:#28322E;
+  --moss:#93B488; --moss-soft:#22301F; --indigo:#93AACB; --indigo-soft:#1C2635; --saffron:#DDA65C; --saffron-soft:#33281A;
+  --ok:#86BB8A; --ok-bg:#1C2E1F; --warn:#DDBB62; --warn-bg:#2F2914; --high:#E7906C; --high-bg:#36211A; --crisis:#F08080; --crisis-bg:#3A1A1A; --hero:#1C2738;
+  color-scheme:dark}
+
+/* seasonal palettes (dark) */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"])[data-season="spring"]{--moss:#9CBC92;--moss-soft:#22301F;--saffron:#E79AAE;--saffron-soft:#3A2229;--hero:#2E2333;--paper:#151213;--sunk:#0F0C0D}
+  :root:not([data-theme="light"])[data-season="rainy"]{--moss:#8FBDB4;--moss-soft:#1C2D2A;--saffron:#ABA0E6;--saffron-soft:#26223A;--hero:#1F2640;--paper:#101417;--sunk:#0B0F12}
+  :root:not([data-theme="light"])[data-season="summer"]{--moss:#7FC7AE;--moss-soft:#17302A;--saffron:#E9A066;--saffron-soft:#36261A;--hero:#133038;--paper:#0F1513;--sunk:#0A100E}
+  :root:not([data-theme="light"])[data-season="autumn"]{--moss:#AFBE84;--moss-soft:#2A2D1C;--saffron:#E8876A;--saffron-soft:#3A2119;--hero:#2E1A14;--paper:#151210;--sunk:#0F0C0A}
+  :root:not([data-theme="light"])[data-season="winter"]{--moss:#94B4C0;--moss-soft:#1A262B;--saffron:#E57C87;--saffron-soft:#3A1D21;--hero:#1D252F;--paper:#111518;--sunk:#0B0F12}
+}
+:root[data-theme="dark"][data-season="spring"]{--moss:#9CBC92;--moss-soft:#22301F;--saffron:#E79AAE;--saffron-soft:#3A2229;--hero:#2E2333;--paper:#151213;--sunk:#0F0C0D}
+:root[data-theme="dark"][data-season="rainy"]{--moss:#8FBDB4;--moss-soft:#1C2D2A;--saffron:#ABA0E6;--saffron-soft:#26223A;--hero:#1F2640;--paper:#101417;--sunk:#0B0F12}
+:root[data-theme="dark"][data-season="summer"]{--moss:#7FC7AE;--moss-soft:#17302A;--saffron:#E9A066;--saffron-soft:#36261A;--hero:#133038;--paper:#0F1513;--sunk:#0A100E}
+:root[data-theme="dark"][data-season="autumn"]{--moss:#AFBE84;--moss-soft:#2A2D1C;--saffron:#E8876A;--saffron-soft:#3A2119;--hero:#2E1A14;--paper:#151210;--sunk:#0F0C0A}
+:root[data-theme="dark"][data-season="winter"]{--moss:#94B4C0;--moss-soft:#1A262B;--saffron:#E57C87;--saffron-soft:#3A1D21;--hero:#1D252F;--paper:#111518;--sunk:#0B0F12}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--paper)}
+body{color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+h1,h2,h3{font-family:var(--font-display);font-weight:500;text-wrap:balance;margin:0;letter-spacing:.01em}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--indigo);outline-offset:3px;border-radius:8px}
+
+.app{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(96px + env(safe-area-inset-bottom,0px))}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);display:flex;align-items:center;justify-content:space-between;padding-block:14px 10px;margin-inline:-4px;padding-inline:4px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:28px;height:28px;color:var(--moss)}
+.brand b{font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:.04em}
+.brand small{display:block;font-size:10.5px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;line-height:1}
+.date{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-2);text-align:right;line-height:1.3}
+
+.view{display:flex;flex-direction:column;gap:22px;padding-top:8px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);display:flex;gap:8px;align-items:baseline}
+.eyebrow .kanji{font-family:var(--font-display);letter-spacing:.1em;text-transform:none;color:var(--moss);font-size:13px}
+.lede{color:var(--ink-2);max-width:60ch}
+.h-xl{font-size:32px;line-height:1.2}
+.h-l{font-size:23px;line-height:1.3}
+.h-m{font-size:18px;line-height:1.35}
+.stack{display:flex;flex-direction:column;gap:10px}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.btn{appearance:none;border:0;border-radius:999px;padding:9px 18px;font-size:14px;font-weight:500;letter-spacing:.01em;line-height:1.2;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;white-space:nowrap;transition:transform .15s ease,background .2s,filter .2s}
+.btn:hover{filter:brightness(1.05)}
+.btn-sm{min-height:34px;padding:6px 14px;font-size:13px}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--moss);color:var(--surface)}
+.btn-ghost{background:transparent;border:1px solid var(--line)}
+.btn-quiet{background:var(--sunk)}
+.link{background:none;border:0;padding:0;color:var(--indigo);font-weight:500;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* Home hero */
+.hero{position:relative;border-radius:24px;overflow:hidden;background:var(--hero);color:#EEF1F4;transition:background .4s;padding:22px 20px 20px;display:block}
+.hero h1{font-size:26px;line-height:1.25;color:#F5F3EC;max-width:calc(100% - 64px)}
+.hero p{color:#C9D3DF;font-size:14px;margin-top:8px}
+.hero .btn{background:#F5F3EC;color:#24364F;margin-top:16px;min-height:38px;padding:8px 16px;font-size:13.5px}
+.hero .mini{position:absolute;top:16px;right:14px;width:72px;height:72px;opacity:.85}
+.hero .mini circle{fill:none;stroke:#C9D3DF}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.tile .v{font-family:var(--font-mono);font-size:24px;font-variant-numeric:tabular-nums;line-height:1.1}
+.tile .v small{font-size:12px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:500;padding:3px 10px;border-radius:999px;width:max-content;max-width:100%}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.c-normal{color:var(--ok);background:var(--ok-bg)}
+.c-elevated{color:var(--warn);background:var(--warn-bg)}
+.c-s1{color:var(--high);background:var(--high-bg)}
+.c-s2{color:var(--crisis);background:var(--crisis-bg)}
+.c-crisis{color:var(--surface);background:var(--crisis)}
+.bar{height:6px;border-radius:6px;background:var(--sunk);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--moss);border-radius:6px;transition:width .4s ease}
+
+.why{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+.why .num{font-family:var(--font-display);font-size:34px;color:var(--saffron);line-height:1}
+
+/* Breathing stage */
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-inline:-2px;padding-inline:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 13px;cursor:pointer;font-size:13px;line-height:1.3;white-space:nowrap;min-height:34px;transition:background .2s,border-color .2s}
+.chip:hover{border-color:var(--ink-2)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.stage{position:relative;background:var(--sunk);border-radius:28px;aspect-ratio:1/.9;max-width:100%;display:grid;place-items:center;overflow:hidden}
+.stage{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .4s var(--spring)}
+.stage:active{transform:scale(.985);transition-duration:.1s}
+.stage:focus-visible{outline:2px solid var(--moss);outline-offset:3px}
+.stage svg{width:82%;height:auto;max-width:100%;margin-top:-14px}
+.rings{transform-origin:200px 200px;transition:none}
+.rings circle{fill:none;stroke:var(--moss);}
+.stone{fill:var(--surface);stroke:var(--line)}
+.enso{fill:none;stroke:var(--ink);stroke-linecap:round;transition:stroke-dashoffset .5s linear;opacity:.85}
+.enso-track{fill:none;stroke:var(--line);stroke-width:2}
+.stage-text{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;text-align:center}
+.phase{font-family:var(--font-display);font-size:26px;line-height:1.2}
+.count{font-family:var(--font-mono);font-size:14px;color:var(--ink-2);margin-top:4px;font-variant-numeric:tabular-nums}
+.stage-meta{position:absolute;left:16px;right:16px;bottom:14px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.controls .btn-primary{flex:1 1 120px;max-width:220px}
+.seg{display:inline-flex;background:var(--sunk);border-radius:999px;padding:4px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:5px 12px;cursor:pointer;font-family:var(--font-mono);font-size:12.5px;min-height:32px}
+.seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.icon-btn{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer}
+.icon-btn svg{width:20px;height:20px}
+.icon-btn[aria-pressed="true"]{background:var(--moss-soft);border-color:var(--moss);color:var(--moss)}
+.pattern-info{display:flex;flex-direction:column;gap:8px}
+.rhythm{display:flex;gap:4px;height:8px}
+.rhythm span{border-radius:4px}
+.r-in{background:var(--moss)} .r-hold{background:var(--line)} .r-out{background:var(--indigo)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--ink-2);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.diagram{width:100%;height:auto;display:block;max-width:100%}
+.diagram text{font-family:var(--font-mono);font-size:11px;fill:var(--ink-2)}
+.diagram .lbl{font-family:var(--font-body);font-size:12.5px;fill:var(--ink)}
+.diagram .axis-l{stroke:var(--line);stroke-width:1}
+.diagram .curve{fill:none;stroke:var(--ink-2);stroke-width:2;opacity:.35}
+.diagram .trail{fill:none;stroke:var(--moss);stroke-width:3;stroke-linecap:round}
+.diagram .band{fill:var(--moss-soft);transition:x .3s,width .3s}
+.diagram .dot{fill:var(--saffron);stroke:var(--surface);stroke-width:3}
+.diagram .side{stroke:var(--line);stroke-width:6;stroke-linecap:round;transition:stroke .3s}
+.diagram .side.on{stroke:var(--moss)}
+.diagram .side.on.s-out{stroke:var(--indigo)}
+.diagram .big{font-family:var(--font-display);font-size:34px;fill:var(--ink)}
+.phase-row{display:grid;gap:6px}
+.ph{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--sunk);transition:background .3s}
+.ph b{font-weight:500;font-size:13.5px;line-height:1.35}
+.ph .mono{font-size:12px;color:var(--ink-2)}
+.ph .pbar{grid-column:1/-1;height:4px;border-radius:4px;background:var(--line);overflow:hidden}
+.ph .pbar i{display:block;height:100%;width:0;background:var(--moss)}
+.ph.out .pbar i{background:var(--indigo)} .ph.hold .pbar i{background:var(--ink-2)}
+.ph.on{background:var(--moss-soft)}
+.note{font-size:13px;color:var(--ink-2);border-left:2px solid var(--saffron);padding-left:12px}
+
+/* Reset practices */
+.practice{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.practice summary{list-style:none;cursor:pointer;padding:16px 18px;display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center}
+.practice summary::-webkit-details-marker{display:none}
+.glyph{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-family:var(--font-display);font-size:19px}
+.g-moss{background:var(--moss-soft);color:var(--moss)} .g-indigo{background:var(--indigo-soft);color:var(--indigo)} .g-saffron{background:var(--saffron-soft);color:var(--saffron)}
+.practice h3{font-size:16.5px;line-height:1.3}
+.practice .sub{font-size:12.5px;color:var(--ink-2)}
+.chev{width:18px;height:18px;color:var(--ink-2);transition:transform .25s}
+.practice[open] .chev{transform:rotate(180deg)}
+.practice .body{padding:0 18px 18px 76px;display:flex;flex-direction:column;gap:12px}
+.practice ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.practice ol li::marker{font-family:var(--font-mono);color:var(--ink-2);font-size:12px}
+.tag{font-family:var(--font-mono);font-size:11px;color:var(--ink-2)}
+@media (max-width:400px){.practice .body{padding-left:18px}}
+
+/* Rituals */
+.ritual{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.ritual:last-child{border-bottom:0}
+.ritual input{appearance:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--ink-2);margin:2px 0 0;display:grid;place-items:center;cursor:pointer;background:var(--surface)}
+.ritual input:checked{background:var(--moss);border-color:var(--moss)}
+.ritual input:checked::after{content:"";width:9px;height:5px;border-left:2px solid var(--surface);border-bottom:2px solid var(--surface);transform:rotate(-45deg) translate(1px,-1px)}
+.ritual b{font-weight:500;display:block}
+.ritual span{font-size:13px;color:var(--ink-2)}
+.ritual input:checked + div b{text-decoration:line-through;text-decoration-color:var(--ink-2);color:var(--ink-2)}
+.effect{display:grid;grid-template-columns:minmax(0,9.5em) 1fr auto;gap:10px;align-items:center;font-size:13.5px}
+.effect .track{height:10px;background:var(--sunk);border-radius:5px;position:relative;overflow:hidden}
+.effect .track i{position:absolute;inset:0 auto 0 0;background:var(--saffron);border-radius:5px}
+.effect .val{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-2);min-width:4.2em;text-align:right;font-variant-numeric:tabular-nums}
+.axis{display:grid;grid-template-columns:minmax(0,9.5em) 1fr auto;gap:10px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-2)}
+.axis div{display:flex;justify-content:space-between}
+.foods{display:flex;flex-wrap:wrap;gap:6px}
+.foods span{font-size:12.5px;background:var(--moss-soft);color:var(--moss);padding:4px 10px;border-radius:999px}
+
+/* Log */
+.form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.field input,.field select{width:100%;min-width:0;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:12px;font-family:var(--font-mono);font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums}
+.field input:focus{outline:2px solid var(--moss);outline-offset:0;border-color:transparent}
+.form .wide{grid-column:1/-1}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--ink-2);font-family:var(--font-mono);font-size:10px}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .sys{fill:none;stroke:var(--indigo);stroke-width:2}
+.chart .dia{fill:none;stroke:var(--moss);stroke-width:2}
+.chart .sys-a{fill:var(--indigo);opacity:.08}
+.reading{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.reading:last-child{border-bottom:0}
+.reading .bp{font-family:var(--font-mono);font-size:20px;font-variant-numeric:tabular-nums}
+.reading .bp small{font-size:12px;color:var(--ink-2)}
+.reading .when{font-size:12px;color:var(--ink-2)}
+.reading .del{grid-row:span 2;width:32px;height:32px;display:grid;place-items:center;background:none;border:0;color:var(--ink-2);cursor:pointer;border-radius:50%;opacity:.6;transition:opacity .2s,background-color .2s}
+.reading .del:hover{opacity:1;background:var(--sunk)}
+.reading .del svg{width:14px;height:14px}
+.rit-head{display:flex;gap:14px;align-items:center;padding-bottom:6px}
+.rit-head > div{display:flex;flex-direction:column}
+.rit-ring{width:48px;height:48px;flex:0 0 auto}
+.rr-t{fill:none;stroke:var(--sunk);stroke-width:5}
+.rr-p{fill:none;stroke:var(--moss);stroke-width:5;stroke-linecap:round;stroke-dasharray:125.7;stroke-dashoffset:125.7;transition:stroke-dashoffset .9s var(--spring)}
+#ritCount{font-size:18px;font-weight:500}
+.chips > .btn{flex:0 0 auto}
+.field select{font-family:var(--font-body);font-size:15px}
+.banner{border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.banner.crisis{background:var(--crisis-bg);color:var(--ink);border:1px solid var(--crisis)}
+.banner.crisis b{color:var(--crisis)}
+.example{font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--saffron-soft);color:var(--saffron);padding:3px 9px;border-radius:999px}
+.cats{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:center;font-size:13px}
+.cats .mono{font-size:12px;color:var(--ink-2);text-align:right}
+.tips{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:var(--ink-2)}
+
+/* Nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+.nav-in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 2px 9px;text-decoration:none;color:var(--ink-2);font-size:11px;letter-spacing:.04em}
+.nav a svg{width:22px;height:22px}
+.nav a[aria-current="page"]{color:var(--moss)}
+.nav a[aria-current="page"] svg{stroke-width:2}
+.foot{font-size:12px;color:var(--ink-2);padding-top:6px;line-height:1.55}
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-size:13.5px;z-index:30;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+
+/* hero actions */
+.hero-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.hero .hero-actions .btn{margin-top:0}
+.hero .btn.btn-calm{background:transparent;color:#F5F3EC;border:1px solid rgba(245,243,236,.45)}
+
+/* check-in */
+.moods{display:flex;flex-wrap:wrap;gap:8px}
+.suggest{background:var(--sunk);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+
+/* 30-day path */
+.path-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.dots{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:224px}
+.dots span{aspect-ratio:1;border-radius:50%;border:1.5px solid var(--line);max-width:100%}
+.dots span.part{border-color:var(--moss);background:var(--moss-soft)}
+.dots span.full{border-color:var(--moss);background:var(--moss)}
+.dots span.today{border:2px solid var(--saffron);box-shadow:0 0 0 3px var(--saffron-soft)}
+.task{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.task:last-child{border-bottom:0}
+.task label{cursor:pointer;font-size:14.5px;min-width:0}
+.task input{appearance:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--ink-2);margin:0;display:grid;place-items:center;cursor:pointer;background:var(--surface)}
+.task input:checked{background:var(--moss);border-color:var(--moss)}
+.task input:checked::after{content:"";width:9px;height:5px;border-left:2px solid var(--surface);border-bottom:2px solid var(--surface);transform:rotate(-45deg) translate(1px,-1px)}
+.task input:checked + label{color:var(--ink-2);text-decoration:line-through}
+.go{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:12.5px;line-height:1.3;cursor:pointer;min-height:30px;white-space:nowrap;transition:border-color .2s}
+.go:hover{border-color:var(--ink-2)}
+
+/* before / after */
+.pp-toggle{display:flex;gap:12px;align-items:center;cursor:pointer;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.pp-toggle input,.sw{appearance:none;flex:0 0 auto;width:44px;height:26px;border-radius:13px;background:var(--line);position:relative;margin:0;cursor:pointer;transition:background .2s}
+.pp-toggle input::after,.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--surface);transition:transform .2s}
+.pp-toggle input:checked,.sw:checked{background:var(--moss)}
+.pp-toggle input:checked::after,.sw:checked::after{transform:translateX(18px)}
+
+/* header settings */
+.top-r{display:flex;gap:10px;align-items:center}
+.icon-btn.sm{width:40px;height:40px}
+
+/* season card */
+.season{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;padding:4px 2px}
+.sk-kanji{writing-mode:vertical-rl;font-family:var(--font-display);font-size:30px;line-height:1;color:var(--saffron);letter-spacing:.14em;padding:2px 14px 2px 0;border-right:1px solid var(--line)}
+.season > div:last-child{display:flex;flex-direction:column;gap:4px;min-width:0}
+
+/* next reminder */
+.next{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:14px 14px 14px 18px}
+.nr-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.nr-txt b{font-weight:500;font-size:14.5px;line-height:1.3}
+.nr-state{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nr-state.due{color:var(--warn)}
+.nr-state.due::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px;animation:blink 2.2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.3}}
+.chk-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--ink-2);transition:color .25s,border-color .25s,transform .4s var(--spring)}
+.chk-btn:hover{color:var(--moss);border-color:var(--moss)}
+.chk-btn:active{transform:scale(.9)}
+.chk-btn svg{width:16px;height:16px}
+.nr-main{display:flex;gap:14px;align-items:center;min-width:0}
+.nr-main > div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.nr-time{font-size:20px;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.nr-act{display:flex;gap:6px}
+
+/* settings sheet */
+.sheet-bg{position:fixed;inset:0;z-index:40;background:rgba(10,14,12,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:520px;max-height:88vh;overflow-y:auto;border-radius:24px 24px 0 0;padding-top:20px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.sheet-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rem-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.rem-row label{font-size:14.5px;cursor:pointer;min-width:0}
+.rem-row input[type="time"]{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:8px 10px;font-family:var(--font-mono);color:var(--ink);font-size:15px}
+
+/* medicines 101 */
+.med-link{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;cursor:pointer;text-align:left;width:100%}
+.search{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:10px 16px;font:inherit;color:var(--ink);font-size:15px}
+.search:focus{outline:2px solid var(--moss);outline-offset:0;border-color:transparent}
+.badge{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-family:var(--font-mono);font-size:11.5px;font-weight:500;letter-spacing:.02em;text-align:center;line-height:1.1}
+.med-sec{display:flex;flex-direction:column;gap:6px}
+.med-sec h4{margin:0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);font-weight:500}
+.med-sec ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.drugs{display:flex;flex-wrap:wrap;gap:6px}
+.drugs span{font-family:var(--font-mono);font-size:12px;background:var(--sunk);padding:3px 9px;border-radius:999px}
+.urgent{background:var(--crisis-bg);border-radius:12px;padding:10px 12px;font-size:13.5px}
+.urgent b{color:var(--crisis)}
+.ix{display:grid;grid-template-columns:minmax(0,9em) 1fr;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.ix:last-child{border-bottom:0}
+.ix b{font-weight:500}
+@media (max-width:400px){.ix{grid-template-columns:1fr}}
+
+/* doctor summary */
+.rep{display:flex;flex-direction:column;gap:18px}
+.rep-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.rep-head b{font-weight:500}
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.kv > div{background:var(--paper);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kv .big{font-family:var(--font-mono);font-size:22px;font-variant-numeric:tabular-nums}
+.catbar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--sunk)}
+.tbl{overflow-x:auto}
+.tbl table{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-weight:500;color:var(--ink-2);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--line);padding:6px 6px 6px 0;white-space:nowrap}
+.tbl td{padding:8px 6px 8px 0;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl td.t{font-family:var(--font-body);white-space:normal}
+.notes{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:12px;font:inherit;color:var(--ink);resize:vertical;min-height:96px}
+.fallback{width:100%;min-height:160px;font-family:var(--font-mono);font-size:12px;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--paper);color:var(--ink)}
+.pp-toggle b{font-weight:500;display:block}
+.pp-toggle small{display:block;font-size:12.5px;color:var(--ink-2)}
+.pp{display:flex;flex-direction:column;gap:12px;border-color:var(--saffron)}
+.delta{display:grid;grid-template-columns:auto auto auto 1fr;gap:12px;align-items:center}
+.delta > div{display:flex;flex-direction:column;min-width:0}
+.delta .mono{font-size:18px}
+.delta .arrow{color:var(--ink-2)}
+.delta .dv{align-items:flex-end;text-align:right}
+.delta .dv.down .mono{color:var(--ok)}
+.fx-row{padding:10px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.fx-row:last-child{border-bottom:0}
+.hint{font-size:12.5px;color:var(--ink-2)}
+
+/* calm-now overlay: one committed dark look */
+.calm{position:fixed;inset:0;z-index:50;background:#1B2A3D;color:#EEF1F4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;overflow-y:auto;padding:calc(64px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
+.calm-x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));background:rgba(255,255,255,.1);border:0;color:#EEF1F4;border-radius:999px;padding:10px 18px;cursor:pointer;min-height:44px}
+.calm-step{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#AFC0D4}
+.calm-title{font-size:27px;line-height:1.25;color:#F5F3EC;max-width:18ch}
+.calm-orb{position:relative;width:min(68vw,260px);aspect-ratio:1;max-width:100%;display:grid;place-items:center}
+.calm-orb::before{content:"";position:absolute;inset:-4%;border-radius:50%;border:1px solid rgba(238,241,244,.2)}
+.orb{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 45%,#E8CB98 0%,#C99B5A 40%,rgba(201,155,90,.18) 68%,rgba(201,155,90,0) 71%);transform:scale(.55)}
+.calm-phase{position:relative;font-family:var(--font-display);font-size:21px;color:#1B2A3D}
+.calm-sub{max-width:34ch;color:#C9D3DF;font-size:15px}
+.calm-sub b{color:#F5F3EC}
+.calm-ground{display:flex;flex-direction:column;align-items:center;gap:6px}
+.gnum{font-family:var(--font-display);font-size:96px;line-height:1;color:#E2C38E}
+.calm-ground p{font-size:20px;color:#F5F3EC}
+.calm .btn.calm-next{background:#F5F3EC;color:#1B2A3D;min-width:170px}
+
+/* ---------- motion: water, stone, breath ---------- */
+:root{--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+.btn,.chip,.go,.tile,.icon-btn,.seg button,.nav a,.med-link{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.btn,.chip,.go,.tile,.icon-btn,.med-link{transition:transform .4s var(--spring),background-color .3s var(--ease),border-color .3s var(--ease),box-shadow .35s var(--ease),color .3s var(--ease),filter .2s}
+.btn:active,.chip:active,.go:active,.icon-btn:active,.seg button:active{transform:scale(.94);transition-duration:.08s}
+.tile:active,.med-link:active{transform:scale(.98);transition-duration:.08s}
+@media (hover:hover){.tile:hover,.med-link:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px color-mix(in srgb,var(--ink) 45%,transparent)}
+  .btn-primary:hover{box-shadow:0 6px 16px -8px color-mix(in srgb,var(--moss) 70%,transparent)}}
+.seg button{transition:background-color .35s var(--ease),box-shadow .35s var(--ease),transform .4s var(--spring)}
+.ripple{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;border:1.5px solid currentColor;pointer-events:none;opacity:.5;animation:ripple .75s var(--ease) forwards}
+.ripple.moss{color:var(--moss)}
+@keyframes ripple{to{transform:scale(var(--rs,14));opacity:0}}
+@keyframes pop{0%{transform:scale(.86)}100%{transform:scale(1)}}
+@keyframes swapIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes enterUp{from{opacity:.25;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}}
+@keyframes sheetUp{from{transform:translateY(48px);opacity:.5}}
+@keyframes tick{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes glow{50%{box-shadow:0 0 0 7px var(--saffron-soft)}}
+@keyframes brush{from{clip-path:inset(0 0 65% 0);opacity:.4}to{clip-path:inset(0 0 0 0);opacity:1}}
+@keyframes invite{0%,100%{box-shadow:0 0 0 0 rgba(245,243,236,0)}50%{box-shadow:0 0 0 7px rgba(245,243,236,.14)}}
+@keyframes navpop{0%{transform:none}40%{transform:translateY(-3px) scale(1.1)}100%{transform:none}}
+@keyframes fold{from{opacity:0;transform:translateY(-6px)}}
+@keyframes pebble{from{transform:scale(1);opacity:.5}to{transform:scale(2.9);opacity:0}}
+.swap{animation:swapIn .4s var(--ease)}
+.view.enter > *{animation:enterUp .55s var(--ease) both;animation-delay:calc(var(--i,0) * 45ms)}
+.chip[aria-pressed="true"],.seg button[aria-pressed="true"]{animation:pop .45s var(--spring)}
+.ritual,.task{position:relative}
+.ritual input,.task input{transition:background-color .25s var(--ease),border-color .25s var(--ease)}
+.ritual input.just,.task input.just{animation:pop .5s var(--spring)}
+.ritual input.just::after,.task input.just::after{animation:tick .35s var(--ease) .06s both}
+.pp-toggle input::after,.sw::after{transition:transform .45s var(--spring)}
+.bar i{transition:width .8s var(--spring)}
+.ph .pbar i{transition:none}
+.dots span{transition:background-color .4s var(--ease),border-color .4s var(--ease)}
+.dots span.today{animation:glow 5.5s ease-in-out infinite}
+.sk-kanji{animation:brush 1.3s var(--ease) .15s both}
+.hero .hero-actions .btn:first-child{animation:invite 11s ease-in-out infinite}
+.nav a::before{content:"";position:absolute;top:3px;left:50%;width:18px;height:3px;border-radius:2px;background:var(--moss);transform:translateX(-50%) scaleX(0);transition:transform .45s var(--spring)}
+.nav a[aria-current="page"]::before{transform:translateX(-50%) scaleX(1)}
+.nav a[aria-current="page"] svg{animation:navpop .5s var(--spring)}
+.nav a{transition:color .3s var(--ease)}
+.practice[open] > .body{animation:fold .4s var(--ease)}
+.toast{transform:translate(-50%,14px) scale(.96);transition:opacity .3s var(--ease),transform .5s var(--spring)}
+.toast.on{transform:translate(-50%,0) scale(1)}
+.sheet-bg:not([hidden]){animation:fadeIn .3s var(--ease)}
+.sheet-bg:not([hidden]) .sheet{animation:sheetUp .5s var(--ease)}
+.calm:not([hidden]){animation:fadeIn .45s var(--ease)}
+.pp:not([hidden]){animation:enterUp .45s var(--ease)}
+/* ---------- mobile patterns ---------- */
+.row-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.snap{position:relative;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;padding-block:4px 8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));scroll-padding-left:max(16px,env(safe-area-inset-left,0px))}
+.snap::-webkit-scrollbar{display:none}
+.snap > *{scroll-snap-align:start;flex:0 0 78%;max-width:300px}
+.snap::after{content:"";flex:0 0 4px}
+.dotsnav{display:flex;gap:6px;align-items:center}
+.dotsnav button{width:6px;height:6px;border-radius:3px;border:0;padding:0;background:var(--line);cursor:pointer;transition:width .4s var(--spring),background-color .3s var(--ease)}
+.dotsnav button[aria-current="true"]{width:18px;background:var(--moss)}
+.rcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer;min-height:176px;color:var(--ink)}
+.rcard .glyph{margin-bottom:4px}
+.rcard .tag{margin-top:auto}
+.icard{background:var(--moss-soft);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;min-height:200px}
+.icard .num{font-family:var(--font-display);font-size:44px;color:var(--saffron);line-height:1}
+.icard p{font-size:14.5px}
+.snap > .pcard{flex:0 0 58%;max-width:210px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer;color:var(--ink)}
+.pcard b{font-family:var(--font-display);font-weight:500;font-size:17px}
+.pcard .rhythm{height:6px}
+.pcard[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);animation:pop .45s var(--spring)}
+.pcard[aria-pressed="true"] .tag{color:color-mix(in srgb,var(--paper) 72%,transparent)}
+.pcard,.rcard{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;transition:transform .4s var(--spring),background-color .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease)}
+.pcard:active,.rcard:active{transform:scale(.97);transition-duration:.08s}
+#readings:has(.reading){background:var(--crisis-bg);border-radius:12px;overflow:hidden}
+.reading{position:relative;background:var(--surface);touch-action:pan-y}
+.toast.on{pointer-events:auto}
+.toast-act{background:none;border:0;color:var(--paper);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px;margin-left:10px;cursor:pointer;padding:4px}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:-8px auto -6px;flex:0 0 auto}
+.sheet .grab,.sheet .sheet-h{touch-action:none;cursor:grab}
+.top{transition:box-shadow .3s var(--ease)}
+.top.scrolled{box-shadow:0 1px 0 var(--line)}
+@keyframes enterL{from{opacity:.25;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes enterR{from{opacity:.25;transform:translateX(-28px)}to{opacity:1;transform:none}}
+.view.enter[data-dir="next"] > *{animation-name:enterL}
+.view.enter[data-dir="prev"] > *{animation-name:enterR}
+/* ---------- timers ---------- */
+.tmr{position:fixed;inset:0;z-index:45;background:var(--paper);color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:16px;overflow-y:auto;padding-top:calc(14px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));--kc:var(--moss)}
+.tmr:not([hidden]){animation:sheetUp .45s var(--ease)}
+.tmr > *{width:100%;max-width:440px}
+.tmr-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tmr-ring{position:relative;width:min(70vw,280px);aspect-ratio:1;max-width:100%;margin-top:8px}
+.tmr-ring svg{width:100%;height:100%;display:block}
+.tr-track{fill:none;stroke:var(--sunk);stroke-width:10}
+.tr-prog{fill:none;stroke:var(--kc);stroke-width:10;stroke-linecap:round;stroke-dasharray:766.5;transition:stroke .4s var(--ease)}
+.tmr-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.tmr-time{font-family:var(--font-mono);font-size:54px;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
+.tmr-lbl{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+#tmrKind{color:var(--kc);background:color-mix(in srgb,var(--kc) 14%,transparent)}
+.tmr-line{display:flex;gap:3px;height:6px}
+.tmr-line span{border-radius:3px;background:var(--sunk);overflow:hidden;min-width:3px}
+.tmr-line span i{display:block;height:100%;background:var(--kc)}
+.tmr-line span.d i{opacity:.55}
+.tmr-ctl{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:auto}
+.tmr-ctl .btn-primary{min-width:140px}
+/* ---------- sharing ---------- */
+.share-card{background:var(--saffron-soft);border-radius:var(--r);padding:18px;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center}
+.share-card .stat,.share-why .stat{font-family:var(--font-display);font-size:46px;line-height:1;color:var(--saffron)}
+.share-card p{font-size:14px}
+.share-card .full{grid-column:1/-1}
+.share-why{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--saffron-soft);border-radius:14px;padding:14px 16px}
+.share-why p{font-size:13.5px}
+.linkrow{display:flex;gap:8px;align-items:center}
+.linkrow input{flex:1;min-width:0;font-family:var(--font-mono);font-size:12.5px;padding:8px 14px}
+a.btn{text-decoration:none;color:var(--ink)}
+.pebble{fill:none;stroke:var(--moss);stroke-width:1.5;transform-box:view-box;transform-origin:200px 200px;animation:pebble 2.6s var(--ease) forwards}
+
+/* ---------- words & origins ---------- */
+[data-w]{cursor:help}
+.kanji:lang(sa),.kanji:lang(th),.kanji:lang(ko){letter-spacing:0}
+.kanji:lang(vi),.kanji:lang(ban),.gloss .w:lang(vi),.gloss .w:lang(ban),.gloss .w:lang(ms){font-family:Georgia,"Times New Roman",serif;font-style:italic}
+.origin{font-size:12.5px;color:var(--ink-2);display:flex;gap:8px;align-items:baseline;line-height:1.5}
+.origin::before{content:"";flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--saffron);transform:translateY(-1px)}
+.gloss{display:grid;grid-template-columns:minmax(0,6.5em) minmax(0,1fr);gap:2px 14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.gloss:last-child{border-bottom:0}
+.gloss .w{font-family:var(--font-display);font-size:21px;color:var(--moss);line-height:1.25;grid-row:span 2;overflow-wrap:anywhere}
+.gloss b{font-weight:500;font-size:14px}
+.gloss .m{font-size:13.5px;color:var(--ink-2)}
+.orig-list{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none}
+.orig-list li{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr);gap:2px 12px;font-size:14px}
+.orig-list li span{color:var(--ink-2)}
+@media (max-width:400px){.orig-list li{grid-template-columns:1fr}}
+.calm-word{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--font-display);font-size:24px;line-height:1.2;color:#E2C38E}
+.calm-word span{font-family:var(--font-body);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#AFC0D4}
+.toast{width:max-content;max-width:calc(100vw - 32px);text-align:center;border-radius:20px}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+@keyframes rise{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M27 12.5A12 12 0 1 0 22.5 27"/><circle cx="16" cy="16" r="3.2" fill="currentColor" stroke="none"/></svg>
+      <div><b lang="ms" data-w="tenang">Tenang</b><small>Pressure, softened</small></div>
+    </div>
+    <div class="top-r">
+      <div class="date mono" id="today"></div>
+      <button class="icon-btn sm" data-share="" aria-label="Share Tenang with someone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+      </button>
+      <button class="icon-btn sm" id="setBtn" aria-label="Season and reminders">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <section class="view" id="v-home" data-view="home">
+    <div class="hero">
+      <div style="min-width:0">
+        <div class="eyebrow" style="color:#C9D3DF"><span class="kanji" style="color:#E2C38E" lang="ja" data-w="kokyu">呼吸</span><span id="greet">Good afternoon</span></div>
+        <h1 style="margin-top:8px">Slow your breath. Your pressure follows.</h1>
+        <p>Five minutes at about six breaths a minute is the single best place to start.</p>
+        <div class="hero-actions">
+          <button class="btn" data-go="breathe" data-pattern="resonance">Begin breathing</button>
+          <button class="btn btn-calm" id="panicBtn">Calm me now</button>
+        </div>
+      </div>
+      <svg class="mini" viewBox="0 0 100 100" aria-hidden="true">
+        <g id="miniRings"><circle cx="50" cy="50" r="12" stroke-width="1.5"/><circle cx="50" cy="50" r="22" stroke-width="1" opacity=".7"/><circle cx="50" cy="50" r="32" stroke-width="1" opacity=".45"/><circle cx="50" cy="50" r="42" stroke-width="1" opacity=".25"/></g>
+      </svg>
+    </div>
+
+    <div class="season" id="seasonCard">
+      <div class="sk-kanji" id="skKanji" lang="ja" data-w="sekki">霜降</div>
+      <div><div class="eyebrow" id="skRange">Season</div><h3 class="h-m" id="skName"></h3><p class="hint" id="skTip"></p></div>
+    </div>
+
+    <div class="panel next" id="nextRem"></div>
+
+    <div class="panel stack">
+      <div class="eyebrow"><span class="kanji" lang="zh" data-w="xin">心</span>How do you feel right now?</div>
+      <div class="moods" id="moods" role="group" aria-label="Current feeling"></div>
+      <div class="suggest" id="suggest" hidden></div>
+    </div>
+
+    <div class="panel stack" id="pathPanel">
+      <div class="path-head"><div class="eyebrow"><span class="kanji" lang="zh" data-w="dao">道</span>30-day path</div><span class="example" id="pathDay">Day 1 of 30</span></div>
+      <h3 class="h-m" id="pathWeek"></h3>
+      <p class="lede" id="pathWeekD" style="font-size:13.5px"></p>
+      <div class="dots" id="pathDots" aria-label="Progress across 30 days"></div>
+      <div id="pathTasks"></div>
+      <div><button class="link" id="pathRestart" style="font-size:12.5px">Restart the path</button></div>
+    </div>
+
+    <div class="tiles">
+      <button class="tile" data-go="log">
+        <span class="k">Last reading</span>
+        <span class="v" id="homeBP">—</span>
+        <span id="homeCat"></span>
+      </button>
+      <button class="tile" data-go="rituals">
+        <span class="k">Today's rituals</span>
+        <span class="v" id="homeRit">0<small> / 8</small></span>
+        <div class="bar" style="width:100%"><i id="homeRitBar" style="width:0"></i></div>
+      </button>
+    </div>
+
+    <div class="stack">
+      <div class="row-h"><div class="eyebrow"><span class="kanji" lang="ko" data-w="sum">숨</span>Quick resets · swipe</div><div class="dotsnav" data-for="qr"></div></div>
+      <div class="snap" id="qr">
+        <button class="rcard" data-go="breathe" data-pattern="sigh"><span aria-hidden="true" class="glyph g-moss">息</span><span class="h-m">Physiological sigh</span><span class="hint">The fastest way to settle a racing heart.</span><span class="tag">1 min · 2 in · 1 top-up · 6 out</span></button>
+        <button class="rcard" data-go="breathe" data-pattern="hum"><span aria-hidden="true" class="glyph g-indigo">蜂</span><span class="h-m">Bee breath</span><span class="hint">A humming out-breath that soothes the vagus nerve.</span><span class="tag">3 min · 4 in · 8 hum</span></button>
+        <button class="rcard" data-go="breathe" data-pattern="exhale"><span aria-hidden="true" class="glyph g-saffron">長</span><span class="h-m">Long exhale</span><span class="hint">A gentle brake for a wired system.</span><span class="tag">3 min · 4 in · 6 out</span></button>
+        <button class="rcard" data-go="breathe" data-pattern="box"><span aria-hidden="true" class="glyph g-moss">方</span><span class="h-m">Box breathing</span><span class="hint">Steady focus before a stressful moment.</span><span class="tag">3 min · 4 · 4 · 4 · 4</span></button>
+        <button class="rcard" data-go="reset"><span aria-hidden="true" class="glyph g-indigo">静</span><span class="h-m">Reset library</span><span class="hint">Practices for body, mind and the outdoors.</span><span class="tag">8 practices</span></button>
+      </div>
+    </div>
+
+    <button class="panel med-link" data-go="meds">
+      <span aria-hidden="true" class="glyph g-saffron">薬</span>
+      <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">Medicines 101</span><span class="hint">What common blood pressure medicines do, and their usual side effects</span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
+    <div class="stack">
+      <div class="row-h"><div class="eyebrow">Why it works</div><div class="dotsnav" data-for="why"></div></div>
+      <div class="snap" id="why">
+      <div class="icard"><span class="num">6</span><p>Breathing near six times a minute lines your heart rate up with your breath. This strengthens the <b>baroreflex</b>, the sensor loop in your neck and chest that keeps pressure steady.</p></div>
+      <div class="icard"><span class="num">↓</span><p>A long, slow exhale stimulates the <b>vagus nerve</b> and shifts you from fight-or-flight toward rest-and-digest. Heart rate slows and blood vessels relax.</p></div>
+      <div class="icard"><span class="num">∞</span><p>Single sessions give a short dip. Daily practice over weeks is what studies link to lower resting readings, usually a few mmHg systolic, on top of diet and movement.</p></div></div>
+    </div>
+    <div class="share-card">
+      <span class="stat">46%</span>
+      <p>of adults with high blood pressure don't know they have it. A parent, partner or friend could be one of them.</p>
+      <p class="full hint" style="color:var(--ink-2)">Sending Tenang is a kind nudge to check, and five minutes of breathing is an easy place to start. Source: WHO.</p>
+      <div class="full"><button class="btn btn-primary btn-sm" data-share="">Share with someone</button></div>
+    </div>
+    <button class="panel med-link" data-go="origins">
+      <span aria-hidden="true" class="glyph g-moss">源</span>
+      <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">Words &amp; origins</span><span class="hint"><i lang="ms">Tenang</i> is Malay and Indonesian for calm. See where each practice and word in the app comes from.</span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <p class="foot">Tenang supports, and never replaces, care from your doctor. Keep taking prescribed medication unless your doctor changes it.</p>
+  </section>
+
+  <!-- BREATHE -->
+  <section class="view" id="v-breathe" data-view="breathe" hidden>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji" lang="sa" data-w="pranayama">प्राणायाम</span>Breath studio</div>
+      <h2 class="h-l">Choose a rhythm, follow the stone.</h2>
+    </div>
+    <div class="row-h"><span class="hint">Swipe to choose a rhythm</span><div class="dotsnav" data-for="chips"></div></div>
+    <div class="snap" id="chips" role="group" aria-label="Breathing pattern"></div>
+    <div class="stage" id="stage" role="button" tabindex="0" aria-label="Start or pause the breathing session">
+      <svg viewBox="0 0 400 400" aria-hidden="true">
+        <circle class="enso-track" cx="200" cy="200" r="186"/>
+        <circle class="enso" id="enso" cx="200" cy="200" r="186" stroke-width="5" transform="rotate(-100 200 200)"/>
+        <g id="pebbles"></g><g class="rings" id="rings"></g>
+        <circle class="stone" id="stone" cx="200" cy="200" r="58"/>
+      </svg>
+      <div class="stage-text"><div><div class="phase" id="phase">Ready</div><div class="count" id="count">tap to begin</div></div></div>
+      <div class="stage-meta"><span id="bpm">5.5 breaths/min</span><span id="cycle">Cycle 0</span><span id="clock">05:00</span></div>
+    </div>
+    <div class="controls">
+      <button class="btn btn-primary" id="startBtn">Begin</button>
+      <div class="seg" role="group" aria-label="Session length" id="durSeg">
+        <button data-min="3" aria-pressed="false">3m</button><button data-min="5" aria-pressed="true">5m</button><button data-min="10" aria-pressed="false">10m</button>
+      </div>
+    </div>
+    <div class="stack" style="gap:6px">
+      <div class="seg" role="group" aria-label="Sound" id="sndSeg" style="align-self:flex-start">
+        <button data-s="off" aria-pressed="true">Silent</button><button data-s="bell" aria-pressed="false">Bell</button><button data-s="guide" aria-pressed="false">Eyes closed</button>
+      </div>
+      <p class="hint" id="sndHint">Silent: follow the stone with your eyes.</p>
+    </div>
+    <label class="pp-toggle" for="ppOn"><input type="checkbox" id="ppOn"><span><b>Measure before and after</b><small>See what one session does to your numbers</small></span></label>
+    <div class="panel pp" id="pp" hidden>
+      <div class="eyebrow" id="ppEy">Before you begin</div>
+      <p id="ppMsg" style="font-size:14px">Sit still for a minute with the cuff on, then enter your reading.</p>
+      <div class="form" id="ppForm">
+        <div class="field"><label for="ppS">Systolic</label><input id="ppS" type="number" inputmode="numeric" placeholder="140"></div>
+        <div class="field"><label for="ppD">Diastolic</label><input id="ppD" type="number" inputmode="numeric" placeholder="90"></div>
+        <div class="field"><label for="ppP">Pulse</label><input id="ppP" type="number" inputmode="numeric" placeholder="72"></div>
+      </div>
+      <div id="ppResult" class="stack" hidden></div>
+      <div class="controls"><button class="btn btn-primary" id="ppSave">Save and begin</button><button class="btn btn-ghost" id="ppSkip">Skip and begin</button></div>
+    </div>
+    <div class="panel stack">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="eyebrow">How this rhythm moves</div>
+        <span class="example" id="diaMode">Preview</span>
+      </div>
+      <div class="dia-wrap" id="boxWrap" hidden>
+        <svg class="diagram" id="boxSvg" viewBox="0 0 300 230" role="img" aria-label="Box breathing traced around a square"></svg>
+      </div>
+      <svg class="diagram" id="lungSvg" viewBox="0 0 300 190" role="img" aria-label="Lung volume over one breath cycle"></svg>
+      <div class="phase-row" id="phaseRow"></div>
+    </div>
+    <div class="panel pattern-info">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><h3 class="h-m" id="pName"></h3><span class="tag" id="pBest"></span></div>
+      <div class="rhythm" id="pRhythm"></div>
+      <div class="legend"><span><i class="r-in"></i>Inhale</span><span><i class="r-hold"></i>Hold</span><span><i class="r-out"></i>Exhale</span></div>
+      <p id="pDesc" class="lede" style="font-size:14px"></p>
+      <p class="origin" id="pOrigin"></p>
+      <p class="note" id="pNote" hidden></p>
+    </div>
+    <div class="panel stack">
+      <div class="eyebrow">Your practice</div>
+      <div class="tiles" style="gap:8px">
+        <div><div class="tag">Today</div><div class="mono" style="font-size:22px" id="minToday">0 min</div></div>
+        <div><div class="tag">Last 7 days</div><div class="mono" style="font-size:22px" id="minWeek">0 min</div></div>
+      </div>
+      <p class="foot" style="padding:0">Aim for 10 minutes a day, split however you like. Finishing a 5-minute session ticks off today's breathing ritual.</p>
+    </div>
+  </section>
+
+  <!-- RESET -->
+  <section class="view" id="v-reset" data-view="reset" hidden>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji" lang="zh" data-w="jing">静</span>Nervous system reset</div>
+      <h2 class="h-l">Move your body out of alarm mode.</h2>
+      <p class="lede">Chronic stress keeps the sympathetic system switched on, tightening vessels and lifting pressure. These practices send the opposite signal. Pick one when you feel wound up, or one each evening.</p>
+    </div>
+    <div class="stack">
+      <div class="row-h"><div class="eyebrow"><span class="kanji" lang="vi" data-w="thongtha">thong thả</span>Timers</div><div class="dotsnav" data-for="tmrs"></div></div>
+      <div class="snap" id="tmrs"></div>
+    </div>
+    <div class="chips" id="resetCats" role="group" aria-label="Filter practices"></div>
+    <div class="stack" id="practices"></div>
+  </section>
+
+  <!-- RITUALS -->
+  <section class="view" id="v-rituals" data-view="rituals" hidden>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji" lang="ban" data-w="thk">Tri Hita Karana</span>Daily rituals</div>
+      <h2 class="h-l">Small offerings, made every day.</h2>
+      <p class="lede">Like the canang sari, the small flower offerings made each day in Bali, these work through repetition. Tick them off as you go. The list resets at midnight.</p>
+    </div>
+    <div class="panel">
+      <div class="rit-head"><svg class="rit-ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" class="rr-t"/><circle cx="24" cy="24" r="20" class="rr-p" id="ritRing" transform="rotate(-90 24 24)"/></svg><div><b class="mono" id="ritCount">0 of 8</b><span class="hint" id="ritMsg">Start with the easiest one.</span></div><i id="ritBar" hidden></i></div>
+      <div id="ritualList"></div>
+    </div>
+    <div class="panel stack">
+      <div class="eyebrow">What moves the needle</div>
+      <h3 class="h-m">Typical drop in systolic pressure for people with hypertension</h3>
+      <div class="stack" id="effects" style="gap:9px"></div>
+      <div class="axis"><span></span><div><span>0</span><span>4</span><span>8</span><span>12</span></div><span style="min-width:4.2em;text-align:right">mmHg</span></div>
+      <p class="foot" style="padding:0">Approximate averages from the ACC/AHA blood pressure guideline. Effects tend to add up when combined.</p>
+    </div>
+    <div class="panel stack">
+      <div class="eyebrow">Potassium-rich foods</div>
+      <div class="foods"><span>Spinach</span><span>Sweet potato</span><span>White beans</span><span>Avocado</span><span>Banana</span><span>Edamame</span><span>Seaweed</span><span>Yogurt</span><span>Lentils</span><span>Tomato</span></div>
+      <p class="note">If you have kidney disease or take ACE inhibitors, ARBs or potassium-sparing diuretics, ask your doctor before adding potassium.</p>
+    </div>
+  </section>
+
+  <!-- LOG -->
+  <section class="view" id="v-log" data-view="log" hidden>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji" lang="ja" data-w="kiroku">記録</span>Readings</div>
+      <h2 class="h-l">Watch the trend, not the single number.</h2>
+      <div class="chips"><button class="btn btn-quiet btn-sm" data-go="summary">Doctor summary</button><button class="btn btn-ghost btn-sm" data-timer="rest">5-min rest timer</button><button class="btn btn-ghost btn-sm" data-go="meds">Medicines 101</button></div>
+    </div>
+    <div id="crisis"></div>
+    <form class="panel form" id="bpForm" autocomplete="off">
+      <div class="field"><label for="sys">Systolic</label><input id="sys" type="number" inputmode="numeric" min="60" max="260" placeholder="128" required></div>
+      <div class="field"><label for="dia">Diastolic</label><input id="dia" type="number" inputmode="numeric" min="30" max="160" placeholder="82" required></div>
+      <div class="field"><label for="pulse">Pulse</label><input id="pulse" type="number" inputmode="numeric" min="30" max="200" placeholder="68"></div>
+      <div class="field wide"><label for="ctx">Context</label>
+        <select id="ctx"><option>Morning, before meds</option><option>Evening</option><option>After breathing practice</option><option>After exercise</option><option>Feeling stressed</option></select></div>
+      <button class="btn btn-primary wide" type="submit">Save reading</button>
+      <p class="foot wide" id="formMsg" style="padding:0">Enter both numbers from your monitor.</p>
+    </form>
+    <div class="panel stack">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="eyebrow">Before &amp; after sessions</div><span class="tag" id="fxAvg"></span>
+      </div>
+      <div id="fxList"></div>
+      <p class="hint">Turn on “Measure before and after” in the breath studio to add pairs.</p>
+    </div>
+    <div class="panel stack">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="eyebrow">Trend</div>
+        <span id="avg" class="tag"></span>
+      </div>
+      <svg class="chart" id="chart" viewBox="0 0 340 170" role="img" aria-label="Blood pressure trend"></svg>
+      <div class="legend"><span><i style="background:var(--indigo)"></i>Systolic</span><span><i style="background:var(--moss)"></i>Diastolic</span></div>
+    </div>
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:4px;flex-wrap:wrap">
+        <div class="eyebrow">History</div>
+        <span id="exTag"></span>
+      </div>
+      <div id="readings"></div>
+      <div id="moreWrap" class="row-h" style="padding-top:10px;flex-wrap:wrap"></div>
+    </div>
+    <div class="panel stack">
+      <div class="eyebrow">Categories (ACC/AHA)</div>
+      <div class="cats">
+        <span class="pill c-normal">Normal</span><span></span><span class="mono">&lt;120 and &lt;80</span>
+        <span class="pill c-elevated">Elevated</span><span></span><span class="mono">120–129 and &lt;80</span>
+        <span class="pill c-s1">Stage 1</span><span></span><span class="mono">130–139 or 80–89</span>
+        <span class="pill c-s2">Stage 2</span><span></span><span class="mono">≥140 or ≥90</span>
+        <span class="pill c-crisis">Severe</span><span></span><span class="mono">&gt;180 or &gt;120</span>
+      </div>
+    </div>
+    <div class="panel stack">
+      <div class="eyebrow">For an accurate reading</div>
+      <ul class="tips">
+        <li>Skip caffeine, smoking and exercise for 30 minutes first.</li>
+        <li>Sit quietly for 5 minutes, back supported, feet flat, legs uncrossed.</li>
+        <li>Rest your arm on a table with the cuff at heart level, on bare skin.</li>
+        <li>Take two readings a minute apart and log the average.</li>
+        <li>Measure at the same times each day, morning and evening.</li>
+      </ul>
+    </div>
+    <p class="foot">Readings stay in this browser only. They are not sent anywhere.</p>
+  </section>
+
+  <!-- MEDICINES 101 -->
+  <section class="view" id="v-meds" data-view="meds" hidden>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji" lang="ja" data-w="kusuri">薬</span>Medicines 101</div>
+      <h2 class="h-l">Know what you take, and why.</h2>
+      <p class="lede">Plain-language facts about the main families of blood pressure medicine, drawn from standard drug references. Many people need one alongside natural methods, and they work well together.</p>
+    </div>
+    <p class="note">General information only, not medical advice. The leaflet that comes with your medicine, your pharmacist and your doctor are the authority for you. Never stop, skip or change a dose without asking them first.</p>
+    <input class="search" id="medQ" type="search" placeholder="Search a medicine, e.g. amlodipine" aria-label="Search medicines" autocomplete="off">
+    <div class="chips" id="medJump" role="group" aria-label="Jump to a medicine family"></div>
+    <div class="stack" id="medList"></div>
+    <p class="hint" id="medNone" hidden>No match. Check the spelling on your box, or ask your pharmacist which family your medicine belongs to.</p>
+
+    <div class="panel stack">
+      <div class="eyebrow">Interactions worth knowing</div>
+      <div>
+        <div class="ix"><b>Painkillers (NSAIDs)</b><span>Ibuprofen, loxoprofen (Loxonin), naproxen and similar can raise blood pressure, weaken many BP medicines and strain the kidneys. Ask a pharmacist before regular use. Paracetamol (acetaminophen) is usually the gentler choice.</span></div>
+        <div class="ix"><b>Cold &amp; flu remedies</b><span>Decongestants such as pseudoephedrine and phenylephrine raise blood pressure. Look for products marked safe for high blood pressure.</span></div>
+        <div class="ix"><b>Licorice (kanzō 甘草)</b><span>Found in many Kampo medicines, including kakkontō, and some sweets and teas. Large or regular amounts raise blood pressure and lower potassium.</span></div>
+        <div class="ix"><b>Ephedra (maō 麻黄)</b><span>An ingredient in some Kampo cold remedies, kakkontō among them. It acts like a stimulant and can raise blood pressure and heart rate.</span></div>
+        <div class="ix"><b>Grapefruit</b><span>Raises blood levels of some calcium channel blockers, especially nifedipine and felodipine. Check the leaflet for yours.</span></div>
+        <div class="ix"><b>Potassium</b><span>Potassium supplements and potassium-based salt substitutes can push potassium too high with ACE inhibitors, ARBs or spironolactone. Ask before using them.</span></div>
+        <div class="ix"><b>Alcohol</b><span>Adds to the dizziness some BP medicines cause, and raises blood pressure over time.</span></div>
+      </div>
+    </div>
+
+    <div class="panel stack">
+      <div class="eyebrow">Taking blood pressure medicine well</div>
+      <ul class="tips">
+        <li>Take it at the same time each day. Linking it to a habit, such as brushing your teeth, helps.</li>
+        <li>If you miss a dose, follow the leaflet or ask a pharmacist. Don't double up unless told to.</li>
+        <li>Stand up slowly, especially in the first weeks or after a dose change.</li>
+        <li>Keep logging readings. They show your doctor whether the dose is right.</li>
+        <li>Bring a list of everything you take to each appointment, including supplements, Kampo and eye drops. Your okusuri techō (お薬手帳) is ideal.</li>
+        <li>Feeling well doesn't mean you can stop. High blood pressure rarely has symptoms.</li>
+      </ul>
+    </div>
+
+    <div class="panel stack">
+      <div class="eyebrow">Questions to ask your pharmacist</div>
+      <ul class="tips">
+        <li>What is this medicine for, and how will I know it's working?</li>
+        <li>Is it better taken in the morning or at night?</li>
+        <li>Which side effects should I expect, and which mean I should call you?</li>
+        <li>Does it interact with anything else I take, including over-the-counter or Kampo products?</li>
+        <li>Do I need blood tests while taking it?</li>
+      </ul>
+    </div>
+
+    <div class="urgent"><b>Get urgent help</b> if you have swelling of the lips, tongue, face or throat, trouble breathing, fainting, or chest pain. These need care straight away, whatever medicine you take.</div>
+
+    <div class="panel stack">
+      <div class="eyebrow">Trusted sources</div>
+      <p style="font-size:14px"><a href="https://medlineplus.gov/druginformation.html" target="_blank" rel="noopener" style="color:var(--indigo)">MedlinePlus drug information</a> (US National Library of Medicine), and <a href="https://www.pmda.go.jp/english/" target="_blank" rel="noopener" style="color:var(--indigo)">PMDA</a>, Japan's medicines agency, which publishes patient guides for drugs approved in Japan.</p>
+    </div>
+  </section>
+
+  <!-- DOCTOR SUMMARY -->
+  <section class="view" id="v-summary" data-view="summary" hidden>
+    <div><button class="link" data-go="log">← Back to log</button></div>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji" lang="ja" data-w="shin">診</span>For your doctor</div>
+      <h2 class="h-l">Home blood pressure summary</h2>
+      <p class="lede">Show this screen at your appointment, or copy it as text into an email or patient portal message.</p>
+    </div>
+    <div class="seg" id="sumSeg" role="group" aria-label="Period" style="align-self:flex-start">
+      <button data-days="14" aria-pressed="false">14 days</button><button data-days="28" aria-pressed="true">28 days</button><button data-days="90" aria-pressed="false">90 days</button>
+    </div>
+    <div id="sumEx"></div>
+    <article class="panel rep" id="report"></article>
+    <div class="panel stack">
+      <label class="eyebrow" for="sumNotes">Questions and notes for the visit</label>
+      <textarea class="notes" id="sumNotes" placeholder="For example: dizzy when standing up in the morning. Should I take my pill at night instead?"></textarea>
+    </div>
+    <div class="controls"><button class="btn btn-primary" id="copySum">Copy summary as text</button></div>
+    <textarea class="fallback" id="sumFallback" readonly hidden aria-label="Summary text to copy"></textarea>
+  </section>
+
+  <!-- WORDS & ORIGINS -->
+  <section class="view" id="v-origins" data-view="origins" hidden>
+    <div><button class="link" data-go="home">← Home</button></div>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji" lang="ja" data-w="gen">源</span>Words &amp; origins</div>
+      <h2 class="h-l">Calm practices from across Asia, set beside modern research.</h2>
+      <p class="lede"><i lang="ms">Tenang</i> means calm, still, in Malay and Indonesian. The app gathers ways of slowing down from India, Japan, Bali and beyond, and places them next to newer techniques from medicine and physiology. Each word and practice is credited to where it comes from.</p>
+    </div>
+    <div class="panel"><div class="eyebrow" style="margin-bottom:4px">Words you'll see</div><div id="glossary"></div></div>
+    <div class="panel stack">
+      <div class="eyebrow">Where the practices come from</div>
+      <h3 class="h-m">Traditions</h3><ul class="orig-list" id="origTrad"></ul>
+      <h3 class="h-m" style="margin-top:10px">Modern research</h3><ul class="orig-list" id="origMod"></ul>
+    </div>
+    <div class="panel stack">
+      <div class="eyebrow">The small characters on cards</div>
+      <p style="font-size:14px">Card icons use Chinese characters, in their Japanese forms, as pictures rather than words: <span lang="ja">森</span> is three trees for forest, <span lang="ja">蜂</span> is a bee, <span lang="ja">息</span> is breath and <span lang="ja">壁</span> is a wall.</p>
+    </div>
+    <p class="foot">These are short, simplified introductions, not full teachings of any tradition. If one speaks to you, learn more from a teacher rooted in it.</p>
+  </section>
+</div>
+
+<nav class="nav" aria-label="Sections">
+  <div class="nav-in">
+    <a href="#home" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>Home</a>
+    <a href="#breathe" data-nav="breathe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.5" opacity=".7"/><path d="M20.5 9A9 9 0 1 0 17 19.5"/></svg>Breathe</a>
+    <a href="#reset" data-nav="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-3-7-6.5-7-10a7 7 0 0 1 14 0c0 3.5-3 7-7 10z"/><path d="M12 7v7M9 11c1.5 0 3 1 3 3M15 10c-1.5 0-3 1-3 3"/></svg>Reset</a>
+    <a href="#rituals" data-nav="rituals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15h16l-2 5H6z"/><path d="M12 15c0-4 2-7 5-8-1 3-2 6-5 8zM12 15c0-4-2-7-5-8 1 3 2 6 5 8z"/></svg>Rituals</a>
+    <a href="#log" data-nav="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 7-8"/><path d="M3 21h18"/></svg>Log</a>
+  </div>
+</nav>
+<div class="sheet-bg" id="sheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-h"><h2 class="h-m" id="sheetTitle">Season &amp; reminders</h2><button class="go" id="sheetX">Done</button></div>
+    <div class="stack">
+      <div class="eyebrow"><span class="kanji" lang="ja" data-w="ki">季</span>Seasonal theme</div>
+      <div class="moods" id="seasonChips" role="group" aria-label="Seasonal theme"></div>
+      <p class="hint" id="seasonHint"></p>
+    </div>
+    <div class="stack" style="gap:4px">
+      <div class="eyebrow"><span class="kanji" lang="ja" data-w="kane">鐘</span>Reminders</div>
+      <div id="remList"></div>
+      <p class="hint" style="margin-top:8px">Reminders appear on the home screen while Tenang is open, and tick themselves off when you log a reading or finish a session. For alerts when the app is closed, copy the schedule into your phone's reminders or calendar.</p>
+      <div style="margin-top:8px"><button class="btn btn-quiet btn-sm" id="copyRem">Copy schedule</button></div>
+      <textarea class="fallback" id="remFallback" readonly hidden aria-label="Schedule text to copy" style="min-height:120px;margin-top:8px"></textarea>
+    </div>
+  </div>
+</div>
+<div class="sheet-bg" id="shareSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle">
+    <div class="sheet-h"><h2 class="h-m" id="shTitle">Share Tenang</h2><button class="go" id="shX">Done</button></div>
+    <div class="share-why"><span class="stat">46%</span><p>of adults with high blood pressure don't know they have it, according to the WHO. Sharing is an easy, kind nudge to check, and a five-minute habit to start with.</p></div>
+    <div class="stack"><div class="eyebrow">Who is it for?</div><div class="moods" id="shWho" role="group" aria-label="Who you are sharing with"></div></div>
+    <div class="stack" style="gap:6px"><label class="eyebrow" for="shMsg">Your message</label><textarea class="notes" id="shMsg" rows="6"></textarea><p class="hint">Edit it in your own words. The link is added at the end.</p></div>
+    <div class="controls"><button class="btn btn-primary" id="shCopy">Copy message</button><a class="btn btn-ghost" id="shLine" target="_blank" rel="noopener">LINE</a><a class="btn btn-ghost" id="shWa" target="_blank" rel="noopener">WhatsApp</a></div>
+    <div class="stack" style="gap:6px"><div class="eyebrow">Link</div><div class="linkrow"><input class="search" id="shUrl" readonly aria-label="Link to Tenang"><button class="go" id="shCopyUrl">Copy</button></div></div>
+    <textarea class="fallback" id="shFallback" readonly hidden aria-label="Text to copy"></textarea>
+    <p class="hint">No sign-up needed. Everyone's readings stay private on their own phone, so nothing you've logged is shared.</p>
+  </div>
+</div>
+<div class="tmr" id="tmr" hidden role="dialog" aria-modal="true" aria-labelledby="tmrTitle">
+  <div class="tmr-top"><button class="go" id="tmrX">End</button><span class="eyebrow" id="tmrName"></span><button class="go" id="tmrSnd" aria-pressed="true">Sound on</button></div>
+  <div class="tmr-ring"><svg viewBox="0 0 280 280" aria-hidden="true"><circle class="tr-track" cx="140" cy="140" r="122"/><circle class="tr-prog" id="trProg" cx="140" cy="140" r="122" transform="rotate(-90 140 140)"/></svg><div class="tmr-c"><div class="tmr-time" id="tmrTime" role="timer">05:00</div><div class="tag" id="tmrTotal"></div></div></div>
+  <div class="tmr-lbl"><span class="pill" id="tmrKind">Rest</span><h2 class="h-l" id="tmrTitle"></h2><p class="hint" id="tmrSub"></p></div>
+  <div class="moods" id="tmrMins" hidden style="justify-content:center"></div>
+  <div class="tmr-line" id="tmrLine"></div>
+  <p class="hint" id="tmrNext" style="text-align:center"></p>
+  <div class="tmr-ctl"><button class="btn btn-primary" id="tmrPause">Start</button><button class="btn btn-ghost" id="tmrSkip" hidden>Skip step</button><button class="btn btn-ghost" id="tmrDone" hidden>Log your reading</button></div>
+</div>
+<div class="calm" id="calm" hidden role="dialog" aria-modal="true" aria-labelledby="calmTitle">
+  <button class="calm-x" id="calmX">Close</button>
+  <div class="calm-word" lang="th" data-w="jaiyen">ใจเย็น<span lang="en">jai yen · Thai for a cool heart</span></div>
+  <div class="calm-step" id="calmStep">Step 1 of 3</div>
+  <h2 class="calm-title" id="calmTitle">Three long sighs</h2>
+  <div class="calm-orb" id="calmOrbWrap"><div class="orb" id="calmOrb"></div><div class="calm-phase" id="calmPhase">Breathe in</div></div>
+  <div class="calm-ground" id="calmGround" hidden><div class="gnum" id="gNum">5</div><p id="gText">things you can see</p></div>
+  <p class="calm-sub" id="calmSub"></p>
+  <button class="btn calm-next" id="calmNext" hidden>Next</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem('tenang:'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tenang:'+k,JSON.stringify(v))}catch(e){}}};
+const dayKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('on'),2200)};
+
+/* ---------- words & origins ---------- */
+// [shown, lang, romanisation, language, meaning, where in the app]
+const GLOSS={
+ tenang:['Tenang','ms','','Malay & Indonesian','calm, still','The name'],
+ kokyu:['呼吸','ja','kokyū','Japanese','breathing','Home'],
+ xin:['心','zh','xīn','Chinese (kokoro in Japanese)','heart and mind, as one','Check-in'],
+ dao:['道','zh','dào','Chinese','the way; a path','30-day path'],
+ sum:['숨','ko','sum','Korean','breath','Quick resets'],
+ pranayama:['प्राणायाम','sa','prāṇāyāma','Sanskrit','extending and guiding the breath (prāṇa: breath, life force)','Breath studio'],
+ jing:['静','zh','jìng','Chinese','stillness, quiet','Reset'],
+ thongtha:['thong thả','vi','','Vietnamese','unhurried, at ease','Timers'],
+ thk:['Tri Hita Karana','ban','','Balinese','the three causes of wellbeing: harmony with people, with nature and with the divine','Rituals'],
+ jaiyen:['ใจเย็น','th','jai yen','Thai','a “cool heart”: staying calm and patient','Calm me now'],
+ kiroku:['記録','ja','kiroku','Japanese','record','Log'],
+ kusuri:['薬','ja','kusuri','Japanese','medicine','Medicines 101'],
+ shin:['診','ja','shin','Japanese','to examine, as a doctor does','Doctor summary'],
+ sekki:['二十四節気','ja','nijūshi sekki','Japanese, from Chinese jiéqì','the 24 solar terms of the year','Season card'],
+ ki:['季','ja','ki','Japanese','season','Settings'],
+ kane:['鐘','ja','kane','Japanese','bell','Reminders'],
+ gen:['源','ja','gen','Japanese','source, origin','This page']
+};
+// [name, where it comes from, 1 = tradition / 0 = modern research]
+const ORIG={
+ exhale:['Long exhale','Found across yoga and meditation traditions, and backed by modern research on the vagus nerve.',1],
+ hum:['Bee breath','Bhramari prāṇāyāma, from the yoga traditions of India. The name comes from the Sanskrit for bee.',1],
+ legs:['Legs up the wall','Viparīta Karaṇī, a restorative pose from Indian hatha yoga.',1],
+ forest:['Forest bathing','Shinrin-yoku (森林浴), a term coined by Japan\'s Forestry Agency in 1982 and studied by Japanese researchers since.',1],
+ rituals:['Daily rituals','Framed by Balinese Tri Hita Karana and the daily canang sari offerings. The habits themselves come from blood pressure guidelines.',1],
+ sekki:['Seasonal palette','The 24 solar terms, first set out in ancient China and still marked in Japan, Korea and Vietnam.',1],
+ resonance:['Resonance breathing','Modern heart-rate-variability research (Lehrer, Vaschillo and colleagues, 2000s). It echoes much older slow-breathing practice in yoga.',0],
+ sigh:['Physiological sigh','A natural breathing reflex, studied as a calming tool at Stanford (Balban and colleagues, 2023).',0],
+ box:['Box breathing','Modern, spread through military and first-responder training.',0],
+ '478':['4-7-8 breathing','Popularised by US physician Andrew Weil, adapted from yogic breathing.',0],
+ iso:['Isometric hold','Modern exercise science.',0],
+ water:['Cool water face','The mammalian dive reflex, used as a calming skill in modern therapy (DBT).',0],
+ ground:['5-4-3-2-1 grounding','A modern technique from anxiety therapy.',0],
+ pmr:['Progressive relaxation','Developed by US physician Edmund Jacobson in the 1920s and 30s.',0]
+};
+const wordLine=w=>`${w[0]}${w[2]?' · '+w[2]:''} — ${w[3]}: ${w[4]}`;
+
+/* header */
+const now=new Date();
+$('#today').innerHTML=now.toLocaleDateString('en-US',{weekday:'short'})+'<br>'+now.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+const h=now.getHours(); $('#greet').textContent=h<5?'Still night':h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+
+/* ---------- routing ---------- */
+const views=['home','breathe','reset','rituals','log','summary','meds','origins'];
+function route(){
+  let v=(location.hash||'#home').slice(1); if(!views.includes(v)) v='home';
+  $$('.view').forEach(s=>s.hidden=s.dataset.view!==v);
+  const cv=$('#v-'+v);if(cv){[...cv.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,8)));cv.dataset.dir=window._swipeDir||'';window._swipeDir='';replay(cv,'enter')}
+  requestAnimationFrame(()=>$$('.snap').forEach(s=>s._upd&&s._upd()));
+  const nv=v==='summary'?'log':(v==='meds'||v==='origins')?'home':v;
+  $$('[data-nav]').forEach(a=>a.dataset.nav===nv?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  if(v==='summary'&&typeof renderSummary==='function')renderSummary();
+  window.scrollTo(0,0);
+  if(v!=='breathe' && B.running) pause();
+}
+window.addEventListener('hashchange',route);
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]'); if(!g) return;
+  if(g.dataset.pattern) selectPattern(g.dataset.pattern);
+  location.hash=g.dataset.go;
+});
+
+/* ---------- breathing ---------- */
+const PATTERNS=[
+ {id:'resonance',name:'Resonance',chip:'Resonance 5.5',best:'Daily pressure practice',phases:[['Breathe in',5.5,'in'],['Breathe out',5.5,'out']],
+  desc:'In through the nose for 5.5 seconds, out for 5.5. This pace, about 5.5 breaths a minute, is the rhythm most studied for lowering blood pressure. Let the belly rise, keep the shoulders still.'},
+ {id:'exhale',name:'Long exhale',chip:'Long exhale 4·6',best:'Calm in a hurry',phases:[['Breathe in',4,'in'],['Slowly out',6,'out']],
+  desc:'A longer out-breath than in-breath tips your nervous system toward rest. Breathe out through softly pursed lips, as if cooling tea.'},
+ {id:'sigh',name:'Physiological sigh',chip:'Sigh',best:'Fastest stress reset',phases:[['Breathe in',2,'in'],['Sip in more',1,'in2'],['Long sigh out',6,'out']],
+  desc:'Two inhales through the nose, the second a short top-up, then one long exhale through the mouth. Two or three rounds can settle a racing heart within a minute.'},
+ {id:'hum',name:'Bee breath',chip:'Bee breath',best:'Vagus nerve, evening',phases:[['Breathe in',4,'in'],['Hum out  mmm',8,'out']],
+  desc:'From yoga, called Bhramari. Inhale through the nose, then hum on the exhale with lips closed. The vibration in the throat stimulates the vagus nerve. Gently close your ears with your thumbs if you like.'},
+ {id:'box',name:'Box breathing',chip:'Box 4·4·4·4',best:'Focus under pressure',phases:[['Breathe in',4,'in'],['Hold',4,'hold'],['Breathe out',4,'out'],['Hold',4,'hold']],
+  desc:'Equal sides: in, hold, out, hold. Steadies the mind before a meeting, a hard call or a doctor visit.',
+  note:'Keep holds soft, never strained. If your readings are Stage 2 or you feel lightheaded, skip the holds and use Long exhale instead.'},
+ {id:'478',name:'4-7-8',chip:'4·7·8 sleep',best:'Falling asleep',phases:[['Breathe in',4,'in'],['Hold',7,'hold'],['Whoosh out',8,'out']],
+  desc:'Inhale quietly through the nose for 4, hold for 7, exhale fully through the mouth for 8. Best done lying down at bedtime, four rounds to start.',
+  note:'Same caution on holds: shorten them to whatever feels easy.'}
+];
+const B={p:PATTERNS[0],running:false,elapsed:0,last:0,dur:5*60,phaseIdx:-1,sound:store.get('sound','off'),ac:null,done:false,lock:null,pre:null};
+
+/* rings: raked sand around a stone */
+const ringsG=$('#rings'); let rh='';
+for(let i=0;i<8;i++){const r=70+i*15; rh+=`<circle cx="200" cy="200" r="${r}" stroke-width="${i%3===0?1.6:1}" opacity="${(0.9-i*0.1).toFixed(2)}"/>`}
+ringsG.innerHTML=rh;
+const enso=$('#enso'), C=2*Math.PI*186; enso.style.strokeDasharray=C; enso.style.strokeDashoffset=C;
+
+const chips=$('#chips');
+const SHORT={in:'in',in2:'top-up',out:'out',hold:'hold'};
+chips.innerHTML=PATTERNS.map(p=>`<button class="pcard" data-p="${p.id}" aria-pressed="false"><b>${p.name}</b><span class="tag">${p.phases.map(x=>x[1]+' '+SHORT[x[2]]).join(' · ')}</span><div class="rhythm">${p.phases.map(x=>`<span class="r-${x[2]==='in2'?'in':x[2]}" style="flex:${x[1]}"></span>`).join('')}</div><span class="tag">${p.best}</span></button>`).join('');
+chips.addEventListener('click',e=>{const c=e.target.closest('.pcard');if(c)selectPattern(c.dataset.p)});
+
+function selectPattern(id){
+  const p=PATTERNS.find(x=>x.id===id)||PATTERNS[0]; if(B.running) pause(); B.p=p; resetSession();
+  $$('.pcard').forEach(c=>c.setAttribute('aria-pressed',c.dataset.p===p.id));
+  const pc=$('.pcard[data-p="'+p.id+'"]'),sc=$('#chips');if(pc&&sc&&sc.offsetParent)sc.scrollTo({left:pc.offsetLeft-(parseFloat(getComputedStyle(sc).paddingLeft)||0),behavior:'smooth'});
+  $('#pName').textContent=p.name; $('#pBest').textContent=p.best; $('#pDesc').textContent=p.desc; $('#pOrigin').textContent=(ORIG[p.id]||['',''])[1];
+  const n=$('#pNote'); n.hidden=!p.note; n.textContent=p.note||'';
+  const total=p.phases.reduce((a,x)=>a+x[1],0);
+  $('#pRhythm').innerHTML=p.phases.map(x=>`<span class="r-${x[2]==='in2'?'in':x[2]}" style="flex:${x[1]}" title="${x[0]} ${x[1]}s"></span>`).join('');
+  $('#bpm').textContent=(60/total).toFixed(1).replace('.0','')+' breaths/min';
+  store.set('pattern',p.id);
+  buildDiagram(p);
+}
+
+/* ---------- teaching diagrams ---------- */
+const kindOf=k=>k==='in2'?'in':k;
+const DX0=50,DX1=288,DY0=150,DY1=34;
+function lungPoint(p,time){
+  const total=p.phases.reduce((a,x)=>a+x[1],0),L=levels(p);let t=((time%total)+total)%total,i=0;
+  while(i<p.phases.length-1&&t>p.phases[i][1]){t-=p.phases[i][1];i++}
+  const k=Math.min(1,t/p.phases[i][1]),[f,to]=L[i],lv=f+(to-f)*ease(k);
+  return{i,k,lv,rem:p.phases[i][1]-t,cyc:Math.floor(time/total)+1,x:DX0+((time%total)/total)*(DX1-DX0),y:DY0-lv*(DY0-DY1)};
+}
+function buildDiagram(p){
+  const total=p.phases.reduce((a,x)=>a+x[1],0);
+  // lung-volume graph: x = time across one cycle, y = how full the lungs are
+  let d='',n=120;for(let j=0;j<=n;j++){const q=lungPoint(p,total*j/n*0.99999);d+=(j?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1)}
+  let s=`<rect class="band" id="dBand" x="${DX0}" y="${DY1-12}" width="0" height="${DY0-DY1+12}" rx="6"/>`;
+  s+=`<line class="axis-l" x1="${DX0}" x2="${DX1}" y1="${DY0}" y2="${DY0}"/><line class="axis-l" x1="${DX0}" x2="${DX1}" y1="${DY1}" y2="${DY1}" stroke-dasharray="3 4"/>`;
+  s+=`<text x="${DX0-6}" y="${DY1+4}" text-anchor="end">full</text><text x="${DX0-6}" y="${DY0+4}" text-anchor="end">empty</text>`;
+  let acc=0;p.phases.forEach((ph,i)=>{const x0=DX0+acc/total*(DX1-DX0);acc+=ph[1];const x1=DX0+acc/total*(DX1-DX0);
+    if(i)s+=`<line class="axis-l" x1="${x0}" x2="${x0}" y1="${DY0}" y2="${DY0+6}"/>`;
+    s+=`<text x="${(x0+x1)/2}" y="${DY0+20}" text-anchor="middle">${ph[1]}s</text>`;
+    const short={in:'in',in2:'top-up',out:'out',hold:'hold'}[ph[2]];s+=`<text class="lbl" x="${(x0+x1)/2}" y="${DY0+36}" text-anchor="middle">${short}</text>`});
+  s+=`<path class="curve" d="${d}"/><path class="trail" id="dTrail" d=""/><circle class="dot" id="dDot" r="7" cx="${DX0}" cy="${DY0}"/>`;
+  $('#lungSvg').innerHTML=s; $('#lungSvg')._d=d;
+  // box breathing: trace a square, one side per phase
+  const isBox=p.id==='box'; $('#boxWrap').hidden=!isBox;
+  if(isBox){const A=[70,190],Bp=[70,50],Cp=[230,50],D=[230,190],pts=[A,Bp,Cp,D,A];
+    let b='';p.phases.forEach((ph,i)=>{const[a,c]=[pts[i],pts[i+1]];b+=`<line class="side s-${ph[2]}" id="side${i}" x1="${a[0]}" y1="${a[1]}" x2="${c[0]}" y2="${c[1]}"/>`});
+    b+=`<text class="lbl" x="56" y="124" text-anchor="end">In 4</text><text class="lbl" x="150" y="36" text-anchor="middle">Hold 4</text><text class="lbl" x="244" y="124">Out 4</text><text class="lbl" x="150" y="214" text-anchor="middle">Hold 4</text>`;
+    b+=`<text class="big" id="boxNum" x="150" y="128" text-anchor="middle">4</text><text id="boxPh" x="150" y="150" text-anchor="middle">breathe in</text><circle class="dot" id="boxDot" r="9" cx="70" cy="190"/>`;
+    $('#boxSvg').innerHTML=b;$('#boxSvg')._pts=pts;}
+  $('#phaseRow').innerHTML=p.phases.map((ph,i)=>`<div class="ph ${kindOf(ph[2])}" id="ph${i}"><b>${i+1}. ${ph[0].trim()}</b><span class="mono" id="phT${i}">${ph[1]}s</span><div class="pbar"><i id="phB${i}"></i></div></div>`).join('');
+  $('#phaseRow').style.gridTemplateColumns=`repeat(${Math.min(p.phases.length,2)},minmax(0,1fr))`;
+}
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let demo0=performance.now(),lastPat=null;
+function diaLoop(ts){
+  const p=B.p;if(lastPat!==p){lastPat=p;demo0=ts}
+  const live=B.running||B.elapsed>0;
+  const time=live?B.elapsed:(reduceMotion?0:(ts-demo0)/1000);
+  $('#diaMode').textContent=B.running?'Live':live?'Paused':'Preview';
+  const q=lungPoint(p,time),total=p.phases.reduce((a,x)=>a+x[1],0);
+  const dot=$('#dDot');if(dot){dot.setAttribute('cx',q.x.toFixed(1));dot.setAttribute('cy',q.y.toFixed(1));
+    // trail: the part of the cycle already breathed
+    const d=$('#lungSvg')._d.split('L'),cut=Math.max(1,Math.round(((time%total)/total)*120));$('#dTrail').setAttribute('d',d.slice(0,cut+1).join('L'));
+    let acc=0;for(let j=0;j<q.i;j++)acc+=p.phases[j][1];const bx=DX0+acc/total*(DX1-DX0),bw=p.phases[q.i][1]/total*(DX1-DX0);
+    const band=$('#dBand');band.setAttribute('x',bx);band.setAttribute('width',bw);}
+  p.phases.forEach((ph,i)=>{const el=$('#ph'+i);if(!el)return;const on=i===q.i;el.classList.toggle('on',on);
+    $('#phB'+i).style.width=(on?q.k*100:(i<q.i?100:0))+'%';$('#phT'+i).textContent=on?Math.ceil(q.rem)+'s left':ph[1]+'s'});
+  if(p.id==='box'&&$('#boxDot')){const pts=$('#boxSvg')._pts,a=pts[q.i],c=pts[q.i+1];
+    $('#boxDot').setAttribute('cx',(a[0]+(c[0]-a[0])*q.k).toFixed(1));$('#boxDot').setAttribute('cy',(a[1]+(c[1]-a[1])*q.k).toFixed(1));
+    p.phases.forEach((_,i)=>$('#side'+i).classList.toggle('on',i===q.i));
+    $('#boxNum').textContent=Math.max(1,Math.ceil(q.rem));$('#boxPh').textContent=p.phases[q.i][0].toLowerCase();}
+  $('#cycle').textContent='Cycle '+(live?q.cyc:0);
+  requestAnimationFrame(diaLoop);
+}
+requestAnimationFrame(diaLoop);
+function levels(p){let l=0;return p.phases.map(ph=>{const from=l;const to=ph[2]==='in'?(p.phases.some(x=>x[2]==='in2')?0.8:1):ph[2]==='in2'?1:ph[2]==='out'?0:l;l=to;return[from,to]})}
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const fmt=s=>{s=Math.max(0,Math.ceil(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+function draw(level){const s=0.62+0.38*level;ringsG.style.transform=`scale(${s})`;$('#stone').setAttribute('r',(52+14*level).toFixed(1));}
+function resetSession(){B.elapsed=0;B.phaseIdx=-1;B.done=false;draw(0);$('#phase').textContent='Ready';$('#count').textContent='tap to begin';$('#clock').textContent=fmt(B.dur);enso.style.strokeDashoffset=C;$('#startBtn').textContent='Begin'}
+/* sound: bell, or eyes-closed guide tones + spoken cue */
+function ac(){if(!B.ac){try{B.ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}try{if(B.ac&&B.ac.state==='suspended')B.ac.resume()}catch(e){}return B.ac}
+function tone(f0,f1,dur,peak){const a=B.ac;if(!a)return;const o=a.createOscillator(),g=a.createGain(),t=a.currentTime;o.type='sine';o.frequency.setValueAtTime(f0,t);o.frequency.linearRampToValueAtTime(f1,t+dur);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(peak,t+Math.min(.6,dur*.2));g.gain.setValueAtTime(peak,t+dur*.8);g.gain.linearRampToValueAtTime(0.0001,t+dur);o.connect(g).connect(a.destination);o.start(t);o.stop(t+dur+.05)}
+const WORDS={in:'In',in2:'More',hold:'Hold',out:'Out'};
+function say(w){try{if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w);u.rate=.75;u.pitch=.9;u.volume=.6;speechSynthesis.speak(u)}catch(e){}}
+function cue(kind,secs){if(B.sound==='off'||!B.ac)return;if(B.sound==='bell'){chime(kind);return}
+  say(WORDS[kind]);
+  if(kind==='in')tone(196,294,secs,.08);else if(kind==='in2')tone(294,349,secs,.07);else if(kind==='out')tone(294,165,secs,.08);else tone(147,147,secs,.03)}
+const SND_HINT={off:'Silent: follow the stone with your eyes.',bell:'Bell: a soft chime marks each change of phase.',guide:'Eyes closed: a rising tone as you breathe in, falling as you breathe out, a low hum while you hold, and a spoken cue.'};
+function setSound(s){B.sound=s;$$('#sndSeg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.s===s));$('#sndHint').textContent=SND_HINT[s];store.set('sound',s)}
+function chime(type){if(!B.ac)return;const ac=B.ac,o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=type==='out'?392:type==='hold'?440:523.25;g.gain.setValueAtTime(0,ac.currentTime);g.gain.linearRampToValueAtTime(.12,ac.currentTime+.04);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+1.6);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+1.7)}
+function tick(ts){
+  if(!B.running) return;
+  B.elapsed+=(ts-B.last)/1000; B.last=ts;
+  const p=B.p, total=p.phases.reduce((a,x)=>a+x[1],0), L=levels(p);
+  let t=B.elapsed%total, i=0; while(t>p.phases[i][1]){t-=p.phases[i][1];i++}
+  const ph=p.phases[i], k=t/ph[1], [f,to]=L[i];
+  draw(f+(to-f)*ease(Math.min(1,k)));
+  if(i!==B.phaseIdx){B.phaseIdx=i;$('#phase').textContent=ph[0];replay($('#phase'),'swap');if(ph[2]==='in')pebble();cue(ph[2],ph[1]);}
+  $('#count').textContent=Math.max(1,Math.ceil(ph[1]-t));
+  const left=B.dur-B.elapsed; $('#clock').textContent=fmt(left);
+  enso.style.strokeDashoffset=C*(1-Math.min(1,B.elapsed/B.dur)*0.94);
+  if(left<=0){finish();return}
+  requestAnimationFrame(tick);
+}
+async function start(){
+  if(B.done) resetSession();
+  if(B.sound!=='off')ac();
+  B.running=true;B.last=performance.now();$('#startBtn').textContent='Pause';requestAnimationFrame(tick);
+  try{if('wakeLock' in navigator)B.lock=await navigator.wakeLock.request('screen')}catch(e){}
+}
+function pause(){B.running=false;$('#startBtn').textContent=B.elapsed>0?'Resume':'Begin';$('#phase').textContent=B.elapsed>0?'Paused':'Ready';$('#count').textContent=B.elapsed>0?'tap to resume':'tap to begin';try{B.lock&&B.lock.release()}catch(e){}logMinutes(B.elapsed-(B.logged||0));B.logged=B.elapsed}
+function finish(){B.running=false;B.done=true;draw(0);$('#phase').textContent='Complete';$('#count').textContent='tap to go again';$('#startBtn').textContent='Again';enso.style.strokeDashoffset=0;try{B.lock&&B.lock.release()}catch(e){}
+  logMinutes(B.elapsed-(B.logged||0));B.logged=0;
+  if(B.dur>=300){const r=store.get('rit:'+dayKey(),{});r.breath=true;store.set('rit:'+dayKey(),r);renderRituals();autoBreath();}
+  if(B.pre)showPP('after');
+  markRem(B.p.id==='478'?'bed':(new Date().getHours()<14?'amBr':'pmBr'),true);
+  toast('Session complete · '+Math.round(B.dur/60)+' minutes');}
+function logMinutes(sec){if(sec<5)return;const m=store.get('mins',{});const k=dayKey();m[k]=(m[k]||0)+sec/60;store.set('mins',m);renderMinutes()}
+function renderMinutes(){const m=store.get('mins',{});let w=0;for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);w+=m[dayKey(d)]||0}
+  countUp($('#minToday'),[Math.round(m[dayKey()]||0)],v=>v[0]+' min');countUp($('#minWeek'),[Math.round(w)],v=>v[0]+' min')}
+$('#stage').addEventListener('click',()=>{pebble();$('#startBtn').click()});
+$('#stage').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('#startBtn').click()}});
+$('#startBtn').addEventListener('click',()=>{
+  if(B.running){pause();return}
+  if(B.sound!=='off')ac();
+  if((B.elapsed===0||B.done)&&$('#ppOn').checked&&!B.pre){if(B.done)resetSession();B.logged=0;showPP('before');return}
+  if(!B.elapsed)B.logged=0;start()});
+function setDur(min){$$('#durSeg button').forEach(x=>x.setAttribute('aria-pressed',+x.dataset.min===min));B.dur=min*60;if(B.running)pause();resetSession()}
+$('#durSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setDur(+b.dataset.min)});
+$('#sndSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setSound(b.dataset.s);if(B.sound!=='off'){ac();cue('in',1.4)}});
+setSound(B.sound);
+
+/* before & after */
+let ppMode=null;
+try{$('#ppOn').checked=store.get('pp',false)}catch(e){}
+$('#ppOn').addEventListener('change',e=>store.set('pp',e.target.checked));
+function showPP(mode){ppMode=mode;const el=$('#pp');el.hidden=false;$('#ppResult').hidden=true;$('#ppForm').hidden=false;$('#ppSave').hidden=false;$('#ppSkip').hidden=false;
+  if(mode==='before'){$('#ppEy').textContent='Before you begin';$('#ppMsg').textContent='Sit still for a minute with the cuff on, then enter your reading.';$('#ppSave').textContent='Save and begin';$('#ppSkip').textContent='Skip and begin'}
+  else{$('#ppEy').textContent='After your session';$('#ppMsg').textContent='Stay seated, breathe normally and measure again now.';$('#ppSave').textContent='Save and compare';$('#ppSkip').textContent='Skip'}
+  ['ppS','ppD','ppP'].forEach(i=>$('#'+i).value='');el.scrollIntoView({behavior:'smooth',block:'center'})}
+const sg=v=>(v>0?'+':v<0?'−':'±')+Math.abs(v);
+function deltaHTML(a,b){const ds=b.s-a.s,dd=b.d-a.d;return `<div class="delta"><div><span class="tag">Before</span><span class="mono">${a.s}/${a.d}</span></div><span class="arrow">→</span><div><span class="tag">After</span><span class="mono">${b.s}/${b.d}</span></div><div class="dv${ds<0?' down':''}"><span class="mono">${sg(ds)}/${sg(dd)}</span><span class="tag">mmHg</span></div></div>`}
+$('#ppSave').addEventListener('click',()=>{
+  const s=+$('#ppS').value,d=+$('#ppD').value,p=+$('#ppP').value||null;
+  if(!s||!d||d>=s){$('#ppMsg').textContent='Enter both numbers. The top (systolic) number should be higher than the bottom one.';return}
+  if(ppMode==='before'){B.pre={s,d,p,t:Date.now()};$('#pp').hidden=true;$('#stage').scrollIntoView({behavior:'smooth',block:'center'});start();return}
+  const pair=Date.now(),a=B.pre,b={s,d,p,t:Date.now()};
+  readings=readings.filter(r=>!r.ex);readings.push({...a,c:'Before session',pair,pat:B.p.name},{...b,c:'After session',pair,pat:B.p.name});save();renderLog();B.pre=null;
+  $('#ppForm').hidden=true;$('#ppSave').hidden=true;$('#ppSkip').hidden=true;$('#ppEy').textContent='Session effect';
+  $('#ppMsg').textContent=b.s<a.s?'Your body responded. A short-term drop like this is the calming reflex that daily practice trains.':'No drop this time. That is common, especially when rushed. The lasting effect builds over weeks.';
+  const r=$('#ppResult');r.hidden=false;window._lastFx={a,b,m:Math.round(B.dur/60)};r.innerHTML=deltaHTML(a,b)+'<p class="hint">Both readings are saved in your log.</p>'+(b.s<a.s?'<div><button class="btn btn-ghost btn-sm" data-share="progress">Share this result</button></div>':'');
+});
+$('#ppSkip').addEventListener('click',()=>{if(ppMode==='before'){$('#pp').hidden=true;start();return}
+  if(B.pre){readings=readings.filter(r=>!r.ex);readings.push({...B.pre,c:'Before session'});save();renderLog();B.pre=null}$('#pp').hidden=true});
+
+/* mini rings on home: gentle 11s cycle */
+(function(){const g=$('#miniRings');if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const t0=performance.now();(function f(ts){const k=((ts-t0)/1000%11)/11;const lv=k<.5?ease(k*2):1-ease((k-.5)*2);g.setAttribute('transform',`translate(50 50) scale(${(0.7+0.3*lv).toFixed(3)}) translate(-50 -50)`);requestAnimationFrame(f)})(t0)})();
+
+/* ---------- reset practices ---------- */
+const PRACTICES=[
+ {g:'息',c:'g-moss',t:'Physiological sigh',s:'1 minute · anywhere',steps:['Inhale through your nose until comfortably full.','Take a second short sip of air on top.','Let it all go in one long, slow sigh through the mouth.','Repeat two or three times.'],go:'sigh'},
+ {g:'蜂',c:'g-indigo',t:'Bee breath (Bhramari)',s:'3 minutes · seated',steps:['Sit tall, close your eyes, relax your jaw.','Inhale through the nose for about 4 counts.','Exhale with a low, steady hum, lips closed, for 6–8 counts.','Feel the buzz in your face and throat. Repeat 6–10 rounds.'],go:'hum'},
+ {g:'握',c:'g-saffron',timer:'iso',t:'Isometric hold',s:'8 minutes · 3× a week',steps:['Wall sit: back flat on a wall, knees bent to a level you can hold. Or squeeze a soft ball at about 30% of your full grip.','Hold for 2 minutes while breathing normally. Never hold your breath.','Rest 1–2 minutes. Do 4 rounds in total.','Repeat three days a week for at least a month.'],
+  why:'In a large 2023 review, isometric exercise like wall sits and handgrips lowered resting pressure more than any other exercise type.',caution:'If your readings are Stage 2 or above, or you have heart disease, ask your doctor first. Stop if you feel dizzy or have chest pain.'},
+ {g:'水',c:'g-indigo',t:'Cool water face',s:'30 seconds · when panicky',steps:['Fill a bowl with cool (not icy) water, or soak a cloth.','Hold your breath gently and press the cloth over your eyes and cheeks for 15–30 seconds.','Breathe out slowly afterwards. Repeat once if needed.'],
+  why:'Cool water on the face triggers the dive reflex, which slows the heart within seconds.',caution:'Skip this if you have a heart rhythm problem or angina.'},
+ {g:'森',c:'g-moss',timer:'forest',t:'Forest bathing (Shinrin-yoku)',s:'20+ minutes · outdoors',steps:['Find a park, garden or tree-lined street. Leave the phone in your pocket.','Walk slowly with no destination.','Notice five things you can see, the texture of bark, the smell of leaves.','Sit for a few minutes before heading back.'],
+  why:'Japanese studies link time among trees with lower cortisol, pulse and blood pressure compared with city walks.'},
+ {g:'壁',c:'g-saffron',timer:'legs',t:'Legs up the wall',s:'5–10 minutes · evening',steps:['Sit sideways against a wall, then swing your legs up as you lie back.','Rest arms by your sides, palms up. Use a pillow under the hips if you like.','Breathe slowly with a longer exhale.','Roll to one side to come out, and sit up slowly.']},
+ {g:'五',c:'g-moss',t:'5-4-3-2-1 grounding',s:'2 minutes · during worry',steps:['Name 5 things you can see.','4 things you can touch.','3 things you can hear.','2 things you can smell.','1 thing you can taste. Then take one slow breath.'],
+  why:'Pulling attention into the senses interrupts the stress loop that keeps the heart and vessels tight.'},
+ {g:'身',c:'g-indigo',t:'Progressive relaxation',s:'10 minutes · lying down',steps:['Start at your feet. Tense the muscles gently for 5 seconds as you breathe in.','Release all at once as you breathe out, and feel the difference for 10 seconds.','Move up: calves, thighs, belly, hands, arms, shoulders, face.','Finish with three slow breaths through the whole body.']}
+];
+const PCAT=['Breath','Breath','Body','Body','Outdoors','Body','Mind','Mind'];
+const POK=['sigh','hum','iso','water','forest','legs','ground','pmr'];
+$('#practices').innerHTML=PRACTICES.map((p,i)=>`<details class="practice" data-cat="${PCAT[i]}"${i===0?' open':''}><summary><span aria-hidden="true" class="glyph ${p.c}">${p.g}</span><div style="min-width:0"><h3>${p.t}</h3><div class="sub">${p.s}</div></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></summary><div class="body"><p class="origin">${ORIG[POK[i]][1]}</p>${p.why?`<p style="font-size:14px">${p.why}</p>`:''}<ol>${p.steps.map(s=>`<li>${s}</li>`).join('')}</ol>${p.caution?`<p class="note">${p.caution}</p>`:''}${p.go?`<div><button class="btn btn-quiet btn-sm" data-go="breathe" data-pattern="${p.go}">Practise with the guide</button></div>`:''}${p.timer?`<div><button class="btn btn-quiet btn-sm" data-timer="${p.timer}">Start the timer</button></div>`:''}</div></details>`).join('');
+
+/* ---------- rituals ---------- */
+const RITUALS=[
+ ['breath','10 minutes of slow breathing','Resonance or long-exhale, any time of day'],
+ ['walk','30 minutes of brisk walking','Or any movement that warms you up. 150 minutes a week.'],
+ ['salt','Keep sodium under 1,500–2,300 mg','Watch soy sauce, kimchi, miso, instant noodles and bread'],
+ ['plants','Half your plate as vegetables','Leafy greens and beets bring potassium and nitrates'],
+ ['iso','Isometric hold, if today is an exercise day','Wall sit or handgrip, 4 × 2 minutes'],
+ ['tea','Swap a sugary drink for tea or water','Hibiscus and green tea are both good choices'],
+ ['alcohol','No alcohol, or one drink at most','Less is better for pressure'],
+ ['sleep','In bed in time for 7–9 hours','Try 4-7-8 breathing to fall asleep']
+];
+function renderRituals(){
+  const r=store.get('rit:'+dayKey(),{});
+  $('#ritualList').innerHTML=RITUALS.map(([k,t,s])=>`<label class="ritual" for="r-${k}"><input type="checkbox" id="r-${k}" data-k="${k}"${r[k]?' checked':''}><div><b>${t}</b><span>${s}</span></div></label>`).join('');
+  const n=RITUALS.filter(x=>r[x[0]]).length, pct=(n/RITUALS.length*100)+'%';
+  $('#ritCount').textContent=n+' of '+RITUALS.length;$('#ritBar').style.width=pct;
+  $('#ritRing').style.strokeDashoffset=(125.7*(1-n/RITUALS.length)).toFixed(1);
+  $('#ritMsg').textContent=n===0?'Start with the easiest one.':n<RITUALS.length/2?'A good start. Keep going.':n<RITUALS.length?'More than halfway there.':'Every offering made today.';
+  countUp($('#homeRit'),[n],v=>v[0]+'<small> / '+RITUALS.length+'</small>');$('#homeRitBar').style.width=pct;
+}
+$('#ritualList').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;const r=store.get('rit:'+dayKey(),{});r[k]=e.target.checked;store.set('rit:'+dayKey(),r);renderRituals();justTick('#r-'+k);if(e.target.checked&&RITUALS.every(x=>r[x[0]]))toast('All eight done today')});
+const EFFECTS=[['DASH-style eating',11],['Aerobic exercise',6],['Less sodium',5.5],['Isometric exercise',5],['More potassium',4.5],['Less alcohol',4],['Losing 5 kg',5]];
+EFFECTS.sort((a,b)=>b[1]-a[1]);
+$('#effects').innerHTML=EFFECTS.map(([n,v])=>`<div class="effect"><span>${n}</span><div class="track"><i style="width:${v/12*100}%"></i></div><span class="val">−${v}</span></div>`).join('');
+
+/* ---------- log ---------- */
+function cat(s,d){if(s>180||d>120)return['Severe','c-crisis'];if(s>=140||d>=90)return['Stage 2','c-s2'];if(s>=130||d>=80)return['Stage 1','c-s1'];if(s>=120)return['Elevated','c-elevated'];return['Normal','c-normal']}
+function examples(){const out=[],base=[[148,94],[145,92],[146,93],[141,90],[142,89],[138,88],[139,87],[136,86],[134,86],[135,84],[132,84],[130,83]];
+  base.forEach((b,i)=>{const d=new Date();d.setDate(d.getDate()-(base.length-1-i)*2);d.setHours(7,15,0,0);out.push({s:b[0],d:b[1],p:72-Math.round(i/2),t:d.getTime(),c:i%3===2?'After breathing practice':'Morning, before meds',ex:true})});
+  [[1,[139,88],[131,84]],[3,[141,91],[135,88]],[5,[144,92],[136,87]]].forEach(([ago,a,b])=>{const d=new Date();d.setDate(d.getDate()-ago);d.setHours(20,30,0,0);const pair=d.getTime();
+    out.push({s:a[0],d:a[1],p:74,t:pair,c:'Before session',pair,pat:'Resonance',ex:true},{s:b[0],d:b[1],p:68,t:pair+6*60000,c:'After session',pair,pat:'Resonance',ex:true})});
+  return out}
+let logAll=false;
+let readings=store.get('readings',null); if(!readings) readings=examples();
+function save(){store.set('readings',readings)}
+function renderLog(){
+  const list=[...readings].sort((a,b)=>b.t-a.t), hasEx=readings.some(r=>r.ex);
+  $('#exTag').innerHTML=hasEx?'<span class="example">Example readings</span> <button class="link" id="clearEx" style="font-size:12.5px;margin-left:6px">Clear examples</button>':'';
+  $('#moreWrap').innerHTML=list.length?`<span class="hint">Swipe a reading left to delete it.</span>${list.length>6?`<button class="link" id="logMore" style="font-size:13px">${logAll?'Show fewer':'Show all '+list.length}</button>`:''}`:'';
+  $('#readings').innerHTML=list.length?list.slice(0,logAll?list.length:6).map(r=>{const[c,cl]=cat(r.s,r.d);const dt=new Date(r.t);return`<div class="reading" data-t="${r.t}"><div><span class="bp">${r.s}/${r.d}<small> mmHg${r.p?' · '+r.p+' bpm':''}</small></span></div><button class="del" data-t="${r.t}" aria-label="Delete reading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill ${cl}">${c}</span><span class="when">${dt.toLocaleDateString('en-US',{month:'short',day:'numeric'})} · ${dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · ${r.c}</span></div></div>`}).join(''):'<p class="foot">No readings yet. Add your first one above.</p>';
+  const last=list[0];
+  if(last){const[c,cl]=cat(last.s,last.d);countUp($('#homeBP'),[last.s,last.d],v=>`${v[0]}/${v[1]}`);$('#homeCat').innerHTML=`<span class="pill ${cl}">${c}${last.ex?' · example':''}</span>`}else{$('#homeBP').textContent='—';$('#homeCat').innerHTML='<span class="tag">Add a reading</span>'}
+  const recent=list.slice(0,7);if(recent.length){const as=Math.round(recent.reduce((a,r)=>a+r.s,0)/recent.length),ad=Math.round(recent.reduce((a,r)=>a+r.d,0)/recent.length);$('#avg').textContent=`Avg of last ${recent.length}: ${as}/${ad}`}else $('#avg').textContent='';
+  drawChart([...readings].sort((a,b)=>a.t-b.t).slice(-14));
+  const pairs={};readings.forEach(r=>{if(r.pair){const o=pairs[r.pair]=pairs[r.pair]||{};o[r.c==='Before session'?'a':'b']=r}});
+  const P=Object.values(pairs).filter(x=>x.a&&x.b).sort((x,y)=>y.b.t-x.b.t);
+  $('#fxList').innerHTML=P.length?P.slice(0,5).map(x=>`<div class="fx-row"><span class="when">${new Date(x.b.t).toLocaleDateString('en-US',{month:'short',day:'numeric'})}${x.b.pat?' · '+x.b.pat:''}${x.b.ex?' · example':''}</span>${deltaHTML(x.a,x.b)}</div>`).join(''):'<p class="hint">No before-and-after pairs yet.</p>';
+  $('#fxAvg').textContent=P.length?`Average change ${sg(Math.round(P.reduce((a,x)=>a+x.b.s-x.a.s,0)/P.length))}/${sg(Math.round(P.reduce((a,x)=>a+x.b.d-x.a.d,0)/P.length))}`:'';
+}
+function drawChart(pts,el='#chart'){
+  const W=340,H=170,L=30,R=8,T=10,Bm=24,ymin=60,ymax=180,y=v=>T+(ymax-Math.min(ymax,Math.max(ymin,v)))/(ymax-ymin)*(H-T-Bm);
+  let s='';[80,120,140,180].forEach(v=>{s+=`<line class="grid" x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"${v===120||v===80?' stroke-dasharray="3 4"':''}/><text x="${L-6}" y="${y(v)+3}" text-anchor="end">${v}</text>`});
+  if(pts.length){const x=i=>pts.length===1?(L+W-R)/2:L+6+i*((W-R-L-12)/(pts.length-1));
+    const line=k=>pts.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(p[k]).toFixed(1)}`).join(' ');
+    s+=`<path class="sys-a" d="${line('s')} L${x(pts.length-1)} ${y(ymin)} L${x(0)} ${y(ymin)}Z"/><path class="sys" d="${line('s')}"/><path class="dia" d="${line('d')}"/>`;
+    const li=pts.length-1;s+=`<circle cx="${x(li)}" cy="${y(pts[li].s)}" r="4" fill="var(--indigo)"/><circle cx="${x(li)}" cy="${y(pts[li].d)}" r="4" fill="var(--moss)"/>`;
+    const f=t=>new Date(t).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    s+=`<text x="${x(0)}" y="${H-6}" text-anchor="start">${f(pts[0].t)}</text>`;if(li)s+=`<text x="${x(li)}" y="${H-6}" text-anchor="end">${f(pts[li].t)}</text>`;}
+  $(el).innerHTML=s;
+}
+document.addEventListener('click',e=>{
+  if(e.target.id==='logMore'){logAll=!logAll;renderLog();return}
+  if(e.target.id==='clearEx'){readings=readings.filter(r=>!r.ex);save();renderLog();toast('Examples cleared')}
+  const d=e.target.closest('.del');if(d)deleteReading(+d.dataset.t);
+});
+$('#bpForm').addEventListener('submit',e=>{
+  e.preventDefault();const s=+$('#sys').value,d=+$('#dia').value,p=+$('#pulse').value||null;
+  if(!s||!d){$('#formMsg').textContent='Enter both the top (systolic) and bottom (diastolic) numbers.';return}
+  if(d>=s){$('#formMsg').textContent='Diastolic should be lower than systolic. Check the order of the two numbers.';return}
+  readings=readings.filter(r=>!r.ex);readings.push({s,d,p,t:Date.now(),c:$('#ctx').value});save();
+  $('#sys').value='';$('#dia').value='';$('#pulse').value='';
+  const[c]=cat(s,d);$('#formMsg').textContent=`Saved ${s}/${d}, ${c}.`;renderLog();markRem(new Date().getHours()<14?'amBP':'pmBP',true);
+  const box=$('#crisis');
+  if(s>180||d>120){box.innerHTML=`<div class="banner crisis"><b>This reading is in the severe range.</b><span>Rest quietly for 5 minutes and measure again. If it is still above 180/120, contact your doctor today.</span><span><b>Call emergency services now</b> if you also have chest pain, shortness of breath, back pain, numbness or weakness, vision changes, or difficulty speaking.</span></div>`;box.scrollIntoView({behavior:'smooth'})}
+  else{box.innerHTML='';toast('Reading saved')}
+});
+
+/* ---------- 30-day path ---------- */
+const WEEKS=[{t:'Learn to breathe slowly',d:'Two short resonance sessions a day. Nothing else yet. This week is about the habit.'},{t:'Calm the nervous system',d:'Keep the breathing and add one reset practice each evening.'},{t:'Build gentle strength',d:'Isometric holds three days a week, brisk walks on the others.'},{t:'Feed your vessels',d:'Bring salt down and potassium up, one change a day.'}];
+const RESETS=[['Physiological sigh, 3 rounds','breathe','sigh'],['Bee breath, 3 minutes','breathe','hum'],['Legs up the wall, 5 minutes','reset'],['Progressive relaxation before bed','reset'],['5-4-3-2-1 grounding','reset'],['A 20-minute walk among trees','reset'],['4-7-8 breathing in bed','breathe','478']];
+const FOODS=['Check the sodium on three labels you eat often','Cook one meal with half your usual soy sauce or salt','Eat a potassium food at every meal','Swap instant noodles or processed meat for a fresh option','Make half your dinner plate vegetables','Have hibiscus tea instead of a sweet drink','Plan next week\'s low-salt lunches'];
+function dayTasks(n){const w=Math.min(3,Math.floor((n-1)/7)),di=(n-1)%7,t=[];
+  if(n===1)t.push({k:'base',l:'Take a baseline reading, morning and evening',go:'log'});
+  if(w===0)t.push({k:'b1',l:'Morning resonance breathing, 5 minutes',go:'breathe',p:'resonance',auto:1},{k:'b2',l:'Evening resonance breathing, 5 minutes',go:'breathe',p:'resonance',auto:1});
+  else t.push({k:'b1',l:'Resonance breathing, 10 minutes in total',go:'breathe',p:'resonance',auto:1});
+  if(w===1){const r=RESETS[di];t.push({k:'r',l:r[0],go:r[1],p:r[2]})}
+  if(w===2)t.push(di%2===0?{k:'x',l:'Isometric holds: wall sit or handgrip, 4 × 2 minutes',tm:'iso'}:{k:'x',l:'Brisk walk, 30 minutes',tm:'walk'});
+  if(w===3)t.push({k:'f',l:FOODS[di],go:'rituals'},{k:'x',l:di%2===0?'Isometric holds, 4 × 2 minutes':'Brisk walk, 30 minutes',tm:di%2===0?'iso':'walk'});
+  if(n%7===0&&n<29)t.push({k:'wk',l:'Weekly check: compare this week\'s average in your log',go:'log'});
+  if(n===30)t.push({k:'end',l:'Compare today\'s readings with day 1',go:'log'});
+  return t}
+let path=store.get('path',null);if(!path||!path.start){path={start:dayKey(),done:{}};store.set('path',path)}
+function pathDay(){const[y,m,d]=path.start.split('-').map(Number),s=new Date(y,m-1,d),t=new Date();t.setHours(0,0,0,0);return Math.round((t-s)/864e5)+1}
+function renderPath(){const n=pathDay(),cur=Math.min(30,Math.max(1,n)),w=Math.min(3,Math.floor((cur-1)/7));
+  $('#pathDay').textContent=n>30?'Complete':'Day '+cur+' of 30';
+  $('#pathWeek').textContent='Week '+(w+1)+' · '+WEEKS[w].t;$('#pathWeekD').textContent=WEEKS[w].d;
+  let dots='';for(let i=1;i<=30;i++){const tk=dayTasks(i),dn=path.done[i]||{},c=tk.filter(x=>dn[x.k]).length;dots+=`<span class="${c===tk.length?'full':c?'part':''}${i===cur&&n<=30?' today':''}" title="Day ${i}"></span>`}
+  $('#pathDots').innerHTML=dots;
+  const tk=dayTasks(cur),dn=path.done[cur]||{};
+  $('#pathTasks').innerHTML=n>30?'<p style="font-size:14px">You finished the 30-day path. Compare your log with day 1, then keep the habits that helped most.</p>':tk.map(x=>`<div class="task"><input type="checkbox" id="pt-${x.k}" data-k="${x.k}"${dn[x.k]?' checked':''}><label for="pt-${x.k}">${x.l}</label>${x.tm?`<button class="go" data-timer="${x.tm}">Timer</button>`:x.go?`<button class="go" data-go="${x.go}"${x.p?` data-pattern="${x.p}"`:''}>Open</button>`:'<span></span>'}</div>`).join('');
+}
+$('#pathTasks').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;const n=Math.min(30,pathDay());path.done[n]=path.done[n]||{};path.done[n][k]=e.target.checked;store.set('path',path);renderPath();justTick('#pt-'+k);if(dayTasks(n).every(x=>path.done[n][x.k]))toast('Day '+n+' complete')});
+function autoBreath(){const n=pathDay();if(n>30)return;path.done[n]=path.done[n]||{};const t=dayTasks(n).find(x=>x.auto&&!path.done[n][x.k]);if(t){path.done[n][t.k]=true;store.set('path',path);renderPath()}}
+let armed=false;$('#pathRestart').addEventListener('click',e=>{const b=e.currentTarget;if(!armed){armed=true;b.textContent='Tap again to restart from day 1';setTimeout(()=>{armed=false;b.textContent='Restart the path'},4000);return}
+  armed=false;b.textContent='Restart the path';path={start:dayKey(),done:{}};store.set('path',path);renderPath();toast('Path restarted at day 1')});
+
+/* ---------- mood check-in ---------- */
+const MOODS={
+  wired:{l:'Wired',t:'Long exhale, 3 minutes',d:'A longer out-breath works like a brake on a racing system.',go:'breathe',p:'exhale',min:3},
+  anxious:{l:'Anxious',t:'Calm-now sequence',d:'Three long sighs, a quick grounding scan, then a minute of slow exhales. About three minutes, guided start to finish.',panic:1},
+  angry:{l:'Angry',t:'Bee breath, 3 minutes',d:'Humming on the out-breath slows the heart and gives the feeling somewhere to go.',go:'breathe',p:'hum',min:3},
+  sleep:{l:'Can\'t sleep',t:'4-7-8 in bed',d:'Lights off, lying down. Eyes-closed sound is turned on so you can put the screen face down.',go:'breathe',p:'478',min:3,snd:'guide'},
+  tense:{l:'Tense body',t:'Progressive relaxation',d:'Tense and release each muscle group, from your feet up to your face.',go:'reset',open:'Progressive relaxation'},
+  calm:{l:'Calm',t:'A good moment to measure',d:'Calm, seated readings are the most accurate. Take one, then keep the feeling with 5 minutes of resonance breathing.',go:'log'}
+};
+$('#moods').innerHTML=Object.entries(MOODS).map(([k,m])=>`<button class="chip" data-mood="${k}" aria-pressed="false">${m.l}</button>`).join('');
+$('#moods').addEventListener('click',e=>{const b=e.target.closest('[data-mood]');if(!b)return;$$('#moods .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));const m=MOODS[b.dataset.mood],s=$('#suggest');s.hidden=false;
+  s.innerHTML=`<span class="tag">Try this</span><span class="h-m" style="font-family:var(--font-display)">${m.t}</span><p style="font-size:14px;color:var(--ink-2)">${m.d}</p><div><button class="btn btn-primary btn-sm" id="moodGo">${m.panic?'Start calm-now':'Start'}</button></div>`;
+  $('#moodGo').addEventListener('click',()=>runMood(m));replay(s,'swap')});
+function runMood(m){if(m.panic){openCalm();return}if(m.snd)setSound(m.snd);if(m.min)setDur(m.min);if(m.p)selectPattern(m.p);location.hash=m.go;
+  if(m.open)setTimeout(()=>{const d=$$('.practice').find(x=>x.querySelector('h3').textContent===m.open);if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'})}},120)}
+
+/* ---------- calm-now overlay ---------- */
+const GROUND=[[5,'things you can see'],[4,'things you can touch'],[3,'things you can hear'],[2,'things you can smell'],[1,'thing you can taste']];
+const CALM={on:false,step:0,t0:0,g:0,ph:-1,run:0};
+function openCalm(){if(B.running)pause();if(B.sound!=='off')ac();CALM.on=true;$('#calm').hidden=false;document.body.style.overflow='hidden';calmStep(0);$('#calmX').focus({preventScroll:true})}
+function closeCalm(){CALM.on=false;$('#calm').hidden=true;document.body.style.overflow='';try{speechSynthesis.cancel()}catch(e){}}
+function calmStep(i){CALM.step=i;replay($('#calmTitle'),'swap');replay($('#calmSub'),'swap');CALM.t0=performance.now();CALM.ph=-1;const orb=$('#calmOrbWrap'),gr=$('#calmGround'),nx=$('#calmNext');
+  if(i===0||i===2){orb.hidden=false;gr.hidden=true;nx.hidden=true;$('#calmStep').textContent='Step '+(i===0?1:3)+' of 3';
+    $('#calmTitle').textContent=i===0?'Three long sighs':'Slow the out-breath';
+    $('#calmSub').textContent=i===0?'In through the nose, a second short sip, then sigh it all out through the mouth.':'In for 4, out for 6. Let your shoulders drop a little more each time.';
+    const id=++CALM.run;requestAnimationFrame(ts=>calmTick(ts,id))}
+  else if(i===1){orb.hidden=true;gr.hidden=false;nx.hidden=false;CALM.g=0;$('#calmStep').textContent='Step 2 of 3';$('#calmTitle').textContent='Come back to the room';$('#calmSub').textContent='Look around slowly. Name each one out loud or in your head, then tap Next.';showG()}
+  else{orb.hidden=true;gr.hidden=true;nx.hidden=false;nx.textContent='Close';$('#calmStep').textContent='Done';$('#calmTitle').textContent='Well done. Notice how you feel.';
+    $('#calmSub').innerHTML='If you still feel unwell, sit and rest for a few minutes. <b>Call emergency services</b> if you have chest pain, shortness of breath, numbness, weakness, or trouble speaking or seeing.'}}
+function showG(){const g=GROUND[CALM.g];$('#gNum').textContent=g[0];replay($('#gNum'),'swap');$('#gText').textContent=g[1];$('#calmNext').textContent=CALM.g<4?'Next':'Continue'}
+$('#calmNext').addEventListener('click',()=>{if(CALM.step===1){if(CALM.g<4){CALM.g++;showG()}else calmStep(2)}else if(CALM.step===3)closeCalm()});
+$('#calmX').addEventListener('click',closeCalm);
+$('#panicBtn').addEventListener('click',openCalm);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&CALM.on)closeCalm()});
+function calmTick(ts,id){if(!CALM.on||id!==CALM.run||(CALM.step!==0&&CALM.step!==2))return;
+  const p=PATTERNS.find(x=>x.id===(CALM.step===0?'sigh':'exhale')),cycles=CALM.step===0?3:6,total=p.phases.reduce((a,x)=>a+x[1],0),t=Math.max(0,(ts-CALM.t0)/1000);
+  if(t>=cycles*total){calmStep(CALM.step+1);return}
+  const q=lungPoint(p,t);$('#calmOrb').style.transform=`scale(${(0.55+0.45*q.lv).toFixed(3)})`;
+  if(q.i!==CALM.ph){CALM.ph=q.i;$('#calmPhase').textContent=p.phases[q.i][0];replay($('#calmPhase'),'swap');cue(p.phases[q.i][2],p.phases[q.i][1])}
+  requestAnimationFrame(n=>calmTick(n,id))}
+
+/* ---------- medicines 101 ---------- */
+const MEDS=[
+ {b:'ACE',c:'g-moss',n:'ACE inhibitors',s:'Often a first choice',d:['enalapril','lisinopril','perindopril','ramipril','imidapril','captopril'],
+  how:'Block the enzyme that makes angiotensin II, a hormone that tightens blood vessels. Vessels relax and pressure falls. Also protect the kidneys and heart.',
+  se:['Dry, tickly cough (fairly common, often the reason people switch)','Dizziness, especially after the first doses','Higher potassium levels in the blood','Changes in kidney function, checked by blood tests'],
+  urgent:'Swelling of the lips, tongue, face or throat (angioedema). Rare, but needs emergency care.',
+  know:['Not used in pregnancy. Tell your doctor if you are pregnant or planning to be.','Avoid potassium salt substitutes unless your doctor agrees.']},
+ {b:'ARB',c:'g-indigo',n:'Angiotensin receptor blockers (ARBs)',s:'Often a first choice',d:['losartan','candesartan','valsartan','telmisartan','olmesartan','irbesartan','azilsartan'],
+  how:'Stop angiotensin II from acting on blood vessels, so they stay relaxed. Similar benefits to ACE inhibitors, with much less cough.',
+  se:['Dizziness or light-headedness','Higher potassium levels','Changes in kidney function, checked by blood tests','Tiredness, usually mild'],
+  urgent:'Swelling of the face, lips or tongue. Very rare.',
+  know:['Not used in pregnancy.','Usually not combined with an ACE inhibitor.','Often combined with amlodipine or a diuretic in a single tablet.']},
+ {b:'CCB',c:'g-saffron',n:'Calcium channel blockers',s:'Very widely used in Japan',d:['amlodipine','nifedipine','benidipine','cilnidipine','azelnidipine','felodipine','diltiazem','verapamil'],
+  how:'Reduce calcium entering the muscle in artery walls, so the arteries relax and widen. Diltiazem and verapamil also slow the heart.',
+  se:['Swollen ankles (common with amlodipine and nifedipine)','Flushing, warmth in the face, headache','Palpitations','Constipation (mainly verapamil)','Gum overgrowth (uncommon; good dental care helps)'],
+  urgent:'A very slow pulse with dizziness or fainting (diltiazem, verapamil).',
+  know:['Grapefruit can raise levels of some of these, especially nifedipine and felodipine.','Ankle swelling is not fluid overload, so diuretics don\'t usually fix it. Tell your doctor; a dose or drug change may help.']},
+ {b:'DIU',c:'g-indigo',n:'Thiazide-type diuretics',s:'"Water pills", low dose',d:['hydrochlorothiazide','chlorthalidone','indapamide','trichlormethiazide'],
+  how:'Help the kidneys remove extra salt and water, lowering blood volume. Over time they also relax blood vessels. Low doses work well with ARBs and ACE inhibitors.',
+  se:['Passing urine more often in the hours after a dose','Low potassium or sodium (blood tests check this)','Higher uric acid, which can trigger gout','Slightly higher blood sugar','Skin more sensitive to sun'],
+  urgent:'Severe muscle weakness or cramps, confusion, or a racing irregular heartbeat, which can mean very low salts.',
+  know:['Usually taken in the morning so you aren\'t up at night.','Drink enough in hot weather; ask your doctor what to do if you have vomiting or diarrhoea.']},
+ {b:'BB',c:'g-moss',n:'Beta blockers',s:'Used when the heart also needs support',d:['bisoprolol','metoprolol','carvedilol','atenolol','propranolol'],
+  how:'Block adrenaline\'s effect on the heart, so it beats more slowly and with less force. Often used when there is also angina, heart failure or a fast heart rhythm.',
+  se:['Tiredness, especially at first','Cold hands and feet','Slow pulse','Vivid dreams or poor sleep','Can hide warning signs of low blood sugar in diabetes'],
+  urgent:'Wheezing or breathlessness, or a very slow pulse with fainting.',
+  know:['Never stop suddenly. This can cause a rebound rise in pulse and pressure. Your doctor will taper it.','Some types can worsen asthma.']},
+ {b:'MRA',c:'g-saffron',n:'Mineralocorticoid receptor antagonists',s:'Often added for hard-to-control BP',d:['spironolactone','eplerenone','esaxerenone'],
+  how:'Block aldosterone, a hormone that makes the body hold on to salt and water. Useful when pressure stays high despite three other medicines.',
+  se:['Higher potassium levels (blood tests are important)','Breast tenderness or enlargement (spironolactone)','Menstrual changes (spironolactone)','Dizziness'],
+  urgent:'Muscle weakness, a slow or irregular heartbeat, which can mean high potassium.',
+  know:['Avoid potassium supplements and salt substitutes unless told otherwise.']},
+ {b:'α',c:'g-indigo',n:'Alpha blockers',s:'Sometimes used, especially with prostate symptoms',d:['doxazosin','prazosin','terazosin'],
+  how:'Relax muscle in blood vessel walls, and in the prostate and bladder neck, which also eases urine flow in men.',
+  se:['Dizziness or fainting on standing, especially after the first dose','Tiredness','Stuffy nose','Swollen ankles'],
+  urgent:'Fainting, or an erection lasting more than four hours (rare).',
+  know:['The first dose is often taken at bedtime to reduce dizziness.']},
+ {b:'CA',c:'g-moss',n:'Central agents',s:'Less common, or for pregnancy',d:['methyldopa','clonidine','guanfacine'],
+  how:'Act on the brain to reduce the nerve signals that tighten blood vessels. Methyldopa is a long-standing choice in pregnancy.',
+  se:['Drowsiness','Dry mouth','Dizziness','Low mood (methyldopa)'],
+  urgent:'Fever with yellowing of the skin or eyes (methyldopa, rare).',
+  know:['Clonidine must not be stopped suddenly: blood pressure can rebound sharply.']}
+];
+$('#medList').innerHTML=MEDS.map((m,i)=>`<details class="practice med" id="med-${i}" data-q="${(m.n+' '+m.b+' '+m.d.join(' ')).toLowerCase()}"><summary><span class="badge ${m.c}">${m.b}</span><div style="min-width:0"><h3>${m.n}</h3><div class="sub">${m.s}</div></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></summary><div class="body" style="gap:14px">
+  <div class="med-sec"><h4>Examples</h4><div class="drugs">${m.d.map(x=>`<span>${x}</span>`).join('')}</div></div>
+  <div class="med-sec"><h4>How it works</h4><p style="font-size:14px">${m.how}</p></div>
+  <div class="med-sec"><h4>Common side effects</h4><ul>${m.se.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+  <div class="urgent"><b>Contact a doctor promptly:</b> ${m.urgent}</div>
+  <div class="med-sec"><h4>Good to know</h4><ul>${m.know.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+</div></details>`).join('');
+$('#medQ').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();let n=0;$$('.med').forEach(d=>{const hit=!q||d.dataset.q.includes(q);d.hidden=!hit;if(hit)n++;if(q&&hit)d.open=true});$('#medNone').hidden=n>0});
+
+/* ---------- copy helper ---------- */
+function copyText(text,fallback){
+  const show=()=>{const f=$(fallback);f.value=text;f.hidden=false;f.focus();f.select();toast('Select all and copy the text below')};
+  try{navigator.clipboard.writeText(text).then(()=>{toast('Copied');$(fallback).hidden=true},show)}catch(e){show()}
+}
+
+/* ---------- seasons (24 solar terms) ---------- */
+const SEKKI=[[2,4,'立春','Risshun','Beginning of spring','spring'],[2,19,'雨水','Usui','Rain water','spring'],[3,6,'啓蟄','Keichitsu','Insects awaken','spring'],[3,21,'春分','Shunbun','Spring equinox','spring'],[4,5,'清明','Seimei','Clear and bright','spring'],[4,20,'穀雨','Kokuu','Grain rain','spring'],
+ [5,5,'立夏','Rikka','Beginning of summer','summer'],[5,21,'小満','Shōman','Lesser ripening','summer'],[6,6,'芒種','Bōshu','Grain in ear','rainy'],[6,21,'夏至','Geshi','Summer solstice','rainy'],[7,7,'小暑','Shōsho','Lesser heat','rainy'],[7,23,'大暑','Taisho','Greater heat','summer'],
+ [8,8,'立秋','Risshū','Beginning of autumn','summer'],[8,23,'処暑','Shosho','Heat retreats','summer'],[9,8,'白露','Hakuro','White dew','autumn'],[9,23,'秋分','Shūbun','Autumn equinox','autumn'],[10,8,'寒露','Kanro','Cold dew','autumn'],[10,23,'霜降','Sōkō','Frost descends','autumn'],
+ [11,7,'立冬','Rittō','Beginning of winter','winter'],[11,22,'小雪','Shōsetsu','Lesser snow','winter'],[12,7,'大雪','Taisetsu','Greater snow','winter'],[12,22,'冬至','Tōji','Winter solstice','winter'],[1,5,'小寒','Shōkan','Lesser cold','winter'],[1,20,'大寒','Daikan','Greater cold','winter']];
+const SEASONS={
+ spring:{l:'Spring',tip:'Hay fever season. Decongestants such as pseudoephedrine can raise blood pressure, so ask a pharmacist for a safer option.'},
+ rainy:{l:'Rainy season',tip:'Damp, heavy days make walking easy to skip. Stairs, a covered shopping street or a home routine all count.'},
+ summer:{l:'Summer',tip:'Heat and sweat can lower pressure and dehydrate you, especially on diuretics. Sip water through the day and stand up slowly.'},
+ autumn:{l:'Autumn',tip:'As the air cools, readings tend to creep up. A good moment to tighten the salt habit before winter.'},
+ winter:{l:'Winter',tip:'Readings are often highest in winter. Warm the bathroom and changing area before a hot bath, and avoid sudden cold.'},
+ stone:{l:'Stone'}};
+function currentSekki(d=new Date()){const v=(d.getMonth()+1)*100+d.getDate();const sorted=SEKKI.map((s,i)=>({s,i,v:s[0]*100+s[1]})).sort((a,b)=>a.v-b.v);let cur=sorted[sorted.length-1];sorted.forEach(x=>{if(x.v<=v)cur=x});return{s:cur.s,next:SEKKI[(cur.i+1)%24]}}
+const md=(m,d)=>new Date(2000,m-1,d).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+function applySeason(){
+  const pick=store.get('season','auto'),sk=currentSekki(),s=pick==='auto'?sk.s[5]:pick;
+  if(s==='stone')delete document.documentElement.dataset.season;else document.documentElement.dataset.season=s;
+  const end=new Date(2000,sk.next[0]-1,sk.next[1]-1);
+  $('#skKanji').textContent=sk.s[2];$('#skName').textContent=`${sk.s[3]} · ${sk.s[4]}`;
+  $('#skRange').textContent=`${SEASONS[sk.s[5]].l} · ${md(sk.s[0],sk.s[1])} – ${md(end.getMonth()+1,end.getDate())}`;
+  $('#skTip').textContent=SEASONS[sk.s[5]].tip;
+  const opts=[['auto','Follow the calendar'],['spring','Spring · sakura'],['rainy','Rainy · hydrangea'],['summer','Summer · bamboo'],['autumn','Autumn · maple'],['winter','Winter · camellia'],['stone','Stone · always']];
+  $('#seasonChips').innerHTML=opts.map(([k,l])=>`<button class="chip" data-season="${k}" aria-pressed="${k===pick}">${l}</button>`).join('');
+  $('#seasonHint').textContent=pick==='auto'?`Now showing ${SEASONS[s].l.toLowerCase()} colours for ${sk.s[3]} (${sk.s[2]}). The palette shifts with each of the 24 solar terms (nijūshi sekki), first set out in ancient China and still marked in Japan, Korea and Vietnam.`:'A fixed palette. Choose "Follow the calendar" to let it change through the year.';
+}
+$('#seasonChips').addEventListener('click',e=>{const b=e.target.closest('[data-season]');if(!b)return;store.set('season',b.dataset.season);applySeason()});
+
+/* ---------- reminders ---------- */
+const REM=[{k:'amBP',l:'Morning reading',t:'07:00',on:true,go:'log'},{k:'amBr',l:'Morning breathing',t:'07:15',on:true,go:'breathe',p:'resonance'},{k:'move',l:'Walk or isometric hold',t:'12:30',on:false,go:'reset'},
+ {k:'pmBr',l:'Evening breathing',t:'20:30',on:true,go:'breathe',p:'resonance'},{k:'pmBP',l:'Evening reading',t:'21:00',on:true,go:'log'},{k:'bed',l:'Bedtime 4-7-8',t:'22:30',on:false,go:'breathe',p:'478'}];
+let remCfgs=store.get('rem',{});
+const remList=()=>REM.map(r=>{const c=remCfgs[r.k]||{};const t=c.t||r.t;return{...r,on:c.on===undefined?r.on:c.on,t,m:+t.slice(0,2)*60+ +t.slice(3,5)}}).sort((a,b)=>a.m-b.m);
+const remDone=()=>store.get('remdone:'+dayKey(),{});
+function markRem(k,quiet){const d=remDone();if(d[k])return;d[k]=true;store.set('remdone:'+dayKey(),d);renderNext();if(!quiet)toast('Marked done')}
+let lastDue=null;
+function renderNext(){
+  const now=new Date(),mins=now.getHours()*60+now.getMinutes(),d=remDone(),L=remList().filter(r=>r.on),el=$('#nextRem');
+  if(!L.length){el.innerHTML='<span class="nr-time">—</span><div class="nr-txt"><b>No reminders set</b><span class="hint">Choose times for readings and breathing.</span></div><span></span><button class="go" data-open-set>Set up</button>';return}
+  const due=L.filter(r=>r.m<=mins&&!d[r.k]).pop(),up=L.find(r=>r.m>mins&&!d[r.k]),r=due||up;
+  if(due&&lastDue!==due.k&&lastDue!==null)toast('Reminder: '+due.l);lastDue=due?due.k:'';
+  if(!r){el.innerHTML=`<span class="nr-time" style="color:var(--moss)">✓</span><div class="nr-txt"><b>Today's reminders are done</b><span class="hint">Tomorrow starts with ${L[0].l.toLowerCase()} at ${L[0].t}.</span></div><span></span><button class="go" data-open-set>Edit</button>`;return}
+  const more=L.filter(x=>x.m<=mins&&!d[x.k]).length-1;
+  el.innerHTML=`<span class="nr-time">${r.t}</span><div class="nr-txt"><span class="nr-state${due?' due':''}">${due?'Due now':'Up next'}${more>0?` · +${more}`:''}</span><b>${r.l}</b></div><button class="btn btn-primary btn-sm" data-rem-start="${r.k}">Start</button><button class="chk-btn" data-rem-done="${r.k}" aria-label="Mark ${r.l} done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>`;
+}
+function renderRemList(){$('#remList').innerHTML=remList().map(r=>`<div class="rem-row"><input type="checkbox" class="sw" id="rem-${r.k}" data-k="${r.k}"${r.on?' checked':''}><label for="rem-${r.k}">${r.l}</label><input type="time" id="remt-${r.k}" data-k="${r.k}" value="${r.t}" aria-label="${r.l} time"></div>`).join('')}
+$('#remList').addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;remCfgs[k]=remCfgs[k]||{};if(e.target.type==='checkbox')remCfgs[k].on=e.target.checked;else if(e.target.value)remCfgs[k].t=e.target.value;store.set('rem',remCfgs);renderNext();if(e.target.type==='time')renderRemList()});
+$('#copyRem').addEventListener('click',()=>copyText('Tenang daily reminders\n'+remList().filter(r=>r.on).map(r=>`${r.t}  ${r.l}`).join('\n'),'#remFallback'));
+document.addEventListener('click',e=>{
+  const s=e.target.closest('[data-rem-start]');if(s){const r=REM.find(x=>x.k===s.dataset.remStart);markRem(r.k,true);if(r.p)selectPattern(r.p);location.hash=r.go;return}
+  const d=e.target.closest('[data-rem-done]');if(d){markRem(d.dataset.remDone);return}
+  if(e.target.closest('[data-open-set]'))openSheet();
+});
+function openSheet(){renderRemList();$('#sheet').hidden=false;document.body.style.overflow='hidden';$('#sheetX').focus({preventScroll:true})}
+function closeSheet(){$('#sheet').hidden=true;document.body.style.overflow='';$('#remFallback').hidden=true}
+$('#setBtn').addEventListener('click',openSheet);$('#sheetX').addEventListener('click',closeSheet);
+$('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden)closeSheet()});
+setInterval(()=>{renderNext();if(new Date().getHours()===0&&new Date().getMinutes()===0)applySeason()},30000);
+
+/* ---------- doctor summary ---------- */
+let sumDays=28,sumText='';
+$('#sumSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sumDays=+b.dataset.days;$$('#sumSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderSummary()});
+try{$('#sumNotes').value=store.get('notes','')}catch(e){}
+$('#sumNotes').addEventListener('input',e=>{store.set('notes',e.target.value);buildSumText()});
+$('#copySum').addEventListener('click',()=>{buildSumText();copyText(sumText,'#sumFallback')});
+let SUM=null;
+function renderSummary(){
+  const end=new Date();end.setHours(23,59,59,999);const start=new Date();start.setHours(0,0,0,0);start.setDate(start.getDate()-(sumDays-1));
+  const R=readings.filter(r=>r.t>=start.getTime()&&r.t<=end.getTime()).sort((a,b)=>a.t-b.t);
+  const hr=r=>new Date(r.t).getHours(),avg=(a,k)=>a.length?Math.round(a.reduce((s,r)=>s+r[k],0)/a.length):null,bp=a=>a.length?`${avg(a,'s')}/${avg(a,'d')}`:'—';
+  const am=R.filter(r=>hr(r)<12),pm=R.filter(r=>hr(r)>=17),high=R.filter(r=>r.s>=135||r.d>=85),pul=R.filter(r=>r.p);
+  const days=new Set(R.map(r=>dayKey(new Date(r.t)))).size;
+  const mx=R.reduce((m,r)=>!m||r.s>m.s?r:m,null),mn=R.reduce((m,r)=>!m||r.s<m.s?r:m,null);
+  const severe=R.filter(r=>r.s>180||r.d>120);
+  const CATS=[['Normal','var(--ok)'],['Elevated','var(--warn)'],['Stage 1','var(--high)'],['Stage 2','var(--crisis)'],['Severe','var(--ink)']];
+  const cc={};R.forEach(r=>{const c=cat(r.s,r.d)[0];cc[c]=(cc[c]||0)+1});
+  const weeks=[];for(let w=0;w<Math.ceil(sumDays/7);w++){const ws=new Date(start);ws.setDate(ws.getDate()+w*7);const we=new Date(ws);we.setDate(we.getDate()+7);const rr=R.filter(r=>r.t>=ws.getTime()&&r.t<we.getTime());if(rr.length)weeks.push({ws,rr,am:rr.filter(r=>hr(r)<12),pm:rr.filter(r=>hr(r)>=17)})}
+  const byDay={};R.forEach(r=>{const k=dayKey(new Date(r.t));(byDay[k]=byDay[k]||[]).push(r)});
+  const daily=Object.values(byDay).map(a=>({s:avg(a,'s'),d:avg(a,'d'),t:a[0].t}));
+  const mins=store.get('mins',{});let pmin=0,pdays=0;for(let i=0;i<sumDays;i++){const d=new Date();d.setDate(d.getDate()-i);const v=mins[dayKey(d)]||0;pmin+=v;if(v>=1)pdays++}
+  const pairs={};R.forEach(r=>{if(r.pair){const o=pairs[r.pair]=pairs[r.pair]||{};o[r.c==='Before session'?'a':'b']=r}});
+  const P=Object.values(pairs).filter(x=>x.a&&x.b),pds=P.length?Math.round(P.reduce((a,x)=>a+x.b.s-x.a.s,0)/P.length):null,pdd=P.length?Math.round(P.reduce((a,x)=>a+x.b.d-x.a.d,0)/P.length):null;
+  const pd=Math.min(30,pathDay()),pathDone=Object.keys(path.done).filter(n=>{const tk=dayTasks(+n);return tk.every(x=>path.done[n][x.k])}).length;
+  const fd=t=>new Date(t).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const pct=R.length?Math.round(high.length/R.length*100):0;
+  $('#sumEx').innerHTML=R.some(r=>r.ex)?'<p class="note">This summary includes example readings. Clear them in the log before showing it to your doctor.</p>':'';
+  SUM={start,end,R,am,pm,high,pct,pul,days,mx,mn,severe,weeks,pmin,pdays,P,pds,pdd,pd,pathDone,fd,bp,avg};
+  if(!R.length){$('#report').innerHTML=`<p>No readings between ${fd(start)} and ${fd(end)}. Add readings in the log, morning and evening, to build a summary.</p>`;buildSumText();return}
+  $('#report').innerHTML=`
+    <div class="rep-head"><div><div class="tag">Period</div><b>${fd(start)} – ${fd(end)}, ${end.getFullYear()}</b></div><div style="text-align:right"><div class="tag">Home readings</div><b class="mono">${R.length} on ${days} days</b></div></div>
+    <div class="kv">
+      <div><span class="tag">Average, all</span><span class="big">${bp(R)}</span><span class="tag">mmHg</span></div>
+      <div><span class="tag">Average pulse</span><span class="big">${pul.length?avg(pul,'p'):'—'}</span><span class="tag">bpm</span></div>
+      <div><span class="tag">Morning · before 12:00</span><span class="big">${bp(am)}</span><span class="tag">${am.length} readings</span></div>
+      <div><span class="tag">Evening · after 17:00</span><span class="big">${bp(pm)}</span><span class="tag">${pm.length} readings</span></div>
+    </div>
+    <div class="stack" style="gap:8px">
+      <p style="font-size:14px"><b class="mono">${high.length} of ${R.length}</b> readings (${pct}%) were at or above <span class="mono">135/85</span>, the usual home threshold for high blood pressure.</p>
+      <div class="catbar" role="img" aria-label="Readings by category">${CATS.map(([c,col])=>cc[c]?`<span style="flex:${cc[c]};background:${col}" title="${c}: ${cc[c]}"></span>`:'').join('')}</div>
+      <div class="legend">${CATS.filter(([c])=>cc[c]).map(([c,col])=>`<span><i style="background:${col}"></i>${c} ${cc[c]}</span>`).join('')}</div>
+    </div>
+    <div class="stack" style="gap:6px"><div class="eyebrow">Daily average</div><svg class="chart" id="sumChart" viewBox="0 0 340 170" role="img" aria-label="Daily average blood pressure"></svg></div>
+    <div class="stack" style="gap:6px"><div class="eyebrow">Weekly averages</div><div class="tbl"><table><thead><tr><th>Week of</th><th>Morning</th><th>Evening</th><th>All</th><th>n</th></tr></thead><tbody>
+      ${weeks.map(w=>`<tr><td>${fd(w.ws)}</td><td>${bp(w.am)}</td><td>${bp(w.pm)}</td><td>${bp(w.rr)}</td><td>${w.rr.length}</td></tr>`).join('')}</tbody></table></div></div>
+    <div class="tbl"><table><tbody>
+      <tr><td class="t">Highest</td><td>${mx.s}/${mx.d}</td><td class="t">${fd(mx.t)}, ${mx.c}</td></tr>
+      <tr><td class="t">Lowest</td><td>${mn.s}/${mn.d}</td><td class="t">${fd(mn.t)}, ${mn.c}</td></tr>
+      ${severe.length?`<tr><td class="t" style="color:var(--crisis)">Severe (&gt;180/120)</td><td>${severe.length}</td><td class="t">${severe.map(r=>fd(r.t)+' '+r.s+'/'+r.d).join(', ')}</td></tr>`:''}
+    </tbody></table></div>
+    <div class="stack" style="gap:6px"><div class="eyebrow">Lifestyle measures</div><div class="tbl"><table><tbody>
+      <tr><td class="t">Slow breathing practice</td><td>${Math.round(pmin)} min</td><td class="t">on ${pdays} of ${sumDays} days</td></tr>
+      <tr><td class="t">Before/after a session</td><td>${P.length?sg(pds)+'/'+sg(pdd):'—'}</td><td class="t">${P.length?`average change, ${P.length} sessions`:'not measured'}</td></tr>
+      <tr><td class="t">30-day program</td><td>day ${pd}</td><td class="t">${pathDone} days fully completed</td></tr>
+    </tbody></table></div></div>
+    <p class="hint">Patient-recorded home readings with an upper-arm monitor. Morning means before 12:00, evening after 17:00. Categories follow the ACC/AHA guideline.</p>`;
+  drawChart(daily,'#sumChart');buildSumText();
+}
+function buildSumText(){
+  if(!SUM)return;const S=SUM,notes=($('#sumNotes').value||'').trim();
+  if(!S.R.length){sumText=`Home blood pressure summary\n${S.fd(S.start)} – ${S.fd(S.end)}: no readings recorded.`+(notes?`\n\nQuestions and notes:\n${notes}`:'');return}
+  const L=[`HOME BLOOD PRESSURE SUMMARY`,`Period: ${S.fd(S.start)} – ${S.fd(S.end)}, ${S.end.getFullYear()} (${sumDays} days)`,`Readings: ${S.R.length} on ${S.days} days, upper-arm home monitor`,'',
+    `Average (all):     ${S.bp(S.R)} mmHg${S.pul.length?`, pulse ${S.avg(S.pul,'p')} bpm`:''}`,`Morning (<12:00):  ${S.bp(S.am)} mmHg (${S.am.length} readings)`,`Evening (>17:00):  ${S.bp(S.pm)} mmHg (${S.pm.length} readings)`,
+    `At or above 135/85: ${S.high.length} of ${S.R.length} (${S.pct}%)`,`Highest: ${S.mx.s}/${S.mx.d} on ${S.fd(S.mx.t)} · Lowest: ${S.mn.s}/${S.mn.d} on ${S.fd(S.mn.t)}`];
+  if(S.severe.length)L.push(`Severe readings (>180/120): ${S.severe.map(r=>S.fd(r.t)+' '+r.s+'/'+r.d).join(', ')}`);
+  L.push('','Weekly averages (morning / evening / all):',...S.weeks.map(w=>`  Week of ${S.fd(w.ws)}: ${S.bp(w.am)} / ${S.bp(w.pm)} / ${S.bp(w.rr)} (n=${w.rr.length})`));
+  L.push('','Lifestyle measures:',`  Slow breathing: ${Math.round(S.pmin)} min on ${S.pdays} of ${sumDays} days`);
+  if(S.P.length)L.push(`  Before/after breathing session: average change ${sg(S.pds)}/${sg(S.pdd)} mmHg over ${S.P.length} sessions`);
+  L.push(`  30-day lifestyle program: day ${S.pd}, ${S.pathDone} days fully completed`);
+  if(S.R.some(r=>r.ex))L.push('','NOTE: includes example readings, not real data.');
+  if(notes)L.push('','Questions and notes:',notes);
+  sumText=L.join('\n');
+}
+
+/* ---------- micro-interactions ---------- */
+function replay(el,cls){if(!el||reduceMotion)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)}
+function countUp(el,vals,render,dur=750){if(!el)return;if(reduceMotion){el.innerHTML=render(vals);el._v=vals;return}
+  const from=el._v||vals.map(v=>Math.round(v*.82)),t0=performance.now();el._v=vals;
+  (function f(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.innerHTML=render(vals.map((v,i)=>Math.round(from[i]+(v-from[i])*e)));if(k<1)requestAnimationFrame(f)})(t0)}
+function ring(host,x,y,size,cls){if(reduceMotion||!host)return;const s=document.createElement('span');s.className='ripple'+(cls?' '+cls:'');s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--rs',Math.max(4,size/5).toFixed(1));host.appendChild(s);s.addEventListener('animationend',()=>s.remove())}
+function justTick(sel){const el=$(sel);if(!el||!el.checked)return;el.classList.add('just');const p=el.parentElement,a=el.getBoundingClientRect(),b=p.getBoundingClientRect();ring(p,a.left-b.left+a.width/2,a.top-b.top+a.height/2,60,'moss');buzz(10)}
+function pebble(){if(reduceMotion)return;const g=$('#pebbles');if(!g)return;const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',200);c.setAttribute('cy',200);c.setAttribute('r',64);c.setAttribute('class','pebble');g.appendChild(c);c.addEventListener('animationend',()=>c.remove())}
+function buzz(ms=6){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
+document.addEventListener('pointerdown',e=>{const t=e.target.closest('.btn,.chip,.go,.tile,.icon-btn,.seg button,.nav a,.med-link,.pcard,.rcard');if(!t)return;const r=t.getBoundingClientRect();ring(t,e.clientX-r.left,e.clientY-r.top,Math.max(r.width,r.height));buzz()},{passive:true});
+
+/* ---------- timers ---------- */
+const TIMERS={
+ rest:{n:'Rest before measuring',k:'座',c:'g-indigo',d:'Five quiet minutes, then two readings a minute apart.',done:'log',
+  seg:()=>[['Sit quietly, feet flat',300,'rest','Back supported, cuff on, no talking or phone.'],['Take your first reading',45,'act','Press start on your monitor and stay still.'],['Rest one minute',60,'rest','Breathe normally. Leave the cuff on.'],['Take your second reading',45,'act','Log both, or their average.']]},
+ iso:{n:'Isometric holds',k:'握',c:'g-saffron',d:'Four 2-minute holds with rest between.',rit:'iso',
+  seg:()=>{const s=[['Get into position',10,'prep','Wall sit, or a soft ball in your hand.']];for(let i=1;i<=4;i++){s.push([`Hold · round ${i} of 4`,120,'work','Breathe normally. Never hold your breath.']);if(i<4)s.push(['Rest',90,'rest','Stand up, shake out your legs or hand.'])}return s}},
+ walk:{n:'Brisk walk',k:'歩',c:'g-moss',d:'Warm up, 24 brisk minutes, cool down.',rit:'walk',
+  seg:()=>[['Warm up, easy pace',180,'prep','Loosen up gradually.'],['Brisk pace',720,'work','Fast enough that talking takes some effort.'],['Halfway · keep it brisk',720,'work','Turn back here if you walk out and back.'],['Cool down, easy pace',180,'rest','Let your breathing settle.']]},
+ still:{n:'Stillness',k:'禅',c:'g-indigo',d:'Quiet sitting with a bell at the start and end.',mins:[5,10,15,20],
+  seg:m=>[['Settle',15,'prep','Sit comfortably. Let your gaze soften.'],['Sit in stillness',m*60,'rest','When thoughts come, return to the breath.']]},
+ legs:{n:'Legs up the wall',k:'壁',c:'g-saffron',d:'Seven minutes of gentle inversion.',
+  seg:()=>[['Get into position',20,'prep','Hips close to the wall, legs up.'],['Rest with legs up',420,'rest','Long, slow out-breaths.'],['Come down slowly',20,'prep','Roll to one side and sit up gently.']]},
+ forest:{n:'Forest walk',k:'森',c:'g-moss',d:'Twenty unhurried minutes among trees.',
+  seg:()=>[['Walk slowly, phone away',600,'rest','Notice colours, sounds and smells.'],['Pause and sit',300,'rest','Five quiet minutes in one spot.'],['Walk back slowly',300,'rest','Carry the quiet with you.']]}
+};
+const KIND={prep:['Get ready','var(--indigo)'],work:['Work','var(--saffron)'],rest:['Rest','var(--moss)'],act:['Now','var(--ink)']};
+const T={id:null,segs:[],i:0,acc:0,t0:0,running:false,started:false,done:false,snd:store.get('tsound',true),mins:10,lock:null,last:-1};
+const TC=2*Math.PI*122;
+const durTxt=s=>Math.round(s/60)+' min';
+$('#tmrs').innerHTML=Object.entries(TIMERS).map(([id,P])=>{const sg=P.seg(10);return`<button class="rcard" data-timer="${id}"><span aria-hidden="true" class="glyph ${P.c}">${P.k}</span><span class="h-m">${P.n}</span><span class="hint">${P.d}</span><span class="tag">${P.mins?P.mins[0]+'–'+P.mins[P.mins.length-1]+' min':durTxt(sg.reduce((a,s)=>a+s[1],0))} · ${sg.length} steps</span></button>`}).join('');
+function segNow(){return T.acc+(T.running?(performance.now()-T.t0)/1000:0)}
+function sndLbl(){const b=$('#tmrSnd');b.setAttribute('aria-pressed',T.snd);b.textContent=T.snd?'Sound on':'Sound off'}
+function openTimer(id){const P=TIMERS[id];if(!P)return;if(B.running)pause();if(CALM.on)closeCalm();
+  Object.assign(T,{id,segs:P.seg(T.mins),i:0,acc:0,running:false,started:false,done:false,last:-1});
+  $('#tmrName').textContent=P.n;$('#tmrMins').hidden=!P.mins;
+  if(P.mins)$('#tmrMins').innerHTML=P.mins.map(m=>`<button class="chip" data-tm="${m}" aria-pressed="${m===T.mins}">${m} min</button>`).join('');
+  $('#tmrPause').textContent='Start';$('#tmrSkip').hidden=true;$('#tmrDone').hidden=true;$('#tmr').hidden=false;document.body.style.overflow='hidden';sndLbl();renderTimer()}
+function closeTimer(){T.running=false;$('#tmr').hidden=true;document.body.style.overflow='';try{T.lock&&T.lock.release()}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
+async function tStart(){if(T.snd)ac();T.started=true;T.running=true;T.t0=performance.now();$('#tmrPause').textContent='Pause';$('#tmrSkip').hidden=false;$('#tmrMins').hidden=true;segCue();requestAnimationFrame(tLoop);
+  try{if('wakeLock' in navigator)T.lock=await navigator.wakeLock.request('screen')}catch(e){}}
+function tPause(){if(T.running){T.acc=segNow();T.running=false;$('#tmrPause').textContent='Resume'}else{T.running=true;T.t0=performance.now();$('#tmrPause').textContent='Pause';requestAnimationFrame(tLoop)}}
+function segCue(){const s=T.segs[T.i];replay($('#tmrTitle'),'swap');replay($('#tmrTime'),'swap');buzz(15);if(!T.snd||!B.ac)return;chime(s[2]==='work'?'in':s[2]==='rest'?'out':'hold');setTimeout(()=>say(s[0].split('·')[0].trim()),350)}
+function nextSeg(){T.i++;T.acc=0;T.t0=performance.now();T.last=-1;if(T.i>=T.segs.length){tFinish();return}segCue();renderTimer()}
+function tLoop(){if(!T.running||$('#tmr').hidden)return;const s=T.segs[T.i],e=segNow();
+  if(e>=s[1]){nextSeg();if(T.done)return}
+  else{const rem=Math.ceil(s[1]-e);if(rem<=3&&rem!==T.last&&s[2]!=='rest'){T.last=rem;if(T.snd&&B.ac)tone(880,880,.12,.05)}}
+  renderTimer();requestAnimationFrame(tLoop)}
+function doneMsg(){const P=TIMERS[T.id];return P.done==='log'?'Enter both readings in your log, or their average.':P.rit?'Ticked off in today\'s rituals and your 30-day path.':'Notice how your body feels now.'}
+function renderTimer(){const s=T.segs[Math.min(T.i,T.segs.length-1)],e=T.done?s[1]:Math.min(s[1],segNow()),k=KIND[s[2]];
+  $('#tmr').style.setProperty('--kc',T.done?'var(--moss)':k[1]);
+  $('#tmrTime').textContent=fmt(s[1]-e);
+  const left=T.segs.slice(T.i+1).reduce((a,x)=>a+x[1],0)+Math.max(0,s[1]-e);
+  $('#tmrTotal').textContent=T.done?'complete':fmt(left)+' left in total';
+  $('#trProg').style.strokeDashoffset=TC*(1-Math.min(1,e/s[1]));
+  $('#tmrKind').textContent=T.done?'Done':k[0];
+  $('#tmrTitle').textContent=T.done?'Well done':s[0];$('#tmrSub').textContent=T.done?doneMsg():(s[3]||'');
+  const nx=T.segs[T.i+1];$('#tmrNext').textContent=T.done?'':nx?`Next: ${nx[0]} · ${fmt(nx[1])}`:'Last step';
+  $('#tmrLine').innerHTML=T.segs.map((x,i)=>`<span style="flex:${x[1]};--kc:${KIND[x[2]][1]}" class="${i<T.i||T.done?'d':''}"><i style="width:${T.done||i<T.i?100:i===T.i?Math.min(100,e/x[1]*100):0}%"></i></span>`).join('')}
+function tFinish(){T.done=true;T.running=false;T.i=T.segs.length-1;const P=TIMERS[T.id];
+  if(T.snd&&B.ac){chime('in');setTimeout(()=>chime('out'),700);setTimeout(()=>chime('in'),1400)}buzz(30);
+  if(P.rit){const r=store.get('rit:'+dayKey(),{});r[P.rit]=true;store.set('rit:'+dayKey(),r);renderRituals();
+    const n=pathDay();if(n<=30){const t=dayTasks(n).find(x=>x.tm===T.id);if(t){path.done[n]=path.done[n]||{};path.done[n][t.k]=true;store.set('path',path);renderPath()}}}
+  $('#tmrPause').textContent='Close';$('#tmrSkip').hidden=true;$('#tmrDone').hidden=P.done!=='log';renderTimer();try{T.lock&&T.lock.release()}catch(e){}}
+$('#tmrPause').addEventListener('click',()=>{if(T.done){closeTimer();return}if(!T.started)tStart();else tPause()});
+$('#tmrSkip').addEventListener('click',()=>{if(T.started&&!T.done)nextSeg()});
+$('#tmrX').addEventListener('click',closeTimer);
+$('#tmrSnd').addEventListener('click',()=>{T.snd=!T.snd;store.set('tsound',T.snd);sndLbl();if(T.snd)ac()});
+$('#tmrDone').addEventListener('click',()=>{closeTimer();location.hash='log';setTimeout(()=>$('#sys').focus(),350)});
+$('#tmrMins').addEventListener('click',e=>{const b=e.target.closest('[data-tm]');if(!b||T.started)return;T.mins=+b.dataset.tm;T.segs=TIMERS[T.id].seg(T.mins);$$('#tmrMins .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));renderTimer()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-timer]');if(b)openTimer(b.dataset.timer)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#tmr').hidden)closeTimer()});
+
+/* ---------- sharing ---------- */
+const APP_URL=/\.(pages|workers)\.dev$/.test(location.hostname)?location.origin+'/':'https://claude.ai/artifact/Np8XXjU3Deyg6DwJk1EFRu';
+const SHARE={
+ parent:{l:'A parent',m:'I found a calm little app for blood pressure and thought of you. It guides slow breathing, five minutes at about six breaths a minute, sends gentle reminders to measure, and makes a simple summary to show your doctor. No sign-up, and your readings stay on your own phone. Would you try it with me for a week?'},
+ partner:{l:'My partner',m:'Want to try this together? It\'s a five-minute breathing practice that can help bring blood pressure down, plus a 30-day plan of small habits. We could do the evening session side by side.'},
+ friend:{l:'A friend',m:'This has been helping me unwind and keep an eye on my blood pressure: guided breathing, a calm-me-now button for stressful moments, and a log that makes a summary for the doctor. Free, no sign-up. Thought it might help you too.'},
+ colleague:{l:'A colleague',m:'Found this for stressful workdays: a one-minute breathing reset and a calm-now button that really settle a racing heart. It also helps you track blood pressure. No sign-up needed.'}
+};
+let shWho='parent';
+function progressMsg(){const x=window._lastFx;return x?`After ${x.m} minutes of slow breathing, my blood pressure went from ${x.a.s}/${x.a.d} to ${x.b.s}/${x.b.d}. Tenang guides the practice. It's free, with no sign-up, and I thought you might like to try it.`:''}
+function shareText(){return ($('#shMsg').value.trim()+'\n\n'+APP_URL).trim()}
+function updShare(){const t=encodeURIComponent(shareText());$('#shLine').href='https://line.me/R/share?text='+t;$('#shWa').href='https://wa.me/?text='+t}
+function renderWho(){const opts=Object.entries(SHARE).map(([k,v])=>[k,v.l]);if(window._lastFx)opts.unshift(['progress','My result']);
+  $('#shWho').innerHTML=opts.map(([k,l])=>`<button class="chip" data-who="${k}" aria-pressed="${k===shWho}">${l}</button>`).join('')}
+function setWho(k){shWho=k;$('#shMsg').value=k==='progress'?progressMsg():SHARE[k].m;renderWho();updShare();replay($('#shMsg'),'swap')}
+function openShare(kind){if(kind!=='progress'||!window._lastFx)kind=SHARE[kind]?kind:'parent';$('#shUrl').value=APP_URL;setWho(kind);$('#shFallback').hidden=true;$('#shareSheet').hidden=false;document.body.style.overflow='hidden';$('#shX').focus({preventScroll:true})}
+function closeShare(){$('#shareSheet').hidden=true;document.body.style.overflow=''}
+$('#shWho').addEventListener('click',e=>{const b=e.target.closest('[data-who]');if(b)setWho(b.dataset.who)});
+$('#shMsg').addEventListener('input',updShare);
+$('#shCopy').addEventListener('click',()=>copyText(shareText(),'#shFallback'));
+$('#shCopyUrl').addEventListener('click',()=>copyText(APP_URL,'#shFallback'));
+$('#shX').addEventListener('click',closeShare);
+$('#shareSheet').addEventListener('click',e=>{if(e.target.id==='shareSheet')closeShare()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#shareSheet').hidden)closeShare()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-share]');if(b)openShare(b.dataset.share)});
+
+/* ---------- carousels ---------- */
+function initSnap(el){if(!el)return;const nav=document.querySelector(`.dotsnav[data-for="${el.id}"]`);const items=[...el.children];if(!nav||!items.length)return;
+  nav.innerHTML=items.map((_,i)=>`<button aria-label="Show card ${i+1} of ${items.length}"></button>`).join('');
+  const pl=()=>parseFloat(getComputedStyle(el).paddingLeft)||0;
+  const upd=()=>{let idx=0,best=1e9;items.forEach((c,i)=>{const d=Math.abs(c.offsetLeft-pl()-el.scrollLeft);if(d<best){best=d;idx=i}});if(el.scrollLeft+el.clientWidth>=el.scrollWidth-4)idx=items.length-1;[...nav.children].forEach((b,i)=>b.setAttribute('aria-current',i===idx))};
+  el.addEventListener('scroll',()=>requestAnimationFrame(upd),{passive:true});
+  nav.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const i=[...nav.children].indexOf(b);el.scrollTo({left:items[i].offsetLeft-pl(),behavior:'smooth'})});
+  el._upd=upd;upd()}
+['qr','why','chips','tmrs'].forEach(id=>initSnap($('#'+id)));
+
+/* ---------- filters & jumps ---------- */
+const RCATS=['All','Breath','Body','Mind','Outdoors'];
+$('#resetCats').innerHTML=RCATS.map((c,i)=>`<button class="chip" data-rc="${c}" aria-pressed="${i===0}">${c}</button>`).join('');
+$('#resetCats').addEventListener('click',e=>{const b=e.target.closest('[data-rc]');if(!b)return;$$('#resetCats .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));const c=b.dataset.rc;$$('#practices .practice').forEach((d,i)=>{d.hidden=c!=='All'&&d.dataset.cat!==c;if(!d.hidden)d.style.setProperty('--i',i)});replay($('#practices'),'swap')});
+const MSHORT=['ACE inhibitors','ARBs','Calcium blockers','Diuretics','Beta blockers','MRAs','Alpha blockers','Central'];
+$('#medJump').innerHTML=MSHORT.map((n,i)=>`<button class="chip" data-mj="${i}">${n}</button>`).join('');
+$('#medJump').addEventListener('click',e=>{const b=e.target.closest('[data-mj]');if(!b)return;$('#medQ').value='';$$('.med').forEach(d=>d.hidden=false);$('#medNone').hidden=true;const d=$('#med-'+b.dataset.mj);d.open=true;const y=d.getBoundingClientRect().top+scrollY-72;scrollTo({top:y,behavior:'smooth'})});
+
+/* ---------- delete with undo, swipe to delete ---------- */
+function undoToast(msg,undo){const t=$('#toast');t.innerHTML=`${msg}<button class="toast-act" id="undoBtn">Undo</button>`;t.classList.add('on');clearTimeout(toast._t);
+  $('#undoBtn').onclick=()=>{undo();t.classList.remove('on');setTimeout(()=>t.textContent='',300)};toast._t=setTimeout(()=>t.classList.remove('on'),4500)}
+function deleteReading(t){const r=readings.find(x=>x.t===t);if(!r)return;readings=readings.filter(x=>x!==r);save();renderLog();undoToast('Reading deleted',()=>{readings.push(r);save();renderLog()})}
+let sw=null;
+$('#readings').addEventListener('pointerdown',e=>{const row=e.target.closest('.reading');if(!row||e.target.closest('button'))return;sw={row,x:e.clientX,y:e.clientY,dx:0,on:false}});
+window.addEventListener('pointermove',e=>{if(!sw)return;const dx=e.clientX-sw.x,dy=e.clientY-sw.y;if(!sw.on){if(Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)*1.5)sw.on=true;else{if(Math.abs(dy)>10)sw=null;return}}
+  sw.dx=Math.min(0,dx);sw.row.style.transition='none';sw.row.style.transform=`translateX(${sw.dx}px)`},{passive:true});
+const swEnd=()=>{if(!sw)return;const{row,dx,on}=sw;sw=null;if(!on)return;row.style.transition='transform .4s var(--spring),opacity .3s';
+  if(dx<-90){row.style.transform='translateX(-110%)';row.style.opacity='0';buzz(12);setTimeout(()=>deleteReading(+row.dataset.t),260)}else row.style.transform=''};
+window.addEventListener('pointerup',swEnd);window.addEventListener('pointercancel',swEnd);
+
+/* ---------- swipe between tabs ---------- */
+const TABS=['home','breathe','reset','rituals','log'];let tg=null;
+$('.app').addEventListener('touchstart',e=>{if(e.touches.length!==1||CALM.on)return;if(e.target.closest('.snap,.chips,.stage,.diagram,input,textarea,select,.reading,.seg,.tbl,.dots,.catbar'))return;tg={x:e.touches[0].clientX,y:e.touches[0].clientY,t:Date.now()}},{passive:true});
+$('.app').addEventListener('touchend',e=>{if(!tg)return;const c=e.changedTouches[0],dx=c.clientX-tg.x,dy=c.clientY-tg.y,dt=Date.now()-tg.t;tg=null;
+  if(Math.abs(dx)<70||Math.abs(dy)>45||dt>650)return;const cur=(location.hash||'#home').slice(1),i=TABS.indexOf(cur);if(i<0)return;const n=i+(dx<0?1:-1);if(n<0||n>=TABS.length)return;
+  window._swipeDir=dx<0?'next':'prev';buzz(6);location.hash=TABS[n]},{passive:true});
+
+/* ---------- drag the sheet down to close ---------- */
+const sheetEl=$('#sheet .sheet');let sd=null;
+sheetEl.addEventListener('pointerdown',e=>{if(!e.target.closest('.grab,.sheet-h')||e.target.closest('button'))return;sd={y:e.clientY,dy:0};try{sheetEl.setPointerCapture(e.pointerId)}catch(_){}});
+sheetEl.addEventListener('pointermove',e=>{if(!sd)return;sd.dy=Math.max(0,e.clientY-sd.y);sheetEl.style.transition='none';sheetEl.style.transform=`translateY(${sd.dy}px)`});
+const sdEnd=()=>{if(!sd)return;const dy=sd.dy;sd=null;sheetEl.style.transition='transform .35s var(--ease)';
+  if(dy>110){sheetEl.style.transform='translateY(100%)';setTimeout(()=>{closeSheet();sheetEl.style.transform='';sheetEl.style.transition=''},320)}else sheetEl.style.transform=''};
+sheetEl.addEventListener('pointerup',sdEnd);sheetEl.addEventListener('pointercancel',sdEnd);
+
+/* ---------- header hairline on scroll ---------- */
+window.addEventListener('scroll',()=>$('.top').classList.toggle('scrolled',scrollY>6),{passive:true});
+
+/* ---------- words & origins: render ---------- */
+$('#glossary').innerHTML=Object.values(GLOSS).map(w=>`<div class="gloss"><span class="w" lang="${w[1]}">${w[0]}</span><b>${w[2]?w[2]+' · ':''}${w[3]}</b><span class="m">${w[4]} · <i>${w[5]}</i></span></div>`).join('');
+const oli=t=>Object.values(ORIG).filter(x=>x[2]===t).map(x=>`<li><b>${x[0]}</b><span>${x[1]}</span></li>`).join('');
+$('#origTrad').innerHTML=oli(1);$('#origMod').innerHTML=oli(0);
+$$('[data-w]').forEach(el=>{const w=GLOSS[el.dataset.w];if(w&&el.id!=='skKanji')el.title=wordLine(w)});
+document.addEventListener('click',e=>{const el=e.target.closest('[data-w]');if(!el||el.closest('button,a'))return;const w=GLOSS[el.dataset.w];if(w)toast(wordLine(w))});
+
+/* init */
+applySeason();
+const savedP=store.get('pattern','resonance'); selectPattern(savedP);
+renderMinutes(); renderRituals(); renderLog(); renderPath(); renderNext(); route();
+})();
+</script>
+</body>
+</html>

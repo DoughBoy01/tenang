@@ -300,6 +300,15 @@ button{font:inherit;color:inherit}
 .ql-f select{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);min-height:44px}
 .upd{position:fixed;left:12px;right:12px;margin-inline:auto;width:fit-content;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:31;display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);padding:8px 8px 8px 16px;border-radius:999px;font-size:13px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
 .upd[hidden]{display:none}.upd span{min-width:0;white-space:nowrap}.upd .go,.upd .btn{flex:0 0 auto}.upd .btn{background:var(--paper);color:var(--ink);min-height:32px;padding:4px 14px}.upd .go{background:transparent;color:var(--paper);border-color:rgba(255,255,255,.35)}
+.ins-txt{font-size:14.5px;line-height:1.5}
+.ins-item{font-size:14.5px;line-height:1.5;padding:10px 0;border-bottom:1px solid var(--line)}.ins-item:last-of-type{border-bottom:0}
+.wk-days{display:flex;gap:6px;justify-content:space-between}
+.wk-d{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font:500 13px var(--font-mono);color:var(--ink-2)}
+.wk-d.on{background:var(--moss);border-color:var(--moss);color:#fff}
+.wk-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wk-stat{background:var(--paper);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.wk-stat b{font:500 22px var(--font-mono);font-variant-numeric:tabular-nums}
+.wk-stat span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
 .ql-res{display:flex;flex-direction:column;gap:12px}
 .ql-big{font:500 44px/1.1 var(--font-mono);letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .ql-big small{font-size:13px;color:var(--ink-2);letter-spacing:0}
@@ -627,6 +636,18 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div class="td-rhythm"><span id="tdRhythm"></span><button class="lnk" data-open-set>Reminders</button></div>
     </div>
 
+    <button class="panel med-link" id="weekCard" type="button" hidden>
+      <span class="glyph g-saffron">週</span>
+      <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">Your week is ready</span><span class="hint" id="weekCardSub"></span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
+    <div class="panel stack ins" id="insHome" hidden>
+      <div class="eyebrow"><span class="kanji">気</span>What I’m noticing</div>
+      <p class="ins-txt" id="insHomeTxt"></p>
+      <div><button class="link" data-go="log" style="font-size:12.5px">See your patterns</button></div>
+    </div>
+
     <div class="season" id="seasonCard">
       <div class="sk-kanji" id="skKanji">霜降</div>
       <div><div class="eyebrow" id="skRange">Season</div><h3 class="h-m" id="skName"></h3><p class="hint" id="skTip"></p></div>
@@ -833,6 +854,10 @@ a.btn{text-decoration:none;color:var(--ink)}
       <p class="foot wide" id="formMsg" style="padding:0">Enter both numbers from your monitor.</p>
       <p class="foot wide" style="padding:0"><button type="button" class="link" data-go="numbers">What do the top and bottom numbers mean?</button></p>
     </form>
+    <div class="panel stack" id="insLog">
+      <div class="eyebrow"><span class="kanji">気</span>Your patterns</div>
+      <div id="insList"></div>
+    </div>
     <div class="panel stack">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
         <div class="eyebrow">Before &amp; after sessions</div><span class="tag" id="fxAvg"></span>
@@ -1024,6 +1049,13 @@ a.btn{text-decoration:none;color:var(--ink)}
     <a href="#log" data-nav="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 7-8"/><path d="M3 21h18"/></svg>Log</a>
   </div>
 </nav>
+<div class="sheet-bg" id="weekly" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="wkTitle">
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-h"><h2 class="h-m" id="wkTitle">Your week</h2><button class="go" id="wkX">Done</button></div>
+    <div class="ql-res" id="wkBody"></div>
+  </div>
+</div>
 <div class="sheet-bg" id="qlog" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="qlTitle">
     <div class="grab" aria-hidden="true"></div>
@@ -1036,6 +1068,7 @@ a.btn{text-decoration:none;color:var(--ink)}
         <div class="ql-f ql-p"><span class="ql-lbl">Pulse · optional</span><div class="stp"><button type="button" class="stp-b" data-st="qlP" data-d="-1" aria-label="Pulse down">−</button><input id="qlP" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="70" aria-label="Pulse, beats per minute"><button type="button" class="stp-b" data-st="qlP" data-d="1" aria-label="Pulse up">+</button></div></div>
       </div>
       <div class="ql-f"><label class="ql-lbl" for="qlCtx">Context</label><select id="qlCtx"><option>Morning, before meds</option><option>Evening</option><option>After breathing practice</option><option>After exercise</option><option>Feeling stressed</option></select></div>
+      <div class="ql-f"><span class="ql-lbl">Anything notable? · optional</span><div class="moods" id="qlTags" role="group" aria-label="Notable things"></div></div>
       <button class="btn btn-primary wide" id="qlSave" type="button">Save reading</button>
       <p class="hint" id="qlMsg" role="status"></p>
     </div>
@@ -1183,6 +1216,7 @@ const h=now.getHours(); $('#greet').textContent=h<5?'Still night':h<12?'Good mor
 /* ---------- routing ---------- */
 const views=['home','breathe','reset','rituals','log','summary','meds','numbers'];
 function route(){
+  if(location.hash==='#qlog'||location.hash==='#calmnow'){const h=location.hash;history.replaceState(null,'',location.pathname+location.search+'#home');setTimeout(()=>{if(h==='#qlog')openQLog({});else $('#panicBtn').click()},60)} // home-screen shortcuts
   let v=(location.hash||'#home').slice(1); if(!views.includes(v)) v='home';
   $$('.view').forEach(s=>s.hidden=s.dataset.view!==v);
   const cv=$('#v-'+v);if(cv){[...cv.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,8)));cv.dataset.dir=window._swipeDir||'';window._swipeDir='';replay(cv,'enter')}
@@ -1440,7 +1474,7 @@ function renderLog(){
   const list=[...readings].sort((a,b)=>b.t-a.t), hasEx=readings.some(r=>r.ex);
   $('#exTag').innerHTML=hasEx?'<span class="example">Example readings</span> <button class="link" id="clearEx" style="font-size:12.5px;margin-left:6px">Clear examples</button>':'';
   $('#moreWrap').innerHTML=list.length?`<span class="hint">Swipe a reading left to delete it.</span>${list.length>6?`<button class="link" id="logMore" style="font-size:13px">${logAll?'Show fewer':'Show all '+list.length}</button>`:''}`:'';
-  $('#readings').innerHTML=list.length?list.slice(0,logAll?list.length:6).map(r=>{const[c,cl]=cat(r.s,r.d);const dt=new Date(r.t);return`<div class="reading" data-t="${r.t}"><div><span class="bp">${r.s}/${r.d}<small> mmHg${r.p?' · '+r.p+' bpm':''}</small></span></div><button class="del" data-t="${r.t}" aria-label="Delete reading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill ${cl}">${c}</span><span class="when">${dt.toLocaleDateString('en-US',{month:'short',day:'numeric'})} · ${dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · ${r.c}</span></div></div>`}).join(''):'<p class="foot">No readings yet. Add your first one above.</p>';
+  $('#readings').innerHTML=list.length?list.slice(0,logAll?list.length:6).map(r=>{const[c,cl]=cat(r.s,r.d);const dt=new Date(r.t);return`<div class="reading" data-t="${r.t}"><div><span class="bp">${r.s}/${r.d}<small> mmHg${r.p?' · '+r.p+' bpm':''}</small></span></div><button class="del" data-t="${r.t}" aria-label="Delete reading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill ${cl}">${c}</span><span class="when">${dt.toLocaleDateString('en-US',{month:'short',day:'numeric'})} · ${dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · ${r.c}${Array.isArray(r.g)&&r.g.some(k=>INS_TAGS[k])?' · '+r.g.filter(k=>INS_TAGS[k]).map(k=>INS_TAGS[k]).join(', '):''}</span></div></div>`}).join(''):'<p class="foot">No readings yet. Add your first one above.</p>';
   const last=list[0];
   if(last){const[c,cl]=cat(last.s,last.d);countUp($('#homeBP'),[last.s,last.d],v=>`${v[0]}/${v[1]}`);$('#homeCat').innerHTML=`<span class="pill ${cl}">${c}${last.ex?' · example':''}</span>`}else{$('#homeBP').textContent='—';$('#homeCat').innerHTML='<span class="tag">Add a reading</span>'}
   const recent=list.slice(0,7);if(recent.length){const as=Math.round(recent.reduce((a,r)=>a+r.s,0)/recent.length),ad=Math.round(recent.reduce((a,r)=>a+r.d,0)/recent.length);$('#avg').textContent=`Avg of last ${recent.length}: ${as}/${ad}`}else $('#avg').textContent='';
@@ -1448,6 +1482,7 @@ function renderLog(){
   const pairs={};readings.forEach(r=>{if(r.pair){const o=pairs[r.pair]=pairs[r.pair]||{};o[r.c==='Before session'?'a':'b']=r}});
   const P=Object.values(pairs).filter(x=>x.a&&x.b).sort((x,y)=>y.b.t-x.b.t);
   $('#fxList').innerHTML=P.length?P.slice(0,5).map(x=>`<div class="fx-row"><span class="when">${new Date(x.b.t).toLocaleDateString('en-US',{month:'short',day:'numeric'})}${x.b.pat?' · '+x.b.pat:''}${x.b.ex?' · example':''}</span>${deltaHTML(x.a,x.b)}</div>`).join(''):'<p class="hint">No before-and-after pairs yet.</p>';
+  renderInsights();
   $('#fxAvg').textContent=P.length?`Average change ${sg(Math.round(P.reduce((a,x)=>a+x.b.s-x.a.s,0)/P.length))}/${sg(Math.round(P.reduce((a,x)=>a+x.b.d-x.a.d,0)/P.length))}`:'';
 }
 function drawChart(pts,el='#chart'){
@@ -1641,6 +1676,65 @@ const remList=()=>REM.map(r=>{const c=remCfgs[r.k]||{};const t=c.t||r.t;return{.
 const remDone=()=>store.get('remdone:'+dayKey(),{});
 function markRem(k,quiet){const d=remDone();if(d[k])return;d[k]=true;store.set('remdone:'+dayKey(),d);window.pushDone&&pushDone(k);renderNext();if(!quiet)toast('Marked done')}
 let lastDue=null;
+/* @insights:start  (pure functions; scripts/test-insights.mjs runs this exact block) */
+// Plain statements about the user's own numbers. Never advice, never causal claims, never a verdict:
+// hedged wording, minimum sample sizes, and both directions are reported honestly.
+const INS_TAGS={sleep:'Slept badly',salt:'Salty food',stress:'Stressed',move:'Exercised',coffee:'Coffee'};
+const insPad=n=>String(n).padStart(2,'0');
+const insKey=t=>{const d=new Date(t);return d.getFullYear()+'-'+insPad(d.getMonth()+1)+'-'+insPad(d.getDate())};
+const insMean=a=>a.reduce((x,y)=>x+y,0)/a.length;
+const insClean=rs=>(rs||[]).filter(r=>r&&!r.ex&&typeof r.s==='number'&&typeof r.d==='number'&&typeof r.t==='number').sort((a,b)=>a.t-b.t);
+function computeInsights(o){
+  const now=o.now||Date.now(),DAY=864e5,rs=insClean(o.readings),mins=o.mins||{};
+  if(rs.length<5)return{enough:false,count:rs.length,items:[]};
+  const t0=new Date(now).setHours(0,0,0,0),items=[];
+  const sys=a=>Math.round(insMean(a.map(r=>r.s))),dia=a=>Math.round(insMean(a.map(r=>r.d)));
+  // 1. this week against last week
+  const w1=rs.filter(r=>r.t>=t0-6*DAY&&r.t<t0+DAY),w0=rs.filter(r=>r.t>=t0-13*DAY&&r.t<t0-6*DAY);
+  if(w1.length>=3&&w0.length>=3){const df=sys(w1)-sys(w0),a=sys(w1)+'/'+dia(w1);
+    items.push({id:'trend',text:df<=-3?`Your last 7 days average ${a}, ${-df} lower on top than the week before.`:df>=3?`Your last 7 days average ${a}, ${df} higher on top than the week before. Weeks vary, so keep measuring at the same times.`:`Your last 7 days average ${a}, much the same as the week before.`})}
+  // 2. lowest recent reading, a positive anchor
+  const m30=rs.filter(r=>r.t>=t0-29*DAY);
+  if(m30.length>=5){const lo=m30.reduce((m,r)=>r.s+r.d<m.s+m.d?r:m);items.push({id:'best',text:`Your lowest reading in the last 30 days was ${lo.s}/${lo.d} on ${new Date(lo.t).toLocaleDateString('en-US',{weekday:'long'})}.`})}
+  // 3. days with breathing practice against days without
+  if(m30.length){const A=[],B=[],dA=new Set(),dB=new Set();
+    for(const r of m30){const k=insKey(r.t);if((mins[k]||0)>=3){A.push(r);dA.add(k)}else{B.push(r);dB.add(k)}}
+    if(A.length>=4&&B.length>=4&&dA.size>=3&&dB.size>=3){const df=sys(A)-sys(B),ev=`${A.length} readings on ${dA.size} days against ${B.length} readings on ${dB.size} days`;
+      items.push({id:'breath',text:df<=-3?`On days you breathed, your top number averaged ${-df} lower (${ev}). Plenty affects pressure, but it is a pattern worth noticing.`:df>=3?`On days you breathed, your top number averaged ${df} higher (${ev}). People often reach for breathing when they feel tense, so this does not mean it is not helping.`:`Your readings look similar on days with and without breathing so far (${ev}). The effect of daily practice builds over weeks.`})}}
+  // 4. notable tags: the strongest difference, at least 5 on top, from at least 3 vs 3 readings
+  const m60=rs.filter(r=>r.t>=t0-59*DAY);let bestTag=null;
+  for(const [id,label] of Object.entries(INS_TAGS)){const w=m60.filter(r=>Array.isArray(r.g)&&r.g.includes(id)),wo=m60.filter(r=>!(Array.isArray(r.g)&&r.g.includes(id)));
+    if(w.length>=3&&wo.length>=3){const df=sys(w)-sys(wo);if(Math.abs(df)>=5&&(!bestTag||Math.abs(df)>Math.abs(bestTag.df)))bestTag={id,label,df,n:w.length}}}
+  if(bestTag)items.push({id:'tag',text:`Readings tagged “${bestTag.label}” averaged ${Math.abs(bestTag.df)} ${bestTag.df>0?'higher':'lower'} on top (${bestTag.n} readings). Just a pattern, not a verdict.`});
+  // 5. mornings against evenings
+  const am=m30.filter(r=>new Date(r.t).getHours()<12),pm=m30.filter(r=>new Date(r.t).getHours()>=17);
+  if(am.length>=4&&pm.length>=4){const df=sys(am)-sys(pm);if(Math.abs(df)>=4)items.push({id:'tod',text:`Your mornings average ${Math.abs(df)} ${df>0?'higher':'lower'} on top than your evenings. ${df>0?'That is common, and a good reason to measure at the same time each day.':'Compare like with like: morning with morning, evening with evening.'}`})}
+  // 6. consistency
+  const days=new Set(rs.filter(r=>r.t>=t0-6*DAY).map(r=>insKey(r.t))).size;
+  if(days>=1&&days<=3)items.push({id:'consistency',text:`You logged readings on ${days} of the last 7 days. Measuring at the same times each day makes the trend more reliable.`});
+  return{enough:true,count:rs.length,items:items.slice(0,3)};
+}
+// Weekly review: Sunday shows the week that is ending (Mon-Sun), Monday still shows the week that just ended.
+function weekTarget(now){
+  const n=new Date(now),dow=n.getDay();if(dow!==0&&dow!==1)return null;
+  const mon=new Date(n.getFullYear(),n.getMonth(),n.getDate()-(dow===0?6:7));
+  return{start:mon,key:insKey(mon.getTime())};
+}
+function computeWeek(o){
+  const tg=weekTarget(o.now);if(!tg)return null;
+  const rs=insClean(o.readings),mins=o.mins||{},act=o.active||new Set(),DAY=864e5,L='MTWTFSS';
+  const days=[];let minutes=0;
+  for(let i=0;i<7;i++){const d=new Date(tg.start.getFullYear(),tg.start.getMonth(),tg.start.getDate()+i),k=insKey(d.getTime());days.push({key:k,label:L[i],active:act.has(k)});minutes+=mins[k]||0}
+  const a=tg.start.getTime(),b=new Date(tg.start.getFullYear(),tg.start.getMonth(),tg.start.getDate()+7).getTime();
+  const wk=rs.filter(r=>r.t>=a&&r.t<b),pv=rs.filter(r=>r.t>=a-7*DAY&&r.t<a),count=days.filter(d=>d.active).length;
+  const sys=x=>Math.round(insMean(x.map(r=>r.s))),dia=x=>Math.round(insMean(x.map(r=>r.d)));
+  const w={key:tg.key,days,activeCount:count,minutes:Math.round(minutes),readings:wk.length,avg:wk.length?sys(wk)+'/'+dia(wk):null,change:null,lowest:null,
+    headline:count>=5?'A steady week.':count>=3?'A good week to build on.':count>=1?'A gentle week. Every breath counts.':'A quiet week. Starting again is easy.'};
+  if(wk.length>=2&&pv.length>=2){const df=sys(wk)-sys(pv);w.change=df<=-3?`${-df} lower on top than the week before`:df>=3?`${df} higher on top than the week before`:'much the same as the week before'}
+  if(wk.length){const lo=wk.reduce((m,r)=>r.s+r.d<m.s+m.d?r:m);w.lowest={s:lo.s,d:lo.d,day:new Date(lo.t).toLocaleDateString('en-US',{weekday:'long'})}}
+  return w;
+}
+/* @insights:end */
 /* ---------- Today: the daily companion loop ---------- */
 const STEP={
   amBP:{s:'AM reading',h:'Start with your morning reading.',p:'Sit quietly for five minutes first: feet flat, arm resting at heart height.',b:'Log reading'},
@@ -1693,9 +1787,12 @@ function renderToday(){
   $('#tdRing').setAttribute('aria-label',`Today: ${done} of ${total} steps done`);
   const W={done:'done',due:'due now',next:'coming up',missed:'skipped, tap to do it now'};
   $('#tdSteps').innerHTML=steps.map(x=>{const c=STEP[x.k];return`<button type="button" class="td-chip s-${x.st}"${x.st==='done'?' disabled':` data-rem-start="${x.k}"`} title="${x.t}" aria-label="${x.l}, ${x.t}, ${W[x.st]}">${x.st==='done'?CHK:DOT(x.st==='due')}<span>${c.s}</span></button>`}).join('');
+  const nd=steps.filter(x=>x.st==='due').length; // app icon badge: how many steps are due right now
+  if(renderToday._bd!==nd){renderToday._bd=nd;try{const bp=nd>0?navigator.setAppBadge&&navigator.setAppBadge(nd):navigator.clearAppBadge&&navigator.clearAppBadge();if(bp&&bp.catch)bp.catch(()=>{})}catch(e){}}
   $('#tdRhythm').innerHTML=R.since===null?'':`<span class="td-dots" aria-hidden="true">${R.days.map((d,i)=>`<i class="${d?'on':''}${i===6?' now':''}"></i>`).join('')}</span>${R.count} of 7 days${R.run>=3?' · '+R.run+'-day rhythm':''}`;
 }
 function renderNext(){
+  if(typeof renderWeekCard==='function')renderWeekCard();
   const n=new Date(),mins=n.getHours()*60+n.getMinutes(),d=remDone(),due=remList().filter(r=>r.on&&r.m<=mins&&!d[r.k]).pop();
   if(due&&lastDue!==due.k&&lastDue!==null)toast('Reminder: '+due.l);lastDue=due?due.k:'';
   renderToday();
@@ -2035,6 +2132,40 @@ window.addEventListener('scroll',()=>$('.top').classList.toggle('scrolled',scrol
 /* init */
 applySeason();
 const savedP=store.get('pattern','resonance'); selectPattern(savedP);
+
+/* ---------- patterns and the weekly review ---------- */
+const eh=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderInsights(){
+  const res=computeInsights({readings,mins:store.get('mins',{})}),h=$('#insHome'),l=$('#insList');
+  if(h){h.hidden=!(res.enough&&res.items.length);if(!h.hidden)$('#insHomeTxt').textContent=res.items[0].text}
+  if(!l)return;
+  l.innerHTML=!res.enough?`<p class="hint">Patterns appear after about 5 readings${res.count?' ('+res.count+' so far)':''}. Measure at the same times each day, and add a note about sleep, salt, stress or exercise when it applies.</p>`
+    :res.items.map(i=>`<p class="ins-item">${eh(i.text)}</p>`).join('')+'<p class="hint">These are patterns in your own numbers, not medical advice. Bring your log to your doctor.</p>';
+}
+const weekData=()=>computeWeek({now:Date.now(),readings,mins:store.get('mins',{}),active:activitySet()});
+function renderWeekCard(){
+  const w=weekData(),c=$('#weekCard'),show=!!w&&!store.get('wk:'+w.key,false);
+  c.hidden=!show;if(show)$('#weekCardSub').textContent=w.headline+' '+w.activeCount+' of 7 days. Tap to see it.';
+}
+function openWeekly(){
+  const w=weekData();if(!w)return;
+  const f=k=>{const[y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)},a=f(w.days[0].key),b=f(w.days[6].key),fm=d=>d.toLocaleDateString('en-US',{day:'numeric',month:'short'});
+  const n=pathDay(),cur=Math.min(30,Math.max(1,n)),wi=Math.min(3,Math.floor((cur-1)/7)),nx=WEEKS[Math.min(3,wi+(cur%7===0?1:0))];
+  const path=n>30?'You finished the 30-day path. Keep the habits that helped you most.':`Day ${cur} of 30. ${cur%7===0&&wi<3?'Next week: ':'This week: '}${nx.t}. ${nx.d}`;
+  $('#wkBody').innerHTML=`<div class="eyebrow">${fm(a)} – ${fm(b)}</div><h3 class="h-l" style="font-family:var(--font-display)">${eh(w.headline)}</h3>
+    <div class="wk-days" role="img" aria-label="${w.activeCount} of 7 days practised">${w.days.map(d=>`<span class="wk-d${d.active?' on':''}">${d.label}</span>`).join('')}</div>
+    <div class="wk-stats"><div class="wk-stat"><b>${w.activeCount}/7</b><span>Days</span></div><div class="wk-stat"><b>${w.minutes}</b><span>Minutes breathing</span></div><div class="wk-stat"><b>${w.readings}</b><span>Readings</span></div><div class="wk-stat"><b>${w.avg||'—'}</b><span>Average</span></div></div>
+    ${w.change?`<p class="hint">Your average was ${eh(w.change)}.</p>`:''}${w.lowest?`<p class="hint">Lowest reading: ${w.lowest.s}/${w.lowest.d} on ${w.lowest.day}.</p>`:''}
+    <p style="font-size:14px">${eh(path)}</p><p class="hint">Small, steady practice is what moves the trend. See you next week.</p>
+    <button class="btn btn-primary wide" id="wkDone" type="button">Done</button>`;
+  $('#weekly').hidden=false;document.body.style.overflow='hidden';$('#wkX').focus({preventScroll:true});
+}
+function closeWeekly(){const w=weekData();if(w)store.set('wk:'+w.key,true);$('#weekly').hidden=true;document.body.style.overflow='';renderWeekCard()}
+$('#weekCard').addEventListener('click',openWeekly);
+$('#wkX').addEventListener('click',closeWeekly);
+$('#weekly').addEventListener('click',e=>{if(e.target.id==='weekly'||e.target.id==='wkDone')closeWeekly()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#weekly').hidden)closeWeekly()});
+
 /* ---------- quick log: a reading in ten seconds, with plain-language feedback ---------- */
 const QL={k:null,hold:0,rep:0,base:{qlS:120,qlD:80,qlP:70},lim:{qlS:[60,260],qlD:[30,160],qlP:[30,220]}};
 function openQLog(o={}){
@@ -2042,6 +2173,7 @@ function openQLog(o={}){
   QL.k=o.k||null;
   $('#qlS').value=last?last.s:'';$('#qlD').value=last?last.d:'';$('#qlP').value=last&&last.p?last.p:'';
   $('#qlCtx').value=o.ctx||(new Date().getHours()<12?'Morning, before meds':'Evening');
+  $$('#qlTags .chip').forEach(c=>c.setAttribute('aria-pressed','false'));
   $('#qlForm').hidden=false;$('#qlResult').hidden=true;$('#qlMsg').textContent='';$('#qlTitle').textContent='Log a reading';
   $('#qlog').hidden=false;document.body.style.overflow='hidden';$('#qlX').focus({preventScroll:true});
 }
@@ -2063,7 +2195,8 @@ function qlSave(){
   if(s<60||s>260||d<30||d>160){$('#qlMsg').textContent='Those numbers look unusual. Check your monitor and try again.';return}
   if(d>=s){$('#qlMsg').textContent='The top number should be higher than the bottom one. Check the order.';return}
   const prior=[...readings].filter(r=>!r.ex).sort((a,b)=>b.t-a.t).slice(0,7);
-  readings=readings.filter(r=>!r.ex);readings.push({s,d,p,t:Date.now(),c:$('#qlCtx').value});save();renderLog();
+  readings=readings.filter(r=>!r.ex);const g=$$('#qlTags .chip[aria-pressed="true"]').map(c=>c.dataset.tag);
+  readings.push({s,d,p,t:Date.now(),c:$('#qlCtx').value,...(g.length?{g}:{})});save();renderLog();
   const k=QL.k&&REM.some(r=>r.k===QL.k&&r.go==='log')?QL.k:(new Date().getHours()<14?'amBP':'pmBP');
   markRem(k,true);renderToday();
   const[c,cl]=cat(s,d),mean=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length);
@@ -2081,6 +2214,8 @@ function qlSave(){
   $('#qlResult').innerHTML=`<div class="ql-big">${s}/${d}<small>mmHg${p?' · '+p+' bpm':''}</small></div><span class="pill ${cl}">${c}</span><p style="font-size:14.5px">${line}</p>${vals.length>1?spark(vals):''}${tip}<div class="stack" style="gap:8px">${btns}</div>`;
   $('#qlResult').hidden=false;
 }
+$('#qlTags').innerHTML=Object.entries(INS_TAGS).map(([k,l])=>`<button type="button" class="chip" data-tag="${k}" aria-pressed="false">${l}</button>`).join('');
+$('#qlTags').addEventListener('click',e=>{const b=e.target.closest('[data-tag]');if(b)b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
 $('#qlSave').addEventListener('click',qlSave);
 $('#qlX').addEventListener('click',closeQLog);
 $('#qlog').addEventListener('click',e=>{if(e.target.id==='qlog'||e.target.closest('[data-ql-close]'))closeQLog()});

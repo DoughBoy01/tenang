@@ -23,13 +23,13 @@ self.addEventListener('message', e => { if (e.data === 'skip-waiting') self.skip
 self.addEventListener('push', e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (err) {}
-  e.waitUntil(self.registration.showNotification(d.title || 'Tenang', {
+  e.waitUntil(Promise.all([self.navigator && self.navigator.setAppBadge ? self.navigator.setAppBadge(1).catch(() => {}) : null, self.registration.showNotification(d.title || 'Tenang', {
     body: d.body || 'A calm moment is waiting.',
     icon: '/icon-192.png', badge: '/icon-192.png',
     tag: d.k || 'tenang',
     actions: d.k ? [{ action: 'done', title: 'Done' }, { action: 'snooze', title: 'In 1 hour' }] : [], // shown on Android/desktop; iOS ignores them
     data: { k: d.k || '', url: /^\/#[a-z0-9-]{0,20}$/.test(d.url || '') ? d.url : '/#home' }
-  }));
+  })]));
 });
 
 const dayStr = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');

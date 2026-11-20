@@ -3,6 +3,7 @@
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+const badges = [];
 const handlers = {}, shown = [], puts = [], posted = [], fetched = [], opened = [];
 const sub = { endpoint: 'https://fcm.googleapis.com/fcm/send/abc' };
 const ctx = {
@@ -11,6 +12,7 @@ const ctx = {
   caches: { keys: async () => [], open: async () => ({ put: async (k, r) => puts.push({ k, body: await r.text() }) }), match: async () => undefined, delete: async () => true },
   fetch: async (u, i) => { fetched.push({ u, body: JSON.parse(i.body) }); return new Response('{}'); },
 };
+ctx.navigator = { setAppBadge: n => { badges.push(n); return Promise.resolve(); } };
 ctx.self = ctx; ctx.addEventListener = (t, f) => { handlers[t] = f; };
 ctx.registration = { showNotification: async (t, o) => shown.push({ t, o }), pushManager: { getSubscription: async () => sub } };
 ctx.clients = { claim: async () => {}, matchAll: async () => [{ url: 'https://tenang.test/', postMessage: m => posted.push(m), focus: async () => {}, navigate: async u => opened.push(u) }], openWindow: async u => opened.push(u) };
@@ -24,7 +26,8 @@ assert.equal(shown[0].o.tag, 'amBr'); assert.equal(shown[0].o.data.url, '/#breat
 await fire('push', { data: { json: () => ({ title: 'x', url: 'https://evil.test/', k: 'amBr' }) } });
 assert.equal(shown[1].o.data.url, '/#home');
 await fire('push', { data: null }); assert.equal(shown[2].t, 'Tenang'); assert.equal(shown[2].o.actions.length, 0);
-ok('push shows a visible notification with Done/In 1 hour, safe default text, and rejects off-site URLs');
+assert.equal(JSON.stringify(badges), '[1,1,1]');
+ok('push shows a visible notification with Done/In 1 hour, safe default text, rejects off-site URLs, and sets the app badge');
 
 const closed = [];
 await fire('notificationclick', { action: 'done', notification: { data: { k: 'amBr', url: '/#breathe' }, close: () => closed.push(1) } });

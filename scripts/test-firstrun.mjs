@@ -107,6 +107,16 @@ p = await open({ welcome: true }); await p.click('#suSkip'); await p.waitForTime
 p = await open({ welcome: true, scheme: 'dark' }); await settle(p); await p.screenshot({ path: 'shots/firstrun-welcome-dark.png' }); await p.ctx.close();
 ok('welcome screen: name meaning, stone/ensō, seasons, breath; Continue goes to step 1, Skip leaves cleanly, dark mode renders');
 
+// 8c. The same welcome is reachable any time from Learn, and never changes setup, profile or reminders
+p = await open({ seed: { setup: { done: true }, visits: 5 }, hash: '#learn' }); assert.ok(!(await vis(p, '#setup'))); assert.ok(await vis(p, '#aboutCard'));
+await p.click('#aboutCard'); await p.waitForTimeout(500); assert.ok(await vis(p, '#setup')); assert.ok(await vis(p, '#suStep0')); assert.match(await p.textContent('#suStep0'), /Calm, in Malay and Indonesian/);
+assert.equal((await p.textContent('#suBegin')).trim(), 'Close'); await p.click('#suBegin'); await p.waitForTimeout(300); assert.ok(!(await vis(p, '#setup')));
+await p.click('#aboutCard'); await p.waitForTimeout(400); await p.keyboard.press('Escape'); await p.waitForTimeout(300); assert.ok(!(await vis(p, '#setup')));
+await p.click('#aboutCard'); await p.waitForTimeout(400); await p.click('#suSkip'); await p.waitForTimeout(300); assert.ok(!(await vis(p, '#setup')));
+assert.deepEqual(await store(p, 'setup'), { done: true }); assert.equal(await store(p, 'profile'), null); assert.equal(await store(p, 'rem'), null); assert.equal(await p.evaluate(() => document.body.style.overflow), '');
+assert.deepEqual(p.errs, []); await p.ctx.close();
+ok('Learn has an "About Tenang" card that reopens the welcome with Close; Close/Escape leave setup, profile and reminders untouched');
+
 // 9. Reminders line is honest about the device
 p = await open({ ua: IOS }); await p.click('#suNext'); await p.waitForTimeout(300);
 assert.match(await p.textContent('#suNote'), /add Tenang to your Home Screen/i); assert.ok(!(await vis(p, '#suBell'))); await p.ctx.close();

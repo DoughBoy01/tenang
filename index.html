@@ -776,6 +776,12 @@ a.btn{text-decoration:none;color:var(--ink)}
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
     </button>
 
+    <button class="panel med-link" id="aboutCard" type="button">
+      <span class="glyph g-indigo">静</span>
+      <span style="min-width:0"><span class="h-m" style="font-family:var(--font-display);display:block">About Tenang</span><span class="hint">What the name means, and the stone, rings and seasons you see in the app</span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+
     <div class="stack">
       <div class="row-h"><div class="eyebrow">Why it works</div><div class="dotsnav" data-for="why"></div></div>
       <div class="snap" id="why">
@@ -2750,7 +2756,11 @@ $('#youCopy').addEventListener('click',()=>{const g=profGuide();copyText('Questi
   }
   function step(n){$('#suStep0').hidden=n!==0;$('#suStep1').hidden=n!==1;$('#suStep2').hidden=n!==2;$('#suTitle').textContent=n===0?'Welcome':n===1?'Who is Tenang for?':'Your day';if(n===0)$('#suBegin').focus({preventScroll:true});if(n===1)$('#suNext').focus({preventScroll:true});if(n===2){note();$('#suGo').focus({preventScroll:true})}}
   function open(){d={sex:'',stage:''};paint();step(0);sh.hidden=false;document.body.style.overflow='hidden'}
-  function close(){sh.hidden=true;document.body.style.overflow=''}
+  let about=false;
+  function close(){sh.hidden=true;document.body.style.overflow='';if(about){about=false;$('#suBegin').textContent='Continue';$('#suSkip').textContent='Skip'}}
+  // The same welcome, reopened any time from Learn. It never touches setup state, the profile or reminders.
+  function openAbout(){about=true;$('#suBegin').textContent='Close';$('#suSkip').textContent='Close';step(0);sh.hidden=false;document.body.style.overflow='hidden'}
+  $('#aboutCard').addEventListener('click',openAbout);
   function done(apply){
     if(apply){
       const am=$('#suAm').value||'07:00',pm=$('#suPm').value||'20:30';
@@ -2764,10 +2774,10 @@ $('#youCopy').addEventListener('click',()=>{const g=profGuide();copyText('Questi
   $('#suStage').addEventListener('click',e=>{const b=e.target.closest('[data-stage]');if(!b)return;d.stage=b.dataset.stage;paint()});
   // The profile is saved as soon as they move on, so skipping the times never loses it.
   $('#suNext').addEventListener('click',()=>{if(d.sex)commitProfile(d);step(2)});
-  $('#suBegin').addEventListener('click',()=>step(1));
+  $('#suBegin').addEventListener('click',()=>{if(about)close();else step(1)});
   $('#suGo').addEventListener('click',()=>done(true));
-  $('#suSkip').addEventListener('click',()=>done(false));
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden)done(false)});
+  $('#suSkip').addEventListener('click',()=>{if(about)close();else done(false)});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden){if(about)close();else done(false)}});
   $('#suBell').addEventListener('click',async()=>{const b=$('#suBell');b.disabled=true;try{await pushEnable()}catch(e){}note()});
   if(location.hash!=='#qlog'&&location.hash!=='#calmnow')setTimeout(()=>{if(isNew())open()},700);
 })();

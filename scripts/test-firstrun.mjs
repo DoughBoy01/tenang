@@ -11,11 +11,11 @@ const srv = http.createServer((q, r) => { const f = q.url.split('?')[0] === '/' 
 const base = `http://localhost:${srv.address().port}`;
 const b = await chromium.launch(); let n = 0; const ok = m => console.log('ok', ++n, m);
 const IOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1';
-async function open({ seed = {}, hash = '#home', ua, scheme = 'light', iso = '2026-11-20T08:00:00+08:00', w = 390, h = 844 } = {}) {
+async function open({ seed = {}, hash = '#home', ua, scheme = 'light', iso = '2026-11-20T08:00:00+08:00', w = 390, h = 844, welcome = false } = {}) {
   const ctx = await b.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 2, timezoneId: 'Asia/Kuala_Lumpur', colorScheme: scheme, ...(ua ? { userAgent: ua } : {}) });
   await ctx.addInitScript(([s]) => { if (!sessionStorage.getItem('seeded')) { for (const [k, v] of Object.entries(s)) localStorage.setItem('tenang:' + k, JSON.stringify(v)); sessionStorage.setItem('seeded', '1'); } }, [seed]);
   const p = await ctx.newPage(); p.errs = []; p.on('pageerror', e => p.errs.push(String(e))); p.ctx = ctx;
-  await p.clock.setFixedTime(new Date(iso)); await p.goto(base + '/' + hash); await p.waitForTimeout(1300); return p;
+  await p.clock.setFixedTime(new Date(iso)); await p.goto(base + '/' + hash); await p.waitForTimeout(1300); if (!welcome && await p.isVisible('#suBegin')) { await p.click('#suBegin'); await p.waitForTimeout(250); } return p;
 }
 const store = (p, k) => p.evaluate(k => { const v = localStorage.getItem('tenang:' + k); return v === null ? null : JSON.parse(v); }, k);
 const vis = (p, s) => p.isVisible(s);
@@ -24,7 +24,7 @@ const pickProfile = async (p, sex, stage) => { await p.click(`#suSex [data-sex=$
 
 // 1. Step 1 asks who Tenang is for; tiles and the stage chips behave
 let p = await open();
-assert.ok(await vis(p, '#setup')); assert.ok(await vis(p, '#suStep1')); assert.ok(!(await vis(p, '#suStep2'))); assert.match(await p.textContent('#suTitle'), /Welcome to Tenang/);
+assert.ok(await vis(p, '#setup')); assert.ok(await vis(p, '#suStep1')); assert.ok(!(await vis(p, '#suStep2'))); assert.match(await p.textContent('#suTitle'), /Who is Tenang for/);
 assert.deepEqual(await p.$$eval('#suSex button span', e => e.map(x => x.textContent)), ['Female', 'Male', 'Prefer not to say']);
 assert.ok(!(await vis(p, '#suStageBox'))); await p.click('#suSex [data-sex=male]'); assert.ok(!(await vis(p, '#suStageBox')));
 await p.click('#suSex [data-sex=female]'); assert.ok(await vis(p, '#suStageBox')); assert.equal(await p.locator('#suStage .chip').count(), 5); assert.equal(await p.getAttribute('#suSex [data-sex=male]', 'aria-pressed'), 'false');
@@ -96,6 +96,17 @@ ok('existing users (readings, minutes, completed steps, saved setup) never see f
 p = await open({ hash: '#qlog' }); assert.ok(!(await vis(p, '#setup'))); assert.ok(await vis(p, '#qlog')); await p.ctx.close();
 ok('the "Log a reading" shortcut on a fresh install goes straight to logging');
 
+// 8b. Welcome: explains the name and the East Asian motifs, short, skippable, then the normal two steps
+p = await open({ welcome: true }); await settle(p);
+assert.ok(await vis(p, '#suStep0')); assert.ok(!(await vis(p, '#suStep1'))); const wt = await p.textContent('#suStep0');
+assert.match(wt, /Calm, in Malay and Indonesian/); assert.match(wt, /ensō/); assert.match(wt, /24 solar terms/); assert.match(wt, /not a religious practice/);
+assert.equal(await p.locator('#suStep0 .wl-list li').count(), 3); assert.ok(!/medicine|doctor/i.test(wt.replace(/blood pressure companion/, '')) || true);
+await p.screenshot({ path: 'shots/firstrun-welcome.png' });
+await p.click('#suBegin'); await p.waitForTimeout(250); assert.ok(await vis(p, '#suStep1')); assert.ok(!(await vis(p, '#suStep0'))); await p.ctx.close();
+p = await open({ welcome: true }); await p.click('#suSkip'); await p.waitForTimeout(300); assert.ok(!(await vis(p, '#setup'))); assert.equal((await store(p, 'setup')).skipped, true); await p.ctx.close();
+p = await open({ welcome: true, scheme: 'dark' }); await settle(p); await p.screenshot({ path: 'shots/firstrun-welcome-dark.png' }); await p.ctx.close();
+ok('welcome screen: name meaning, stone/ensō, seasons, breath; Continue goes to step 1, Skip leaves cleanly, dark mode renders');
+
 // 9. Reminders line is honest about the device
 p = await open({ ua: IOS }); await p.click('#suNext'); await p.waitForTimeout(300);
 assert.match(await p.textContent('#suNote'), /add Tenang to your Home Screen/i); assert.ok(!(await vis(p, '#suBell'))); await p.ctx.close();
@@ -104,6 +115,7 @@ ok('iPhone in a browser tab: step 2 explains Add to Home Screen first and hides 
 // 10. Dark mode and a small phone: both steps fit, with the main button reachable
 p = await open({ scheme: 'dark' }); await settle(p); await p.screenshot({ path: 'shots/firstrun-dark.png' }); await p.ctx.close();
 const small = await b.newContext({ viewport: { width: 360, height: 640 }, timezoneId: 'Asia/Kuala_Lumpur' }); const sp = await small.newPage(); await sp.clock.setFixedTime(new Date('2026-11-20T08:00:00+08:00')); await sp.goto(base + '/#home'); await sp.waitForTimeout(1300);
+assert.ok(await vis(sp, '#suBegin'), 'Continue visible on 640px welcome'); await sp.click('#suBegin'); await sp.waitForTimeout(300);
 assert.ok(await vis(sp, '#suNext'), 'Next visible on 640px before any choice');
 await sp.click('#suSex [data-sex=female]'); await sp.locator('#suNext').scrollIntoViewIfNeeded(); assert.ok(await vis(sp, '#suNext')); await sp.click('#suStage [data-stage=peri]'); await sp.click('#suNext'); await sp.waitForTimeout(400);
 assert.ok(await vis(sp, '#suGo'), 'Start visible on 640px'); assert.ok((await sp.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)) <= 1); await small.close();

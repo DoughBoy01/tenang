@@ -315,6 +315,14 @@ button{font:inherit;color:inherit}
 .habits>summary .chev,.you-sec>summary .chev{width:18px;height:18px;flex:0 0 auto;transition:transform .3s var(--ease)}
 .habits[open]>summary .chev,.you-sec[open]>summary .chev{transform:rotate(180deg)}
 #focusList .task{margin:0}
+.wl-name{display:grid;gap:2px;justify-items:center;text-align:center;padding:4px 0}
+.wl-name b{font:500 34px var(--font-display);letter-spacing:.06em}
+.wl-name span{font-size:13px;color:var(--ink-2)}
+.wl-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.wl-list li{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:start}
+.wl-list li>b{font:500 20px var(--font-display);color:var(--moss);text-align:center;line-height:1.3}
+.wl-list p{margin:0;font-size:13px;line-height:1.5;color:var(--ink-2)}
+.wl-list p span{color:var(--ink);font-weight:500}
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .pick button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 6px;border:1.5px solid var(--line);background:var(--surface);border-radius:var(--r);cursor:pointer;font:inherit;color:var(--ink);min-height:88px;text-align:center}
 .pick button b{font-family:var(--font-display);font-size:26px;font-weight:500;line-height:1}
@@ -1138,7 +1146,18 @@ a.btn{text-decoration:none;color:var(--ink)}
 <div class="sheet-bg" id="setup" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="suTitle">
     <div class="sheet-h"><h2 class="h-m" id="suTitle">Welcome to Tenang</h2><button class="go" id="suSkip" type="button">Skip</button></div>
-    <div id="suStep1" class="stack" style="gap:14px">
+    <div id="suStep0" class="stack" style="gap:14px">
+      <div class="wl-name"><b>Tenang</b><span>Calm, in Malay and Indonesian.</span></div>
+      <p class="lede" style="font-size:14px">A small daily companion for your blood pressure: slow breathing, a quick reading, a kind word. The look borrows quietly from East Asian gardens and seasons.</p>
+      <ul class="wl-list">
+        <li><b>石</b><p><span>The stone and the rings.</span> Raked sand around a stone, as in Japanese dry gardens, is where you breathe. The ring that fills as you practise is an ensō, the Zen brush circle.</p></li>
+        <li><b>季</b><p><span>The seasons.</span> Colours drift through the year with the 24 solar terms of the old Japanese calendar.</p></li>
+        <li><b>呼吸</b><p><span>Breath.</span> The characters on your daily card read <i>kokyū</i>, “breathing”.</p></li>
+      </ul>
+      <p class="hint">These are design inspirations, not a religious practice. Tenang is a blood pressure companion.</p>
+      <button class="btn btn-primary wide" id="suBegin" type="button">Continue</button>
+    </div>
+    <div id="suStep1" class="stack" style="gap:14px" hidden>
       <p class="lede" style="font-size:14px"><b>Who is Tenang for?</b> Blood pressure categories are the same for everyone. Telling us helps us show tips and guides that fit your life, such as menopause for women, or sleep and medicines for men. It is optional, and you can change it any time.</p>
       <div class="pick" id="suSex" role="group" aria-label="Who is Tenang for">
         <button type="button" data-sex="female" aria-pressed="false"><b>女</b><span>Female</span></button>
@@ -2729,8 +2748,8 @@ $('#youCopy').addEventListener('click',()=>{const g=profGuide();copyText('Questi
     $('#suStageBox').hidden=d.sex!=='female';
     $$('#suStage .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.stage===d.stage));
   }
-  function step(n){$('#suStep1').hidden=n!==1;$('#suStep2').hidden=n!==2;$('#suTitle').textContent=n===1?'Welcome to Tenang':'Your day';if(n===2){note();$('#suGo').focus({preventScroll:true})}}
-  function open(){d={sex:'',stage:''};paint();step(1);sh.hidden=false;document.body.style.overflow='hidden';$('#suNext').focus({preventScroll:true})}
+  function step(n){$('#suStep0').hidden=n!==0;$('#suStep1').hidden=n!==1;$('#suStep2').hidden=n!==2;$('#suTitle').textContent=n===0?'Welcome':n===1?'Who is Tenang for?':'Your day';if(n===0)$('#suBegin').focus({preventScroll:true});if(n===1)$('#suNext').focus({preventScroll:true});if(n===2){note();$('#suGo').focus({preventScroll:true})}}
+  function open(){d={sex:'',stage:''};paint();step(0);sh.hidden=false;document.body.style.overflow='hidden'}
   function close(){sh.hidden=true;document.body.style.overflow=''}
   function done(apply){
     if(apply){
@@ -2745,6 +2764,7 @@ $('#youCopy').addEventListener('click',()=>{const g=profGuide();copyText('Questi
   $('#suStage').addEventListener('click',e=>{const b=e.target.closest('[data-stage]');if(!b)return;d.stage=b.dataset.stage;paint()});
   // The profile is saved as soon as they move on, so skipping the times never loses it.
   $('#suNext').addEventListener('click',()=>{if(d.sex)commitProfile(d);step(2)});
+  $('#suBegin').addEventListener('click',()=>step(1));
   $('#suGo').addEventListener('click',()=>done(true));
   $('#suSkip').addEventListener('click',()=>done(false));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden)done(false)});

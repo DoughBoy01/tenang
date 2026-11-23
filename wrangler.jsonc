@@ -4,6 +4,7 @@
   "main": "worker.js",
   "compatibility_date": "2026-10-01",
   "workers_dev": true,
+  "routes": [{ "pattern": "tenang.stephenaris.co.uk", "custom_domain": true }],
   "triggers": { "crons": ["* * * * *"] }, // push reminders: checks every minute for due reminders
   "d1_databases": [
     { "binding": "DB", "database_name": "tenang-push", "database_id": "d6344a98-e6d5-4a2d-9d4a-4ba3f02bdb03", "migrations_dir": "migrations" }

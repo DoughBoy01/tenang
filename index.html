@@ -2228,7 +2228,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-timer]');i
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#tmr').hidden)closeTimer()});
 
 /* ---------- sharing ---------- */
-const APP_URL=/\.(pages|workers)\.dev$/.test(location.hostname)?location.origin+'/':'https://claude.ai/artifact/Np8XXjU3Deyg6DwJk1EFRu';
+const APP_URL=/(\.(pages|workers)\.dev|^tenang\.stephenaris\.co\.uk)$/.test(location.hostname)?location.origin+'/':'https://claude.ai/artifact/Np8XXjU3Deyg6DwJk1EFRu';
 const SHARE={
  parent:{l:'A parent',m:'I found a calm little app for blood pressure and thought of you. It guides slow breathing, five minutes at about six breaths a minute, sends gentle reminders to measure, and makes a simple summary to show your doctor. No sign-up, and your readings stay on your own phone. Would you try it with me for a week?'},
  partner:{l:'My partner',m:'Want to try this together? It\'s a five-minute breathing practice that can help bring blood pressure down, plus a 30-day plan of small habits. We could do the evening session side by side.'},

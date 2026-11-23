@@ -46,12 +46,12 @@ Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA 
 
 ## Deploy
 
-- Live (test) site: https://tenang.pm2120600.workers.dev (Cloudflare Workers, account has many other Workers; this one is named `tenang`).
+- Live site: https://tenang.stephenaris.co.uk (Cloudflare Workers custom domain, declared in `wrangler.jsonc` `routes` with `custom_domain: true`; the zone `stephenaris.co.uk` is in the same account). The older test address https://tenang.pm2120600.workers.dev (`workers_dev: true`) still serves the same Worker, but its `localStorage` and push subscriptions are separate (see Updating without losing user data, point 6). Account has many other Workers; this one is named `tenang`.
 - Deploy: `npx wrangler deploy` (config in `wrangler.jsonc`). `cf deploy` does not suit this single-file Worker.
 - Push resources (Cloudflare account `tenang` Worker): D1 database `tenang-push`, secret `VAPID_PRIVATE_JWK` (never commit; if lost, generate a new key pair, update `VAPID_PUBLIC` in `wrangler.jsonc`, and the app resubscribes phones automatically on next open), cron trigger every minute.
 - Do not use `tenang.pages.dev`: that address is owned by someone else (it served an unrelated spam site).
 - The live site may lag the repo; redeploy after pulling.
-- A Claude-hosted copy also exists as a Claude artifact (https://claude.ai/artifact/Np8XXjU3Deyg6DwJk1EFRu). It differs only by two header tags (`<meta name="claude:viewport-fit-sides" content="cover">`) and no manifest link. It is not part of this repo's workflow. In the app, `APP_URL` uses the origin on `*.workers.dev`/`*.pages.dev` and falls back to the artifact URL elsewhere. Update `APP_URL` when a permanent domain exists.
+- A Claude-hosted copy also exists as a Claude artifact (https://claude.ai/artifact/Np8XXjU3Deyg6DwJk1EFRu). It differs only by two header tags (`<meta name="claude:viewport-fit-sides" content="cover">`) and no manifest link. It is not part of this repo's workflow. In the app, `APP_URL` uses the origin on `*.workers.dev`, `*.pages.dev` and `tenang.stephenaris.co.uk`, and falls back to the artifact URL elsewhere. Add any new domain to that regex.
 
 ## Updating without losing user data (read before changing anything that is stored)
 
@@ -62,7 +62,7 @@ Users' data lives only in their `localStorage` (`tenang:*`) and survives every d
 3. **Wrongly shaped values** for `readings`, `rem`, `path`, `mins` are moved to `tenang:quarantine:*` (raw text kept) instead of crashing the app or being dropped.
 4. **Backup restore** takes a snapshot first (user-visible Undo in Settings, 30 days) and refuses backups from a newer schema. The snapshot itself is never exported.
 5. **Staying current:** the build stamps a release id into the page (`const BUILD='__BUILD__'`, replaced only by `scripts/build-worker.mjs`; never write that token anywhere else in `index.html`) and serves `/version`. The page checks on foreground/every 15 min and shows a "new version is ready" banner (never while a session, timer or reading entry is open; never auto-reloads). Refresh activates the waiting service worker, then reloads.
-6. **Data belongs to the exact origin.** Moving from `tenang.pm2120600.workers.dev` to another domain (or a Capacitor app) looks like total data loss to users: choose the permanent domain before launch, and move people with Save/Restore backup.
+6. **Data belongs to the exact origin.** `tenang.pm2120600.workers.dev` and `tenang.stephenaris.co.uk` are different origins: data saved on one is invisible on the other, and push notifications must be turned on again. Treat `tenang.stephenaris.co.uk` as the permanent address, move people with Save/Restore backup, and do not remove the workers.dev address until they have moved. Any further move (or a Capacitor app) has the same problem.
 
 ## Tailored guidance for women and men (branch `feature/sex-specific-guidance`)
 

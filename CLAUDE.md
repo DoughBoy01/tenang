@@ -28,6 +28,7 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 | `scripts/test-push.mjs` | Tests push crypto (independent decrypt), VAPID signature, validation, API, snooze/done and cron against real SQLite running `migrations/*.sql` |
 | `scripts/test-profiles.mjs` | **Content-safety tests** for the tailored guidance (runs the `@profiles` block): every section sourced, no stop/switch/start-a-medicine advice, medicine/hormone/contraception topics hand off to a professional, breathing never presented as a hot-flush treatment, no sex-specific BP targets, pregnancy is a hand-off, no cross-over between the sexes' content |
 | `scripts/test-profile-ui.mjs` | Profile chooser, what appears where for female (peri) / male / pregnancy / not tailored, persistence, backup, small phone + dark mode |
+| `scripts/test-breathe.mjs` | Breathe tab layout and behaviour: patterns, stone, Begin, duration and rhythm info all above the tab bar at 430x932 / 390x844 / 360x740 (patterns, stone, Begin at 360x640 and 320x568), page <= 1.5 screens, folded options/diagram still work |
 | `scripts/test-journey.mjs` | The simplified journey: four tabs and highlights, Today length budget (<=1.7 screens, <=8 blocks), nothing educational on Today, Today's focus, one way to log, Learn contents, 360px + dark overflow |
 | `scripts/test-firstrun.mjs` | First-run sheet: new users only, times -> reminders, Skip/Escape, never shown to existing users, shortcuts bypass it, iPhone wording |
 | `scripts/test-daychecks.mjs` | Regression tests for daily checks: rituals/path/Today steps persist, follow midnight while the app is open, credit the right scheduled step, and a failed save is never silent |
@@ -41,7 +42,7 @@ Owner: Stephen (GitHub `DoughBoy01`, Asia/Kuala_Lumpur). Repo: https://github.co
 | `scripts/build-worker.mjs` | Regenerates `worker.js` from the files above |
 | `scripts/smoke.mjs` | Playwright mobile smoke test (all views, light and dark, page errors, horizontal overflow). Needs `npm i -D playwright` |
 
-Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, `test-companion`, `test-phase2`, `test-daychecks`, `test-journey`, `test-firstrun`, `test-profiles`, `test-profile-ui`, `test-insights`, `test-push`, `test-sw`, `test-data-safety` and `test-update` (all in `scripts/`), commit the source files and `worker.js`, then deploy.
+Workflow after any change to `index.html`, `sw.js`, `push-server.js` or the PWA files: `node scripts/build-worker.mjs`, run `node scripts/smoke.mjs`, `test-companion`, `test-phase2`, `test-daychecks`, `test-journey`, `test-breathe`, `test-firstrun`, `test-profiles`, `test-profile-ui`, `test-insights`, `test-push`, `test-sw`, `test-data-safety` and `test-update` (all in `scripts/`), commit the source files and `worker.js`, then deploy.
 
 ## Deploy
 
@@ -81,7 +82,8 @@ The product is a daily companion: **open, do the one next thing, close.** Rules 
 2. **One checklist per idea, no duplicates:** breathing and readings are the Today steps; the path's breathing tasks and the day-1 baseline tick themselves from them; habits are the optional collapsed list.
 3. **One way to log a reading:** the quick-log sheet (`openQLog`), reached from Today, the Log tab button, the timer, and the `#qlog` shortcut. Do not reintroduce a second form.
 4. **First run is two short steps** (who Tenang is for; then check-in times and reminders) and only for people with no data; skipping is always possible. Do not add steps to it.
-5. New features need a home in this structure first; if a new thing wants a fifth tab or a new block on Today, that is a design discussion, not a code change.
+5. **Breathe: the first screen is the whole job.** Pattern cards (single-line), the stone (height `clamp(190px,29vh,250px)`), Begin + duration and the rhythm info (name, best-for, timing bar, description) must sit above the tab bar on a 390x844 phone; the page stays about 1.4 screens. Secondary things are folded `<details class="fold">` rows with a live summary: "Sound and measuring" (`#opts`, `optsSum()`) and "How this rhythm moves" (`#diaFold`). The `#pp` before-reading panel stays outside the fold because Begin opens it. `test-breathe.mjs` enforces the geometry; do not add blocks above the stone.
+6. New features need a home in this structure first; if a new thing wants a fifth tab or a new block on Today, that is a design discussion, not a code change.
 
 ## Design language
 

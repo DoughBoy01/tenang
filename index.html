@@ -17,7 +17,8 @@
 <title>Tenang</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
 <style>
 /* Layout: a single calm column, like a stone path. One raked-sand breathing stage is the bold moment; everything else is quiet paper and ink. */
 :root{
@@ -131,19 +132,19 @@ button{font:inherit;color:inherit}
 .chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 13px;cursor:pointer;font-size:13px;line-height:1.3;white-space:nowrap;min-height:34px;transition:background .2s,border-color .2s}
 .chip:hover{border-color:var(--ink-2)}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.stage{position:relative;background:var(--sunk);border-radius:28px;aspect-ratio:1/.9;max-width:100%;display:grid;place-items:center;overflow:hidden}
+.stage{position:relative;background:var(--sunk);border-radius:28px;height:clamp(190px,29vh,250px);max-width:100%;display:grid;place-items:center;overflow:hidden}
 .stage{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .4s var(--spring)}
 .stage:active{transform:scale(.985);transition-duration:.1s}
 .stage:focus-visible{outline:2px solid var(--moss);outline-offset:3px}
-.stage svg{width:82%;height:auto;max-width:100%;margin-top:-14px}
+.stage svg{height:calc(100% - 30px);width:auto;max-width:100%;margin:0 0 30px}
 .rings{transform-origin:200px 200px;transition:none}
 .rings circle{fill:none;stroke:var(--moss);}
 .stone{fill:var(--surface);stroke:var(--line)}
 .enso{fill:none;stroke:var(--ink);stroke-linecap:round;transition:stroke-dashoffset .5s linear;opacity:.85}
 .enso-track{fill:none;stroke:var(--line);stroke-width:2}
-.stage-text{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;text-align:center}
-.phase{font-family:var(--font-display);font-size:26px;line-height:1.2}
-.count{font-family:var(--font-mono);font-size:14px;color:var(--ink-2);margin-top:4px;font-variant-numeric:tabular-nums}
+.stage-text{position:absolute;inset:0 0 30px 0;display:grid;place-items:center;pointer-events:none;text-align:center}
+.phase{font-family:var(--font-display);font-size:clamp(20px,3vh,24px);line-height:1.2;text-shadow:0 0 10px var(--sunk),0 0 3px var(--sunk)}
+.count{font-family:var(--font-mono);font-size:13px;color:var(--ink-2);margin-top:2px;font-variant-numeric:tabular-nums;text-shadow:0 0 8px var(--sunk),0 0 2px var(--sunk)}
 .stage-meta{position:absolute;left:16px;right:16px;bottom:14px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .controls .btn-primary{flex:1 1 120px;max-width:220px}
@@ -321,6 +322,20 @@ button{font:inherit;color:inherit}
 .pick button[aria-pressed="true"]{border-color:var(--moss);background:var(--moss-soft)}
 .invite{border-color:var(--moss)}
 .youtoday .ins-txt{font-size:14px}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Breathe: everything you need on the first screen; the rest folds away */
+#chips .pcard{padding:10px 12px;gap:2px}
+#chips .pcard .rhythm,#chips .pcard>span:nth-of-type(2){display:none}
+#v-breathe .snap>.pcard{flex:0 0 auto;min-width:128px;max-width:none}
+#chips .pcard b,#chips .pcard .tag{white-space:nowrap}
+#chips .pcard b{font-size:16px}
+#v-breathe .pattern-info{padding:12px 14px;gap:6px}
+#v-breathe .pattern-info .lede{margin:0}
+.fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:40px}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary .chev{width:18px;height:18px;flex:0 0 auto;margin-left:auto;transition:transform .3s var(--ease)}
+.fold[open]>summary .chev{transform:rotate(180deg)}
+.fold>summary .tag,.fold>summary .example{margin-left:auto}
 .ql-res{display:flex;flex-direction:column;gap:12px}
 .ql-big{font:500 44px/1.1 var(--font-mono);letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .ql-big small{font-size:13px;color:var(--ink-2);letter-spacing:0}
@@ -604,10 +619,19 @@ a.btn{text-decoration:none;color:var(--ink)}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 @keyframes rise{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* Splash: a calm breathing ring shown until the app is ready */
+#splash{position:fixed;inset:0;z-index:99999;background:var(--paper);display:grid;place-content:center;justify-items:center;gap:14px;transition:opacity .45s ease,visibility .45s}
+#splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+#splash svg{width:64px;height:64px;color:var(--moss);animation:splashBreathe 4.4s ease-in-out infinite}
+#splash b{font:500 20px var(--font-display);letter-spacing:.06em;color:var(--ink);opacity:.85}
+@keyframes splashBreathe{0%,100%{transform:scale(.82);opacity:.6}50%{transform:scale(1.08);opacity:1}}
+@media (prefers-reduced-motion: reduce){#splash svg{animation:none}}
 
 </style>
 </head>
 <body>
+<div id="splash" role="status" aria-label="Loading Tenang"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M27 12.5A12 12 0 1 0 22.5 27"/><circle cx="16" cy="16" r="3.2" fill="currentColor" stroke="none"/></svg><b>Tenang</b></div>
+<script>setTimeout(function(){var s=document.getElementById("splash");if(s)s.classList.add("gone")},7000)</script>
 
 <div class="app">
   <header class="top">
@@ -791,11 +815,7 @@ a.btn{text-decoration:none;color:var(--ink)}
 
   <!-- BREATHE -->
   <section class="view" id="v-breathe" data-view="breathe" hidden>
-    <div class="stack">
-      <div class="eyebrow"><span class="kanji">息</span>Breath studio</div>
-      <h2 class="h-l">Choose a rhythm, follow the stone.</h2>
-    </div>
-    <div class="row-h"><span class="hint">Swipe to choose a rhythm</span><div class="dotsnav" data-for="chips"></div></div>
+    <h2 class="sr-only">Breath studio: choose a rhythm, then follow the stone</h2>
     <div class="snap" id="chips" role="group" aria-label="Breathing pattern"></div>
     <div class="stage" id="stage" role="button" tabindex="0" aria-label="Start or pause the breathing session">
       <svg viewBox="0 0 400 400" aria-hidden="true">
@@ -813,13 +833,25 @@ a.btn{text-decoration:none;color:var(--ink)}
         <button data-min="3" aria-pressed="false">3m</button><button data-min="5" aria-pressed="true">5m</button><button data-min="10" aria-pressed="false">10m</button>
       </div>
     </div>
-    <div class="stack" style="gap:6px">
+    <div class="panel pattern-info">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><h3 class="h-m" id="pName"></h3><span class="tag" id="pBest"></span></div>
+      <div class="rhythm" id="pRhythm"></div>
+      <div class="legend"><span><i class="r-in"></i>Inhale</span><span><i class="r-hold"></i>Hold</span><span><i class="r-out"></i>Exhale</span></div>
+      <p id="pDesc" class="lede" style="font-size:14px"></p>
+      <p class="note" id="pNote" hidden></p>
+    </div>
+    <details class="panel fold" id="opts">
+      <summary><span class="eyebrow">Sound and measuring</span><span class="tag" id="optsSum"></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="stack" style="gap:10px;margin-top:10px">
+        <div class="stack" style="gap:6px">
       <div class="seg" role="group" aria-label="Sound" id="sndSeg" style="align-self:flex-start">
         <button data-s="off" aria-pressed="true">Silent</button><button data-s="bell" aria-pressed="false">Bell</button><button data-s="guide" aria-pressed="false">Eyes closed</button>
       </div>
       <p class="hint" id="sndHint">Silent: follow the stone with your eyes.</p>
     </div>
     <label class="pp-toggle" for="ppOn"><input type="checkbox" id="ppOn"><span><b>Measure before and after</b><small>See what one session does to your numbers</small></span></label>
+      </div>
+    </details>
     <div class="panel pp" id="pp" hidden>
       <div class="eyebrow" id="ppEy">Before you begin</div>
       <p id="ppMsg" style="font-size:14px">Sit still for a minute with the cuff on, then enter your reading.</p>
@@ -831,24 +863,16 @@ a.btn{text-decoration:none;color:var(--ink)}
       <div id="ppResult" class="stack" hidden></div>
       <div class="controls"><button class="btn btn-primary" id="ppSave">Save and begin</button><button class="btn btn-ghost" id="ppSkip">Skip and begin</button></div>
     </div>
-    <div class="panel stack">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-        <div class="eyebrow">How this rhythm moves</div>
-        <span class="example" id="diaMode">Preview</span>
-      </div>
+    <details class="panel fold" id="diaFold">
+      <summary><span class="eyebrow">How this rhythm moves</span><span class="example" id="diaMode">Preview</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="stack" style="margin-top:10px">
       <div class="dia-wrap" id="boxWrap" hidden>
         <svg class="diagram" id="boxSvg" viewBox="0 0 300 230" role="img" aria-label="Box breathing traced around a square"></svg>
       </div>
       <svg class="diagram" id="lungSvg" viewBox="0 0 300 190" role="img" aria-label="Lung volume over one breath cycle"></svg>
       <div class="phase-row" id="phaseRow"></div>
-    </div>
-    <div class="panel pattern-info">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><h3 class="h-m" id="pName"></h3><span class="tag" id="pBest"></span></div>
-      <div class="rhythm" id="pRhythm"></div>
-      <div class="legend"><span><i class="r-in"></i>Inhale</span><span><i class="r-hold"></i>Hold</span><span><i class="r-out"></i>Exhale</span></div>
-      <p id="pDesc" class="lede" style="font-size:14px"></p>
-      <p class="note" id="pNote" hidden></p>
-    </div>
+          </div>
+    </details>
     <div class="panel stack">
       <div class="eyebrow">Your practice</div>
       <div class="tiles" style="gap:8px">
@@ -1554,7 +1578,9 @@ function cue(kind,secs){if(B.sound==='off'||!B.ac)return;if(B.sound==='bell'){ch
   say(WORDS[kind]);
   if(kind==='in')tone(196,294,secs,.08);else if(kind==='in2')tone(294,349,secs,.07);else if(kind==='out')tone(294,165,secs,.08);else tone(147,147,secs,.03)}
 const SND_HINT={off:'Silent: follow the stone with your eyes.',bell:'Bell: a soft chime marks each change of phase.',guide:'Eyes closed: a rising tone as you breathe in, falling as you breathe out, a low hum while you hold, and a spoken cue.'};
-function setSound(s){B.sound=s;$$('#sndSeg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.s===s));$('#sndHint').textContent=SND_HINT[s];store.set('sound',s)}
+const SND_LBL={off:'Silent',bell:'Bell',guide:'Eyes closed'};
+function optsSum(){const pp=$('#ppOn').checked;$('#optsSum').textContent=(SND_LBL[B.sound]||'Silent')+(pp?' \u00b7 measuring':'')}
+function setSound(s){B.sound=s;$$('#sndSeg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.s===s));$('#sndHint').textContent=SND_HINT[s];store.set('sound',s);optsSum()}
 function chime(type){if(!B.ac)return;const ac=B.ac,o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=type==='out'?392:type==='hold'?440:523.25;g.gain.setValueAtTime(0,ac.currentTime);g.gain.linearRampToValueAtTime(.12,ac.currentTime+.04);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+1.6);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+1.7)}
 function tick(ts){
   if(!B.running) return;
@@ -1601,7 +1627,8 @@ setSound(B.sound);
 /* before & after */
 let ppMode=null;
 try{$('#ppOn').checked=store.get('pp',false)}catch(e){}
-$('#ppOn').addEventListener('change',e=>store.set('pp',e.target.checked));
+$('#ppOn').addEventListener('change',e=>{store.set('pp',e.target.checked);optsSum()});
+optsSum();
 function showPP(mode){ppMode=mode;const el=$('#pp');el.hidden=false;$('#ppResult').hidden=true;$('#ppForm').hidden=false;$('#ppSave').hidden=false;$('#ppSkip').hidden=false;
   if(mode==='before'){$('#ppEy').textContent='Before you begin';$('#ppMsg').textContent='Sit still for a minute with the cuff on, then enter your reading.';$('#ppSave').textContent='Save and begin';$('#ppSkip').textContent='Skip and begin'}
   else{$('#ppEy').textContent='After your session';$('#ppMsg').textContent='Stay seated, breathe normally and measure again now.';$('#ppSave').textContent='Save and compare';$('#ppSkip').textContent='Skip'}
@@ -2725,6 +2752,7 @@ $('#youCopy').addEventListener('click',()=>{const g=profGuide();copyText('Questi
   if(location.hash!=='#qlog'&&location.hash!=='#calmnow')setTimeout(()=>{if(isNew())open()},700);
 })();
 applyProfile(); renderMinutes(); renderRituals(); renderLog(); renderPath(); renderNext(); route();
+requestAnimationFrame(()=>{const sp=document.getElementById('splash');if(sp){sp.classList.add('gone');setTimeout(()=>sp.remove(),600)}});
 })();
 </script>
 </body>
